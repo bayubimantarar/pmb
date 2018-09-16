@@ -106,4 +106,94 @@ Route::group(['prefix' => 'dasbor'], function(){
             'as'    => 'dasbor.mata_kuliah.hapus'
         ]);
     });
+    Route::group(['prefix' => 'jenis-ujian'], function(){
+        Route::get('/', [
+            'uses'  => 'Dasbor\JenisUjianController@index',
+            'as'    => 'dasbor.jenis_ujian'
+        ]);
+        Route::get('/form-tambah', [
+            'uses'  => 'Dasbor\JenisUjianController@create',
+            'as'    => 'dasbor.jenis_ujian.form_tambah'
+        ]);
+        Route::get('/form-ubah/{id}', [
+            'uses'  => 'Dasbor\JenisUjianController@edit',
+            'as'    => 'dasbor.jenis_ujian.form_ubah'
+        ]);
+        Route::get('/data', [
+            'uses'  => 'Dasbor\JenisUjianController@data',
+            'as'    => 'dasbor.data.jenis_ujian'
+        ]);
+        Route::post('/simpan', [
+            'uses'  => 'Dasbor\JenisUjianController@store',
+            'as'    => 'dasbor.jenis_ujian.simpan'
+        ]);
+        Route::put('/ubah/{id}', [
+            'uses'  => 'Dasbor\JenisUjianController@update',
+            'as'    => 'dasbor.jenis_ujian.ubah'
+        ]);
+        Route::delete('/hapus/{id}', [
+            'uses'  => 'Dasbor\JenisUjianController@destroy',
+            'as'    => 'dasbor.jenis_ujian.hapus'
+        ]);
+    });
+    Route::group(['prefix' => 'soal'], function(){
+        Route::get('/', [
+            'uses'  => 'Dasbor\SoalController@index',
+            'as'    => 'dasbor.soal'
+        ]);
+        Route::get('/form-tambah', [
+            'uses'  => 'Dasbor\SoalController@create',
+            'as'    => 'dasbor.soal.form_tambah'
+        ]);
+        Route::get('/form-ubah/{id}', [
+            'uses'  => 'Dasbor\SoalController@edit',
+            'as'    => 'dasbor.soal.form_ubah'
+        ]);
+        Route::get('/data', [
+            'uses'  => 'Dasbor\SoalController@data',
+            'as'    => 'dasbor.data.soal'
+        ]);
+        Route::post('/simpan', [
+            'uses'  => 'Dasbor\SoalController@store',
+            'as'    => 'dasbor.soal.simpan'
+        ]);
+        Route::put('/ubah/{id}', [
+            'uses'  => 'Dasbor\SoalController@update',
+            'as'    => 'dasbor.soal.ubah'
+        ]);
+        Route::delete('/hapus/{id}', [
+            'uses'  => 'Dasbor\SoalController@destroy',
+            'as'    => 'dasbor.soal.hapus'
+        ]);
+    });
+    Route::group(['prefix' => 'pertanyaan'], function(){
+        Route::get('/{kodesoal}', [
+            'uses'  => 'Dasbor\PertanyaanController@index',
+            'as'    => 'dasbor.pertanyaan'
+        ]);
+        Route::get('/{kodesoal}/data', [
+            'uses'  => 'Dasbor\PertanyaanController@data',
+            'as'    => 'dasbor.data.soal'
+        ]);
+        Route::get('{kodesoal}/form-tambah', [
+            'uses'  => 'Dasbor\PertanyaanController@create',
+            'as'    => 'dasbor.soal.form_tambah'
+        ]);
+        // Route::get('/form-ubah/{id}', [
+        //     'uses'  => 'Dasbor\SoalController@edit',
+        //     'as'    => 'dasbor.soal.form_ubah'
+        // ]);
+        // Route::post('/simpan', [
+        //     'uses'  => 'Dasbor\SoalController@store',
+        //     'as'    => 'dasbor.soal.simpan'
+        // ]);
+        // Route::put('/ubah/{id}', [
+        //     'uses'  => 'Dasbor\SoalController@update',
+        //     'as'    => 'dasbor.soal.ubah'
+        // ]);
+        // Route::delete('/hapus/{id}', [
+        //     'uses'  => 'Dasbor\SoalController@destroy',
+        //     'as'    => 'dasbor.soal.hapus'
+        // ]);
+    });
 });

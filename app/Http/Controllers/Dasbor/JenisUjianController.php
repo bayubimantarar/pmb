@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Dasbor;
 
 use DataTables;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\MataKuliahRequest;
-use App\Repositories\MataKuliahRepository;
+use App\Http\Requests\JenisUjianRequest;
+use App\Repositories\JenisUjianRepository;
 
-class MataKuliahController extends Controller
+class JenisUjianController extends Controller
 {
-    private $matakuliahRepo;
+    private $jenisujianRepo;
 
-    public function __construct(MataKuliahRepository $matakuliahRepository)
+    public function __construct(JenisUjianRepository $jenisujianRepository)
     {
-        $this->matakuliahRepo = $matakuliahRepository;
+        $this->jenisujianRepo = $jenisujianRepository;
     }
 
     /**
@@ -23,13 +23,13 @@ class MataKuliahController extends Controller
      */
     public function data()
     {
-        $matakuliah = $this
-            ->matakuliahRepo
+        $jenisujian = $this
+            ->jenisujianRepo
             ->getAllData();
 
-        return DataTables::of($matakuliah)
-            ->addColumn('action', function($matakuliah){
-                return '<center><a href="/dasbor/mata-kuliah/form-ubah/'.$matakuliah->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$matakuliah->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+        return DataTables::of($jenisujian)
+            ->addColumn('action', function($jenisujian){
+                return '<center><a href="/dasbor/jenis-ujian/form-ubah/'.$jenisujian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jenisujian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -42,7 +42,7 @@ class MataKuliahController extends Controller
      */
     public function index()
     {
-        return view('dasbor.mata_kuliah.mata_kuliah');
+        return view('dasbor.jenis_ujian.jenis_ujian');
     }
 
     /**
@@ -52,7 +52,7 @@ class MataKuliahController extends Controller
      */
     public function create()
     {
-        return view('dasbor.mata_kuliah.form_tambah');
+        return view('dasbor.jenis_ujian.form_tambah');
     }
 
     /**
@@ -61,18 +61,18 @@ class MataKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MataKuliahRequest $matakuliahReq)
+    public function store(JenisUjianRequest $jenisujianReq)
     {
         $data = [
-            'kode' => $matakuliahReq->kode,
-            'nama' => $matakuliahReq->nama,
+            'kode' => $jenisujianReq->kode,
+            'nama' => $jenisujianReq->nama,
         ];
 
         $store = $this
-            ->matakuliahRepo
-            ->storeMataKuliahData($data);
+            ->jenisujianRepo
+            ->storeJenisUjianData($data);
 
-        return redirect('/dasbor/mata-kuliah');
+        return redirect('/dasbor/jenis-ujian');
     }
 
     /**
@@ -94,12 +94,12 @@ class MataKuliahController extends Controller
      */
     public function edit($id)
     {
-        $matakuliah = $this
-            ->matakuliahRepo
+        $jenisujian = $this
+            ->jenisujianRepo
             ->getSingleData($id);
 
-        return view('dasbor.mata_kuliah.form_ubah', compact(
-            'matakuliah'
+        return view('dasbor.jenis_ujian.form_ubah', compact(
+            'jenisujian'
         ));
     }
 
@@ -110,18 +110,18 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MataKuliahRequest $matakuliahReq, $id)
+    public function update(JenisUjianRequest $jenisujianReq, $id)
     {
         $data = [
-            'kode' => $matakuliahReq->kode,
-            'nama' => $matakuliahReq->nama,
+            'kode' => $jenisujianReq->kode,
+            'nama' => $jenisujianReq->nama,
         ];
 
-        $update = $this
-            ->matakuliahRepo
-            ->updateMataKuliahData($data, $id);
+        $store = $this
+            ->jenisujianRepo
+            ->updateJenisUjianData($data, $id);
 
-        return redirect('/dasbor/mata-kuliah');
+        return redirect('/dasbor/jenis-ujian');
     }
 
     /**
@@ -133,8 +133,8 @@ class MataKuliahController extends Controller
     public function destroy($id)
     {
         $destroy = $this
-            ->matakuliahRepo
-            ->destroyMataKuliahData($id);
+            ->jenisujianRepo
+            ->destroyJenisUjianData($id);
 
         return response()
             ->json([

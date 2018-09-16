@@ -25,6 +25,15 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Jenis Ujian<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/dasbor/jenis-ujian"><i class="fa fa-bar-chart-o"></i> Data Jenis Ujian</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-users fa-fw"></i> Mahasiswa<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
@@ -38,6 +47,26 @@
                 <ul class="nav nav-second-level">
                     <li>
                         <a href="morris.html"><i class="fa fa-bar-chart-o"></i> Data Kuliah</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Soal<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/dasbor/soal"><i class="fa fa-bar-chart-o"></i> Data Soal</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Pertanyaan<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @foreach($soal as $item)
+                                    <li>
+                                        <a href="/dasbor/pertanyaan/{{ $item->kode }}">{{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <!-- /.nav-second-level -->
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

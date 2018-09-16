@@ -3,7 +3,7 @@
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Form Ubah Data Mata Kuliah</h1>
+        <h1 class="page-header">Form Ubah Data Jenis Ujian</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -12,8 +12,8 @@
     <div class="col-lg-12">
         <ul class="breadcrumb">
             <li><a href="/dasbor">Dasbor</a></li>
-            <li><a href="/dasbor/mata-kuliah">Data Mata Kuliah</a></li>
-            <li class="active">Form Ubah Data Mata Kuliah</li>
+            <li><a href="/dasbor/jenis-ujian">Data Jenis Ujian</a></li>
+            <li class="active">Form Ubah Data Jenis Ujian</li>
         </ul>
     </div>
 </div>
@@ -21,19 +21,19 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Form Data Mata Kuliah
+                Form Data Jenis Ujian
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="/dasbor/mata-kuliah/ubah/{{ $matakuliah->id }}" method="post">
+                        <form action="/dasbor/jenis-ujian/ubah/{{ $jenisujian->id }}" method="post">
                             @csrf
                             <input type="hidden" name="_method" value="put" />
                             <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-xs-12">
-                                        <label class="control-label" for="inputError">Kode Mata Kuliah</label>
-                                        <input type="text" name="kode" class="form-control" value="{{ $matakuliah->kode }}" />
+                                        <label class="control-label" for="inputError">Kode Jenis Ujian</label>
+                                        <input type="text" name="kode" class="form-control" value="{{ $jenisujian->kode }}" />
                                         @if($errors->has('kode'))
                                             <p class="text-danger">{{ $errors->first('kode') }}</p>
                                         @endif
@@ -43,8 +43,8 @@
                             <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-xs-12">
-                                        <label class="control-label" for="inputError">Nama Mata Kuliah</label>
-                                        <input type="text" name="nama" class="form-control" value="{{ $matakuliah->nama }}" />
+                                        <label class="control-label" for="inputError">Nama Jenis Ujian</label>
+                                        <input type="text" name="nama" class="form-control" value="{{ $jenisujian->nama }}" />
                                         @if($errors->has('nama'))
                                             <p class="text-danger">{{ $errors->first('nama') }}</p>
                                         @endif
