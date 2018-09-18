@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -47,5 +48,23 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Exception  $exception
+     * @return \Illuminate\Http\Response
+     */
+    public function unauthenticated($request, AuthenticationException $exception)
+    {
+        $guard = array_get($exception->guards(), 0);
+        switch ($guard) {
+            default:
+                $login = 'dasbor.autentikasi.form_login';
+                break;
+        }
+        return redirect()->guest(route($login));
     }
 }

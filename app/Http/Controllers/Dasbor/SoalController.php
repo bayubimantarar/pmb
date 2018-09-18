@@ -81,14 +81,14 @@ class SoalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SoalRequest $Soalrequest)
+    public function store(SoalRequest $soalReq)
     {
         $data = [
-            'kode' => $Soalrequest->kode,
-            'kode_jenis_ujian' => $Soalrequest->kode_jenis_ujian,
-            'kode_mata_kuliah' => $Soalrequest->kode_mata_kuliah,
-            'sifat_ujian' => $Soalrequest->sifat_ujian,
-            'durasi_ujian' => $Soalrequest->durasi_ujian,
+            'kode' => $soalReq->kode,
+            'kode_jenis_ujian' => $soalReq->kode_jenis_ujian,
+            'kode_mata_kuliah' => $soalReq->kode_mata_kuliah,
+            'sifat_ujian' => $soalReq->sifat_ujian,
+            'durasi_ujian' => $soalReq->durasi_ujian,
         ];
 
         $store = $this
@@ -143,14 +143,14 @@ class SoalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SoalRequest $Soalrequest, $id)
+    public function update(SoalRequest $soalReq, $id)
     {
         $data = [
-            'kode' => $Soalrequest->kode,
-            'kode_jenis_ujian' => $Soalrequest->kode_jenis_ujian,
-            'kode_mata_kuliah' => $Soalrequest->kode_mata_kuliah,
-            'sifat_ujian' => $Soalrequest->sifat_ujian,
-            'durasi_ujian' => $Soalrequest->durasi_ujian,
+            'kode' => $soalReq->kode,
+            'kode_jenis_ujian' => $soalReq->kode_jenis_ujian,
+            'kode_mata_kuliah' => $soalReq->kode_mata_kuliah,
+            'sifat_ujian' => $soalReq->sifat_ujian,
+            'durasi_ujian' => $soalReq->durasi_ujian,
         ];
 
         $update = $this

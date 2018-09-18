@@ -1,7 +1,7 @@
 @extends('dasbor.layouts.main')
 
 @push('meta')
-<meta name="kode-soal" content="{{ $kodesoal }}">
+<meta name="kode-soal" content="{{ $tempkodesoal }}">
 @endpush
 
 @section('content')
@@ -17,6 +17,7 @@
         <ul class="breadcrumb">
             <li><a href="/dasbor">Dasbor</a></li>
             <li class="active">Data Pertanyaan</li>
+            <li class="active">{{ $tempkodesoal }}</li>
         </ul>
     </div>
 </div>
@@ -24,7 +25,7 @@
 <div class="row">
     <div class="col-lg-12">
         <p>
-            <a href="/dasbor/pertanyaan/{{ $kodesoal }}/form-tambah" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Tambah Data Pertanyaan</a>
+            <a href="/dasbor/pertanyaan/{{ $tempkodesoal }}/form-tambah" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Tambah Data Pertanyaan</a>
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -35,9 +36,7 @@
                 <table width="100%" class="table table-striped table-bordered table-hover" id="pertanyaan-table">
                     <thead>
                         <tr>
-                            <th>Kode Soal</th>
-                            <th>Jenis Ujian</th>
-                            <th>Mata Kuliah</th>
+                            <th>Pertanyaan</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -73,9 +72,7 @@
             processing: true,
             ajax: '/dasbor/pertanyaan/'+kodesoal+'/data',
             columns: [
-                {data: 'kode_soal'},
-                {data: 'nama_jenis_ujian'},
-                {data: 'nama_mata_kuliah'},
+                {data: 'pertanyaan'},
                 {data: 'action', orderable: false, searchable: false}
             ]
         });
@@ -89,11 +86,11 @@
                     headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/dasbor/soal/hapus/'+id,
+                    url: '/dasbor/pertanyaan/'+kodesoal+'/hapus/'+id,
                     type: 'delete',
                     dataType: 'json',
-                    success: function(result){
-                        alert('Data berhasil dihapus!');
+                    success: function(result) { 
+                        console.log(result);
                         pertanyaan_table.ajax.reload();
                     }
                 });

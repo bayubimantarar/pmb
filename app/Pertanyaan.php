@@ -11,12 +11,15 @@ class Pertanyaan extends Model
     protected $fillable = [
         'kode_soal',
         'pertanyaan',
+        'jenis_pertanyaan',
         'gambar',
         'pilihan_a',
         'pilihan_b',
         'pilihan_c',
         'pilihan_d',
         'pilihan_e',
-        'jawaban'
+        'jawaban_essay',
+        'jawaban_pilihan',
+        'bobot'
     ];
 }

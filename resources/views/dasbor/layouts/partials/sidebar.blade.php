@@ -25,15 +25,6 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Jenis Ujian<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/dasbor/jenis-ujian"><i class="fa fa-bar-chart-o"></i> Data Jenis Ujian</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
                 <a href="#"><i class="fa fa-users fa-fw"></i> Mahasiswa<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
@@ -43,10 +34,19 @@
                 <!-- /.nav-second-level -->
             </li>
             <li>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Jenis Ujian<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/dasbor/jenis-ujian"><i class="fa fa-bar-chart-o"></i> Data Jenis Ujian</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-book fa-fw"></i> Mata Kuliah<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="morris.html"><i class="fa fa-bar-chart-o"></i> Data Kuliah</a>
+                        <a href="/dasbor/mata-kuliah"><i class="fa fa-bar-chart-o"></i> Data Kuliah</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

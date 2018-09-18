@@ -78,7 +78,12 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-xs-12">
                                         <label class="control-label" for="inputError">Tanggal Ujian</label>
-                                        <input type="date" name="tanggal_ujian" class="form-control" value="{{ old('tanggal_ujian') }}" />
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <input type="text" name="tanggal_ujian"  class="form-control" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
                                         @if($errors->has('tanggal_ujian'))
                                             <p class="text-danger">{{ $errors->first('tanggal_ujian') }}</p>
                                         @endif
@@ -112,3 +117,16 @@
 </div>
 <!-- /.row -->
 @endsection
+
+@push('js')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/locale/id.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script>
+$(function(){
+    $('#datetimepicker1').datetimepicker({
+        locale: 'id'
+    });
+});
+</script>
+@endpush

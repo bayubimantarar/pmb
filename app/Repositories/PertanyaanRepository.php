@@ -8,24 +8,16 @@ use App\Pertanyaan;
 
 class PertanyaanRepository
 {
-    public function getAllData()
+    public function getAllData($kodesoal)
     {
         $getPertanyaan = 
             Pertanyaan::join(
                 'soal', 'pertanyaan.kode_soal', '=', 'soal.kode'
             )
-            ->join(
-                'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
-            )
-            ->join(
-                'jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode'
-            )
             ->select(
-                'pertanyaan.*',
-                'soal.kode as kode_soal',
-                'jenis_ujian.nama AS nama_jenis_ujian',  
-                'mata_kuliah.nama AS nama_mata_kuliah'
+                'pertanyaan.*'
             )
+            ->where('soal.kode', '=', $kodesoal)
             ->get();
         
         return $getPertanyaan;
@@ -41,10 +33,9 @@ class PertanyaanRepository
 
     public function getSingleData($id)
     {
-        $getMataKuliah = MataKuliah::where('id', '=', $id)
-            ->firstOrFail();
-
-        return $getMataKuliah;
+        $getPertanyaan = Pertanyaan::findOrFail($id);
+        
+        return $getPertanyaan;
     }
 
     public function getSingleDataForBlogDetail($slug)
@@ -55,26 +46,26 @@ class PertanyaanRepository
         return $getMataKuliah;
     }
 
-    public function storeMataKuliahData($data)
+    public function storePertanyaanData($data)
     {
-        $storeMataKuliah = MataKuliah::create($data);
+        $storePertanyaanData = Pertanyaan::create($data);
         
-        return $storeMataKuliah;
+        return $storePertanyaanData;
     }
 
-    public function updateMataKuliahData($data, $id)
+    public function updatePertanyaanData($data, $id)
     {
-        $updateMataKuliah = MataKuliah::where('id', $id)
+        $updatePertanyaan = Pertanyaan::where('id', $id)
             ->update($data);
 
-        return $updateMataKuliah;
+        return $updatePertanyaan;
     }
 
-    public function destroyMataKuliahData($id)
+    public function destroyPertanyaanData($id)
     {
-        $destroyMataKuliah = MataKuliah::destroy($id);
+        $destroyPertanyaan = Pertanyaan::destroy($id);
 
-        return $destroyMataKuliah;
+        return $destroyPertanyaan;
     }
 
 }
