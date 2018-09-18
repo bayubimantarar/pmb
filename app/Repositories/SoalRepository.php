@@ -15,9 +15,13 @@ class SoalRepository
             ->join(
                 'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
             )
+            ->join(
+                'token', 'soal.kode', '=', 'token.kode_soal'
+            )
             ->select(
                 'soal.*', 
-                'jenis_ujian.nama AS nama_jenis_ujian', 
+                'token.status',
+                'jenis_ujian.nama AS nama_jenis_ujian',
                 'mata_kuliah.nama AS nama_mata_kuliah'
             )
             ->get();

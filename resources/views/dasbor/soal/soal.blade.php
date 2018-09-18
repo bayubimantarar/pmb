@@ -34,6 +34,7 @@
                             <th>Kode Soal</th>
                             <th>Jenis Ujian</th>
                             <th>Mata Kuliah</th>
+                            <th>Status</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -70,6 +71,7 @@
             {data: 'kode'},
             {data: 'nama_jenis_ujian'},
             {data: 'nama_mata_kuliah'},
+            {data: 'status'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });

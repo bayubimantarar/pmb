@@ -2,25 +2,30 @@
 
 namespace App\Http\Controllers\Dasbor;
 
+use Keygen;
 use DataTables;
 use App\Http\Requests\SoalRequest;
 use App\Repositories\SoalRepository;
 use App\Http\Controllers\Controller;
+use App\Repositories\TokenRepository;
 use App\Repositories\JenisUjianRepository;
 use App\Repositories\MataKuliahRepository;
 
 class SoalController extends Controller
 {
     private $soalRepo;
+    private $tokenRepo;
     private $jenisujianRepo;
     private $matakuliahRepo;
 
     public function __construct(
         SoalRepository $soalRepository,
         JenisUjianRepository $jenisujianRepository,
-        MataKuliahRepository $matakuliahRepository
+        MataKuliahRepository $matakuliahRepository,
+        TokenRepository $tokenRepository
     ) {
         $this->soalRepo         = $soalRepository;
+        $this->tokenRepo        = $tokenRepository;
         $this->jenisujianRepo   = $jenisujianRepository;
         $this->matakuliahRepo   = $matakuliahRepository;
     }
@@ -38,9 +43,12 @@ class SoalController extends Controller
 
         return DataTables::of($soal)
             ->addColumn('action', function($soal){
-                return '<center><a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                return '<center><a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-success btn-xs"><i class="fa fa-check"></i></a> <a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
             })
-            ->rawColumns(['action'])
+            ->editColumn('status', function($soal){
+                return '<center><span class="label label-danger">'.$soal->status.'</span></center>';
+            })
+            ->rawColumns(['action', 'status'])
             ->make(true);
     }
 
@@ -83,6 +91,9 @@ class SoalController extends Controller
      */
     public function store(SoalRequest $soalReq)
     {
+        $token = Keygen::numeric(5)
+            ->generate();
+
         $data = [
             'kode' => $soalReq->kode,
             'kode_jenis_ujian' => $soalReq->kode_jenis_ujian,
@@ -91,9 +102,19 @@ class SoalController extends Controller
             'durasi_ujian' => $soalReq->durasi_ujian,
         ];
 
+        $dataForToken = [
+            'kode_soal' => $soalReq->kode,
+            'token' => $token,
+            'status' => 'Belum diaktifkan'
+        ];
+
         $store = $this
             ->soalRepo
             ->storeSoalData($data);
+
+        $storeForToken = $this
+            ->tokenRepo
+            ->storeTokenData($dataForToken);
 
         return redirect('/dasbor/soal');
     }
