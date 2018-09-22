@@ -123,6 +123,66 @@ Route::group(['prefix' => 'dasbor'], function() {
                 'as'    => 'dasbor.mata_kuliah.hapus'
             ]);
         });
+        Route::group(['prefix' => 'tahun-ajaran'], function(){
+            Route::get('/', [
+                'uses'  => 'Dasbor\TahunAjaranController@index',
+                'as'    => 'dasbor.tahun_ajaran'
+            ]);
+            Route::get('/form-tambah', [
+                'uses'  => 'Dasbor\TahunAjaranController@create',
+                'as'    => 'dasbor.tahun_ajaran.form_tambah'
+            ]);
+            Route::get('/form-ubah/{id}', [
+                'uses'  => 'Dasbor\TahunAjaranController@edit',
+                'as'    => 'dasbor.tahun_ajaran.form_ubah'
+            ]);
+            Route::get('/data', [
+                'uses'  => 'Dasbor\TahunAjaranController@data',
+                'as'    => 'dasbor.data.tahun_ajaran'
+            ]);
+            Route::post('/simpan', [
+                'uses'  => 'Dasbor\TahunAjaranController@store',
+                'as'    => 'dasbor.tahun_ajaran.simpan'
+            ]);
+            Route::put('/ubah/{id}', [
+                'uses'  => 'Dasbor\TahunAjaranController@update',
+                'as'    => 'dasbor.tahun_ajaran.ubah'
+            ]);
+            Route::delete('/hapus/{id}', [
+                'uses'  => 'Dasbor\TahunAjaranController@destroy',
+                'as'    => 'dasbor.tahun_ajaran.hapus'
+            ]);
+        });
+        Route::group(['prefix' => 'kelas'], function(){
+            Route::get('/', [
+                'uses'  => 'Dasbor\KelasController@index',
+                'as'    => 'dasbor.kelas'
+            ]);
+            Route::get('/form-tambah', [
+                'uses'  => 'Dasbor\KelasController@create',
+                'as'    => 'dasbor.kelas.form_tambah'
+            ]);
+            Route::get('/form-ubah/{id}', [
+                'uses'  => 'Dasbor\KelasController@edit',
+                'as'    => 'dasbor.kelas.form_ubah'
+            ]);
+            Route::get('/data', [
+                'uses'  => 'Dasbor\KelasController@data',
+                'as'    => 'dasbor.data.kelas'
+            ]);
+            Route::post('/simpan', [
+                'uses'  => 'Dasbor\KelasController@store',
+                'as'    => 'dasbor.kelas.simpan'
+            ]);
+            Route::put('/ubah/{id}', [
+                'uses'  => 'Dasbor\KelasController@update',
+                'as'    => 'dasbor.kelas.ubah'
+            ]);
+            Route::delete('/hapus/{id}', [
+                'uses'  => 'Dasbor\KelasController@destroy',
+                'as'    => 'dasbor.kelas.hapus'
+            ]);
+        });
         Route::group(['prefix' => 'jenis-ujian'], function(){
             Route::get('/', [
                 'uses'  => 'Dasbor\JenisUjianController@index',
@@ -178,6 +238,10 @@ Route::group(['prefix' => 'dasbor'], function() {
                 'uses'  => 'Dasbor\SoalController@update',
                 'as'    => 'dasbor.soal.ubah'
             ]);
+            Route::put('/aktifkan/{id}', [
+                'uses'  => 'Dasbor\SoalController@updateToken',
+                'as'    => 'dasbor.soal.aktifkan'
+            ]);
             Route::delete('/hapus/{id}', [
                 'uses'  => 'Dasbor\SoalController@destroy',
                 'as'    => 'dasbor.soal.hapus'
@@ -212,6 +276,41 @@ Route::group(['prefix' => 'dasbor'], function() {
                 'uses'  => 'Dasbor\PertanyaanController@destroy',
                 'as'    => 'dasbor.pertanyaan.hapus'
             ]);
+        });
+    });
+});
+
+Route::group(['prefix' => 'mahasiswa'], function(){
+    Route::group(['prefix' => 'autentikasi'], function(){
+        Route::get('/form-login', [
+            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@showFormLogin',
+            'as' => 'mahasiswa.autentikasi.form_login'
+        ]);
+        Route::post('/login', [
+            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@login',
+            'as' => 'mahasiswa.autentikasi.login'
+        ]);
+        Route::post('/logout', [
+            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@logout',
+            'as' => 'mahasiswa.autentikasi.logout'
+        ]);
+    });
+    Route::group(['middleware' => 'auth:mahasiswa'], function(){
+        Route::get('/', [
+            'uses' => 'Mahasiswa\MahasiswaController@index',
+            'as' => 'mahasiswa.mahasiswa'
+        ]);
+        Route::group(['prefix' => 'ujian'], function(){
+            Route::group(['prefix' => 'soal'], function(){
+                Route::get('/', [
+                    'uses' => 'Mahasiswa\SoalController@index',
+                    'as' => 'mahasiswa.ujian'
+                ]);
+                Route::post('/cari', [
+                    'uses' => 'Mahasiswa\SoalController@find',
+                    'as' => 'mahasiswa.ujian.soal.cari'
+                ]);
+            });
         });
     });
 });

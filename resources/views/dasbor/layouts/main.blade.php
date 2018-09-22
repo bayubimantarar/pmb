@@ -11,7 +11,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('meta')
 
-    <title>@yield('title')</title>
+    <title>@yield('title') | Ujian Online STMIK Bandung</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckNIMMahasiswa;
-use App\Rules\CheckEmailMahasiswa;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MahasiswaRequest extends FormRequest
@@ -29,8 +28,8 @@ class MahasiswaRequest extends FormRequest
             case 'POST': {
                 return [
                     'nim' => [
-                        'required', 
-                        new CheckNIMMahasiswa
+                        'required',
+                        'unique:mahasiswa'
                     ],
                     'nama' => [
                         'required'
@@ -40,7 +39,15 @@ class MahasiswaRequest extends FormRequest
                     ],
                     'email' => [
                         'required',
-                        new CheckEmailMahasiswa
+                        'email',
+                        'unique:mahasiswa'
+                    ],
+                    'password' => [
+                        'required',
+                    ],
+                    'password_confirmation' => [
+                        'required',
+                        'same:password'
                     ]
                 ];
             }
@@ -48,6 +55,7 @@ class MahasiswaRequest extends FormRequest
                 return [
                     'nim' => [
                         'required',
+                        Rule::unique('mahasiswa')->ignore($this->id)
                     ],
                     'nama' => [
                         'required'
@@ -56,7 +64,12 @@ class MahasiswaRequest extends FormRequest
                         'required'
                     ],
                     'email' => [
-                        'required'
+                        'email',
+                        'required',
+                        Rule::unique('mahasiswa')->ignore($this->id)
+                    ],
+                    'password_confirmation' => [
+                        'same:password'
                     ]
                 ];
             }
@@ -72,10 +85,16 @@ class MahasiswaRequest extends FormRequest
     public function messages()
     {
         return [
-            'nim.required' => 'NIM perlu diisi.',
-            'nama.required' => 'Nama perlu diisi.',
-            'alamat.required' => 'Alamat perlu diisi.',
-            'email.required' => 'Email perlu diisi.',
+            'nim.required' => 'NIM perlu diisi',
+            'nim.unique' => 'NIM sudah ada',
+            'nama.required' => 'Nama perlu diisi',
+            'alamat.required' => 'Alamat perlu diisi',
+            'email.required' => 'Email perlu diisi',
+            'email.email' => 'Email tidak sesuai format, contoh: john@mail.com',
+            'email.unique' => 'Email sudah ada',
+            'password.required' => 'Kata sandi perlu diisi',
+            'password_confirmation.required' => 'Ulangi kata sandi perlu diisi',
+            'password_confirmation.same' => 'Kata sandi tidak sama'
         ];
     }
 }

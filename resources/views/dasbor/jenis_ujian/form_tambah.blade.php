@@ -30,28 +30,28 @@
                             @csrf
                             <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-2 col-xs-12">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label" for="inputError">Kode Jenis Ujian</label>
                                         <input type="text" name="kode" class="form-control" value="{{ old('kode') }}" />
                                         @if($errors->has('kode'))
-                                            <p class="text-danger">{{ $errors->first('kode') }}</p>
+                                            <p class="text-danger"><i>{{ $errors->first('kode') }}</i></p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-xs-12">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label" for="inputError">Nama Jenis Ujian</label>
                                         <input type="text" name="nama" class="form-control" value="{{ old('nama') }}" />
                                         @if($errors->has('nama'))
-                                            <p class="text-danger">{{ $errors->first('nama') }}</p>
+                                            <p class="text-danger"><i>{{ $errors->first('nama') }}</i></p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
+                            <a href="/dasbor/mahasiswa" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->

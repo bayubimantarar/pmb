@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'mahasiswa' => [
+            'driver' => 'session',
+            'provider' => 'mahasiswa',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -70,10 +75,10 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'mahasiswa' => [
+            'driver' => 'eloquent',
+            'model' => App\Mahasiswa::class,
+        ],
     ],
 
     /*

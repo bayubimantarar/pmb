@@ -63,16 +63,22 @@ class MataKuliahController extends Controller
      */
     public function store(MataKuliahRequest $matakuliahReq)
     {
+        $kode = $matakuliahReq->kode;
+        $nama = $matakuliahReq->nama;
+
         $data = [
-            'kode' => $matakuliahReq->kode,
-            'nama' => $matakuliahReq->nama,
+            'kode' => $kode,
+            'nama' => $nama,
         ];
 
         $store = $this
             ->matakuliahRepo
             ->storeMataKuliahData($data);
 
-        return redirect('/dasbor/mata-kuliah');
+        return redirect('/dasbor/mata-kuliah')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
     }
 
     /**
@@ -112,16 +118,22 @@ class MataKuliahController extends Controller
      */
     public function update(MataKuliahRequest $matakuliahReq, $id)
     {
+        $kode = $MataKuliahReq->kode;
+        $nama = $MataKuliahReq->nama;
+
         $data = [
-            'kode' => $matakuliahReq->kode,
-            'nama' => $matakuliahReq->nama,
+            'kode' => $kode,
+            'nama' => $nama,
         ];
 
         $update = $this
             ->matakuliahRepo
             ->updateMataKuliahData($data, $id);
 
-        return redirect('/dasbor/mata-kuliah');
+        return redirect('/dasbor/mata-kuliah')
+            ->with([
+                'notification' => 'Data berhasil diubah'
+            ]);
     }
 
     /**

@@ -13,7 +13,7 @@
         <ul class="breadcrumb">
             <li><a href="/dasbor">Dasbor</a></li>
             <li><a href="/dasbor/dosen">Data Dosen</a></li>
-            <li class="active">Form Tambah Data Dosen</li>
+            <li class="active">Form Ubah Data Dosen</li>
         </ul>
     </div>
 </div>
@@ -29,20 +29,22 @@
                         <form action="/dasbor/dosen/ubah/{{ $dosen->id }}" method="post">
                             @csrf
                             <input type="hidden" name="_method" value="put" />
+                            <h1>Data Diri</h1>
+                            <hr />
                             <div class="form-group {{$errors->has('nip') ? ' has-error' : ''}}">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-2 col-xs-12">
-                                        <label class="control-label" for="inputError">NIP</label>
-                                        <input type="text" name="nip" class="form-control" value="{{ $dosen->nip }}" />
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label">NIP</label>
+                                        <input type="number" name="nip" class="form-control" value="{{ $dosen->nip }}" />
                                         @if($errors->has('nip'))
-                                            <p class="text-danger">{{ $errors->first('nip') }}</p>
+                                            <p class="text-danger"><i>{{ $errors->first('nip') }}</i></p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-xs-12">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label" for="inputError">Nama Lengkap</label>
                                         <input type="text" name="nama" class="form-control" value="{{ $dosen->nama }}" />
                                         @if($errors->has('nama'))
@@ -53,23 +55,12 @@
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-xs-12">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label>Jenis Kelamin</label>
                                         <select name="jenis_kelamin" class="form-control" id="">
                                             <option value="1">Laki-Laki</option>
                                             <option value="2">Perempuan</option>
                                         </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-xs-12">
-                                        <label class="control-label" for="inputError">Email</label>
-                                        <input type="text" name="email" class="form-control" value="{{ $dosen->email }}" />
-                                        @if($errors->has('email'))
-                                            <p class="text-danger">{{ $errors->first('email') }}</p>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +75,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
+                            <h1>Akun Akses Aplikasi</h1>
+                            <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label" for="inputError">Email</label>
+                                        <input type="email" name="email" class="form-control" value="{{ $dosen->email }}" />
+                                        @if($errors->has('email'))
+                                            <p class="text-danger">{{ $errors->first('email') }}</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group {{ $errors->has('password') ? ' has-error' : '' }}">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label" >Kata Sandi</label>
+                                        <input type="password" name="password" class="form-control" />
+                                        @if($errors->has('password'))
+                                            <p class="text-danger"><i>{{ $errors->first('password') }}</i></p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label" >Ulangi Kata Sandi</label>
+                                        <input type="password" name="password_confirmation" class="form-control" value="{{ old('password_confirmation') }}" />
+                                        @if($errors->has('password_confirmation'))
+                                            <p class="text-danger"><i>{{ $errors->first('password_confirmation') }}</i></p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
+                            <a href="/dasbor/dosen" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->

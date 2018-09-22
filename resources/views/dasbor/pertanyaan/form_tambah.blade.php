@@ -101,7 +101,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-xs-12">
                                             <label class="control-label" for="inputError">Pilihan Ganda Opsi B</label>
-                                            <textarea name="pilihan_a" id="editor" cols="30" rows="10"></textarea>
+                                            <textarea name="pilihan_b" id="editor" cols="30" rows="10"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -162,8 +162,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
+                            <a href="/dasbor/pertanyaan/{{ $kodesoal }}" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->

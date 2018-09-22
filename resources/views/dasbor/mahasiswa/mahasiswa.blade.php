@@ -19,8 +19,14 @@
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
+        @if(session('notification'))
+            <div class="alert alert-dismissible alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{ session('notification') }}
+            </div>
+        @endif
         <p>
-            <a href="/dasbor/mahasiswa/form-tambah" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Tambah Data Mahasiswa</a>
+            <a href="/dasbor/mahasiswa/form-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data Mahasiswa</a>
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">

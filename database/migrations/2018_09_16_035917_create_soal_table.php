@@ -15,12 +15,15 @@ class CreateSoalTable extends Migration
     {
         Schema::create('soal', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode');
+            $table->string('kode')->unique();
+            $table->string('kode_tahun_ajaran');
+            $table->string('kode_kelas');
             $table->string('kode_jenis_ujian');
             $table->string('kode_mata_kuliah');
-            $table->string('sifat_ujian');
+            $table->integer('nip');
+            $table->string('sifat_ujian')->nullable();
             $table->timestamp('tanggal_ujian');
-            $table->integer('durasi_ujian');
+            $table->integer('durasi_ujian')->nullable();
             $table->timestamps();
         });
     }

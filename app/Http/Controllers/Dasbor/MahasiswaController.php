@@ -63,20 +63,30 @@ class MahasiswaController extends Controller
      */
     public function store(MahasiswaRequest $mahasiswaReq)
     {
+        $nim            = $mahasiswaReq->nim;
+        $nama           = $mahasiswaReq->nama;
+        $jenis_kelamin  = $mahasiswaReq->jenis_kelamin;
+        $alamat         = $mahasiswaReq->alamat;
+        $email          = $mahasiswaReq->email;
+        $password       = $mahasiswaReq->password;
+
         $data = [
-            'nim' => $mahasiswaReq->nim,
-            'nama' => $mahasiswaReq->nama,
-            'jenis_kelamin' => $mahasiswaReq->jenis_kelamin,
-            'alamat' => $mahasiswaReq->alamat,
-            'email' => $mahasiswaReq->email,
-            'password' => bcrypt('123')
+            'nim' => $nim,
+            'nama' => $nama,
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat' => $alamat,
+            'email' => $email,
+            'password' => bcrypt($password)
         ];
 
         $store = $this
             ->mahasiswaRepo
             ->storeMahasiswaData($data);
 
-        return redirect('/dasbor/mahasiswa');
+        return redirect('/dasbor/mahasiswa')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
     }
 
     /**
@@ -116,19 +126,49 @@ class MahasiswaController extends Controller
      */
     public function update(MahasiswaRequest $mahasiswaReq, $id)
     {
-        $data = [
-            'nim' => $mahasiswaReq->nim,
-            'nama' => $mahasiswaReq->nama,
-            'jenis_kelamin' => $mahasiswaReq->jenis_kelamin,
-            'alamat' => $mahasiswaReq->alamat,
-            'email' => $mahasiswaReq->email
-        ];
+        $nim            = $mahasiswaReq->nim;
+        $nama           = $mahasiswaReq->nama;
+        $jenis_kelamin  = $mahasiswaReq->jenis_kelamin;
+        $alamat         = $mahasiswaReq->alamat;
+        $email          = $mahasiswaReq->email;
+        $password       = $mahasiswaReq->password;
 
-        $store = $this
-            ->mahasiswaRepo
-            ->updateMahasiswaData($data, $id);
+        if($password == NULL){
+            $data = [
+                'nim' => $nim,
+                'nama' => $nama,
+                'jenis_kelamin' => $jenis_kelamin,
+                'alamat' => $alamat,
+                'email' => $email
+            ];
 
-        return redirect('/dasbor/mahasiswa');
+            $store = $this
+                ->mahasiswaRepo
+                ->updateMahasiswaData($data, $id);
+
+            return redirect('/dasbor/mahasiswa')
+                ->with([
+                    'notification' => 'Data berhasil diubah'
+                ]);
+        }else{
+            $data = [
+                'nim' => $nim,
+                'nama' => $nama,
+                'jenis_kelamin' => $jenis_kelamin,
+                'alamat' => $alamat,
+                'email' => $email,
+                'password' => bcrypt($password)
+            ];
+
+            $store = $this
+                ->mahasiswaRepo
+                ->updateMahasiswanData($data, $id);
+
+            return redirect('/dasbor/mahasiswa')
+                ->with([
+                    'notification' => 'Data berhasil diubah'
+                ]);
+        }
     }
 
     /**

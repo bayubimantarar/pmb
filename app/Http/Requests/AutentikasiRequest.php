@@ -32,8 +32,8 @@ class AutentikasiRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Email perlu diisi.',
-            'password.required' => 'Password perlu diisi.'
+            'email.required' => 'Email perlu diisi',
+            'password.required' => 'Password perlu diisi'
         ];
     }
 }

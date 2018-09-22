@@ -21,6 +21,7 @@ class SoalRepository
             ->select(
                 'soal.*', 
                 'token.status',
+                'token.token',
                 'jenis_ujian.nama AS nama_jenis_ujian',
                 'mata_kuliah.nama AS nama_mata_kuliah'
             )
@@ -45,6 +46,35 @@ class SoalRepository
             )
             ->where('soal.kode', '=', $kodesoal)
             ->get();
+
+        return $getSoal;
+    }
+
+    public function getSingleDataForEdit($id)
+    {
+        $getSoal = Soal::where('id', '=', $id)
+            ->firstOrFail();
+
+        return $getSoal;
+    }
+
+    public function getSingleTokenData($id)
+    {
+        $getSoal = 
+            Soal::join(
+                'token', 'soal.kode', '=', 'token.kode_soal'
+            )
+            ->select('token.token')
+            ->where('soal.id', '=', $id)
+            ->get()
+            ->first();
+
+        return $getSoal;
+    }
+
+    public function getSingleKodeSoalData($id)
+    {
+        $getSoal = Soal::findOrFail($id);
 
         return $getSoal;
     }

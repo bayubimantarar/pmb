@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckNIPDosen;
-use App\Rules\CheckEmailDosen;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DosenRequest extends FormRequest
@@ -29,8 +28,8 @@ class DosenRequest extends FormRequest
             case 'POST': {
                 return [
                     'nip' => [
-                        'required', 
-                        new CheckNIPDosen
+                        'required',
+                        'unique:dosen'
                     ],
                     'nama' => [
                         'required'
@@ -40,7 +39,15 @@ class DosenRequest extends FormRequest
                     ],
                     'email' => [
                         'required',
-                        new CheckEmailDosen
+                        'email',
+                        'unique:dosen'
+                    ],
+                    'password' => [
+                        'required',
+                    ],
+                    'password_confirmation' => [
+                        'required',
+                        'same:password'
                     ]
                 ];
             }
@@ -48,6 +55,7 @@ class DosenRequest extends FormRequest
                 return [
                     'nip' => [
                         'required',
+                        Rule::unique('dosen')->ignore($this->id)
                     ],
                     'nama' => [
                         'required'
@@ -56,7 +64,12 @@ class DosenRequest extends FormRequest
                         'required'
                     ],
                     'email' => [
-                        'required'
+                        'email',
+                        'required',
+                        Rule::unique('dosen')->ignore($this->id)
+                    ],
+                    'password_confirmation' => [
+                        'same:password'
                     ]
                 ];
             }
@@ -72,10 +85,16 @@ class DosenRequest extends FormRequest
     public function messages()
     {
         return [
-            'nip.required' => 'NIP perlu diisi.',
-            'nama.required' => 'Nama perlu diisi.',
-            'alamat.required' => 'Alamat perlu diisi.',
-            'email.required' => 'Email perlu diisi.',
+            'nip.required' => 'NIP perlu diisi',
+            'nip.unique' => 'NIP sudah ada',
+            'nama.required' => 'Nama perlu diisi',
+            'alamat.required' => 'Alamat perlu diisi',
+            'email.required' => 'Email perlu diisi',
+            'email.email' => 'Email tidak sesuai format, contoh: john@mail.com',
+            'email.unique' => 'Email sudah ada',
+            'password.required' => 'Kata sandi perlu diisi',
+            'password_confirmation.required' => 'Ulangi kata sandi perlu diisi',
+            'password_confirmation.same' => 'Kata sandi tidak sama'
         ];
     }
 }

@@ -31,22 +31,22 @@
                             <input type="hidden" name="_method" value="put" />
                             <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-2 col-xs-12">
-                                        <label class="control-label" for="inputError">Kode Mata Kuliah</label>
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label" >Kode Mata Kuliah</label>
                                         <input type="text" name="kode" class="form-control" value="{{ $matakuliah->kode }}" />
                                         @if($errors->has('kode'))
-                                            <p class="text-danger">{{ $errors->first('kode') }}</p>
+                                            <p class="text-danger"><i>{{ $errors->first('kode') }}</i></p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group {{ $errors->has('nama') ? ' has-error' : '' }}">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-xs-12">
-                                        <label class="control-label" for="inputError">Nama Mata Kuliah</label>
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label">Nama Mata Kuliah</label>
                                         <input type="text" name="nama" class="form-control" value="{{ $matakuliah->nama }}" />
                                         @if($errors->has('nama'))
-                                            <p class="text-danger">{{ $errors->first('nama') }}</p>
+                                            <p class="text-danger"><i>{{ $errors->first('nama') }}</i></p>
                                         @endif
                                     </div>
                                 </div>

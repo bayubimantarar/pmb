@@ -17,7 +17,7 @@ class CreateTokenTable extends Migration
             $table->increments('id');
             $table->string('kode_soal');
             $table->string('token');
-            $table->string('status');
+            $table->integer('status');
             $table->timestamps();
         });
     }

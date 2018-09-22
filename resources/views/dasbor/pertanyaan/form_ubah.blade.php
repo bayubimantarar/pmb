@@ -172,8 +172,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-times"></i> Batal</button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
+                            <a href="/dasbor/pertanyaan/{{ $kodesoal }}" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->

@@ -8,32 +8,15 @@ class DosenRepository
 {
     public function getAllData()
     {
-        $getDosen = Dosen::orderBy('created_at', 'DESC')
-            ->get();
-        
-        return $getDosen;
-    }
-
-    public function getAllDataWithPagination()
-    {
-        $getDosen = Post::orderBy('created_at', 'DESC')
-            ->simplePaginate(5);
+        $getDosen = Dosen::All();
         
         return $getDosen;
     }
 
     public function getSingleData($id)
     {
-        $getDosen = Dosen::where('id', '=', $id)
-            ->firstOrFail();
+        $getDosen = Dosen::findOrFail($id);
 
-        return $getDosen;
-    }
-
-    public function getSingleDataForBlogDetail($slug)
-    {
-        $getDosen = Post::where('slug', '=', $slug)
-            ->firstOrFail();
         return $getDosen;
     }
 

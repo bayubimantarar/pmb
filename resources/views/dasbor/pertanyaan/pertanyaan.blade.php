@@ -25,7 +25,7 @@
 <div class="row">
     <div class="col-lg-12">
         <p>
-            <a href="/dasbor/pertanyaan/{{ $tempkodesoal }}/form-tambah" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Tambah Data Pertanyaan</a>
+            <a href="/dasbor/pertanyaan/{{ $tempkodesoal }}/form-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data Pertanyaan</a>
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">

@@ -30,6 +30,14 @@ class TokenRepository
         return $getMataKuliah;
     }
 
+    public function getSingleDataForSoal($token)
+    {
+        $getToken = Token::where('token', '=', $token)
+            ->firstOrFail();
+            
+        return $getToken;
+    }
+
     public function getSingleDataForBlogDetail($slug)
     {
         $getMataKuliah = MataKuliah::where('slug', '=', $slug)
@@ -53,11 +61,20 @@ class TokenRepository
         return $updateMataKuliah;
     }
 
-    public function destroyMataKuliahData($id)
+    public function updateOnlyStatus($data, $token)
     {
-        $destroyMataKuliah = MataKuliah::destroy($id);
+        $updateMataKuliah = Token::where('token', $token)
+            ->update($data);
 
-        return $destroyMataKuliah;
+        return $updateMataKuliah;
+    }
+
+    public function destroyTokenData($token)
+    {
+        $destroyToken = Token::where('token', '=', $token)
+            ->delete();
+
+        return $destroyToken;
     }
 
 }

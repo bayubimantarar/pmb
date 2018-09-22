@@ -61,6 +61,9 @@ class Handler extends ExceptionHandler
     {
         $guard = array_get($exception->guards(), 0);
         switch ($guard) {
+            case 'mahasiswa':
+                $login = 'mahasiswa.autentikasi.form_login';
+                break;
             default:
                 $login = 'dasbor.autentikasi.form_login';
                 break;

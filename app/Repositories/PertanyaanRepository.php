@@ -23,6 +23,21 @@ class PertanyaanRepository
         return $getPertanyaan;
     }
 
+    public function getAllDataBySoal($kodesoal)
+    {
+        $getPertanyaan = 
+            Pertanyaan::join(
+                'soal', 'pertanyaan.kode_soal', '=', 'soal.kode'
+            )
+            ->select(
+                'pertanyaan.*'
+            )
+            ->where('soal.kode', '=', $kodesoal)
+            ->get();
+        
+        return $getPertanyaan;
+    }
+
     public function getAllDataWithPagination()
     {
         $getMataKuliah = MataKuliah::orderBy('created_at', 'DESC')
@@ -64,6 +79,14 @@ class PertanyaanRepository
     public function destroyPertanyaanData($id)
     {
         $destroyPertanyaan = Pertanyaan::destroy($id);
+
+        return $destroyPertanyaan;
+    }
+
+    public function destroyPertanyaanBySoalData($kodeSoal)
+    {
+        $destroyPertanyaan = Pertanyaan::where('kode_soal', '=', $kodeSoal)
+            ->delete();
 
         return $destroyPertanyaan;
     }

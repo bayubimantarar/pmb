@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckKodeMataKuliah;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MataKuliahRequest extends FormRequest
@@ -28,8 +28,8 @@ class MataKuliahRequest extends FormRequest
             case 'POST': {
                 return [
                     'kode' => [
-                        'required', 
-                        new CheckKodeMataKuliah
+                        'required',
+                        'unique:mata_kuliah'
                     ],
                     'nama' => [
                         'required'
@@ -39,7 +39,8 @@ class MataKuliahRequest extends FormRequest
             case 'PUT' : {
                 return [
                     'kode' => [
-                        'required'
+                        'required',
+                        Rule::unique('mata_kuliah')->ignore($this->id)
                     ],
                     'nama' => [
                         'required'
@@ -48,5 +49,14 @@ class MataKuliahRequest extends FormRequest
             }
             default:break;
         }
+    }
+
+    public function messages()
+    {
+        return [
+            'kode.required' => 'Kode mata kuliah perlu diisi',
+            'kode.unique'   => 'Kode mata kuliah sudah ada',
+            'nama.required' => 'Nama mata kuliah perlu diisi'
+        ];
     }
 }

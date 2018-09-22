@@ -13,13 +13,13 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a href="/dasbor"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
+                <a href="/dasbor" class="{{ Request::segment(2) ? 'dasbor' : 'active'}}"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-user fa-fw"></i> Dosen<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/dosen"><i class="fa fa-bar-chart-o"></i> Data Dosen</a>
+                        <a href="/dasbor/dosen" class="active"><i class="fa fa-file-text-o"></i> Data Dosen</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -28,7 +28,25 @@
                 <a href="#"><i class="fa fa-users fa-fw"></i> Mahasiswa<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/mahasiswa"><i class="fa fa-bar-chart-o"></i> Data Mahasiswa</a>
+                        <a href="/dasbor/mahasiswa"><i class="fa fa-file-text-o"></i> Data Mahasiswa</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-calendar fa-fw"></i> Tahun Ajaran<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/dasbor/tahun-ajaran"><i class="fa fa-file-text-o"></i> Data Tahun Ajaran</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-building fa-fw"></i> Kelas<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/dasbor/kelas"><i class="fa fa-file-text-o"></i> Data Kelas</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -37,7 +55,7 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> Jenis Ujian<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/jenis-ujian"><i class="fa fa-bar-chart-o"></i> Data Jenis Ujian</a>
+                        <a href="/dasbor/jenis-ujian"><i class="fa fa-file-text-o"></i> Data Jenis Ujian</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -46,7 +64,7 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> Mata Kuliah<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/mata-kuliah"><i class="fa fa-bar-chart-o"></i> Data Kuliah</a>
+                        <a href="/dasbor/mata-kuliah"><i class="fa fa-file-text-o"></i> Data Kuliah</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
@@ -55,14 +73,14 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> Soal<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/soal"><i class="fa fa-bar-chart-o"></i> Data Soal</a>
+                        <a href="/dasbor/soal"><i class="fa fa-files-o"></i> Data Soal</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sitemap fa-fw"></i> Pertanyaan<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 @foreach($soal as $item)
                                     <li>
-                                        <a href="/dasbor/pertanyaan/{{ $item->kode }}">{{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
+                                        <a href="/dasbor/pertanyaan/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
                                     </li>
                                 @endforeach
                             </ul>

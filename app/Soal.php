@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Soal extends Model
 {
     protected $table = 'soal';
-    protected $primaryKey = 'id';
     protected $fillable = [
-        'kode', 
+        'kode',
+        'kode_tahun_ajaran',
+        'kode_kelas',
         'kode_jenis_ujian', 
-        'kode_mata_kuliah', 
+        'kode_mata_kuliah',
+        'nip',
         'sifat_ujian',
         'tanggal_ujian',
         'durasi_ujian'

@@ -8,32 +8,14 @@ class MataKuliahRepository
 {
     public function getAllData()
     {
-        $getMataKuliah = MataKuliah::orderBy('created_at', 'DESC')
-            ->get();
-        
-        return $getMataKuliah;
-    }
-
-    public function getAllDataWithPagination()
-    {
-        $getMataKuliah = MataKuliah::orderBy('created_at', 'DESC')
-            ->simplePaginate(5);
+        $getMataKuliah = MataKuliah::All();
         
         return $getMataKuliah;
     }
 
     public function getSingleData($id)
     {
-        $getMataKuliah = MataKuliah::where('id', '=', $id)
-            ->firstOrFail();
-
-        return $getMataKuliah;
-    }
-
-    public function getSingleDataForBlogDetail($slug)
-    {
-        $getMataKuliah = MataKuliah::where('slug', '=', $slug)
-            ->firstOrFail();
+        $getMataKuliah = MataKuliah::findOrFail($id);
 
         return $getMataKuliah;
     }

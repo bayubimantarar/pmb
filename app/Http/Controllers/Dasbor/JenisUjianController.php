@@ -63,16 +63,22 @@ class JenisUjianController extends Controller
      */
     public function store(JenisUjianRequest $jenisujianReq)
     {
+        $kode = $jenisujianReq->kode;
+        $nama = $jenisujianReq->nama;
+
         $data = [
-            'kode' => $jenisujianReq->kode,
-            'nama' => $jenisujianReq->nama,
+            'kode' => $kode,
+            'nama' => $nama,
         ];
 
         $store = $this
             ->jenisujianRepo
             ->storeJenisUjianData($data);
 
-        return redirect('/dasbor/jenis-ujian');
+        return redirect('/dasbor/jenis-ujian')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
     }
 
     /**
@@ -112,16 +118,22 @@ class JenisUjianController extends Controller
      */
     public function update(JenisUjianRequest $jenisujianReq, $id)
     {
+        $kode = $jenisujianReq->kode;
+        $nama = $jenisujianReq->nama;
+
         $data = [
-            'kode' => $jenisujianReq->kode,
-            'nama' => $jenisujianReq->nama,
+            'kode' => $kode,
+            'nama' => $nama,
         ];
 
         $store = $this
             ->jenisujianRepo
             ->updateJenisUjianData($data, $id);
 
-        return redirect('/dasbor/jenis-ujian');
+        return redirect('/dasbor/jenis-ujian')
+            ->with([
+                'notification' => 'Data berhasil diubah'
+            ]);
     }
 
     /**

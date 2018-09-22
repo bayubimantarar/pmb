@@ -61,4 +61,14 @@ class SoalRequest extends FormRequest
             default:break;
         }
     }
+
+    public function messages()
+    {
+        return [
+            'kode.required' => 'Kode soal perlu diisi',
+            'sifat_ujian.required' => 'Sifat ujian perlu diisi',
+            'tanggal_ujian.required' => 'Tanggal ujian perlu diisi',
+            'durasi_ujian.required' => 'Durasi ujian perlu diisi'
+        ];
+    }
 }

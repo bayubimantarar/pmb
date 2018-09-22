@@ -20,7 +20,7 @@
 <div class="row">
     <div class="col-lg-12">
         <p>
-            <a href="/dasbor/soal/form-tambah" class="btn btn-sm btn-info"><i class="fa fa-plus"></i> Tambah Data Soal</a>
+            <a href="/dasbor/soal/form-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data Soal</a>
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -34,6 +34,7 @@
                             <th>Kode Soal</th>
                             <th>Jenis Ujian</th>
                             <th>Mata Kuliah</th>
+                            <th>Token</th>
                             <th>Status</th>
                             <th>Opsi</th>
                         </tr>
@@ -71,13 +72,14 @@
             {data: 'kode'},
             {data: 'nama_jenis_ujian'},
             {data: 'nama_mata_kuliah'},
+            {data: 'token'},
             {data: 'status'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });
       
-      function destroy(id)
-      {
+    function destroy(id)
+    {
         var confirmation = confirm("Yakin akan menghapus data ini?");
 
         if (confirmation) {
@@ -87,6 +89,33 @@
                 },
                 url: '/dasbor/soal/hapus/'+id,
                 type: 'delete',
+                dataType: 'json',
+                success: function(result){
+                    alert('Data berhasil dihapus!');
+                    soal_table.ajax.reload();
+                }
+            });
+        }
+    }
+
+    function aktifkan(id, status)
+    {
+        var tempstatus = status;
+        var tempid = id;
+
+        if(tempstatus == 'Belum diaktifkan'){
+            var confirmation = confirm("Yakin akan mengaktifkan soal ini?");
+        }else{
+            var confirmation = confirm("Yakin akan mengnonaktifkan soal ini?");
+        }
+
+        if (confirmation) {
+            $.ajax({
+                headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/dasbor/soal/aktifkan/'+id,
+                type: 'put',
                 dataType: 'json',
                 success: function(result){
                     alert('Data berhasil dihapus!');

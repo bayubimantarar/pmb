@@ -8,33 +8,15 @@ class MahasiswaRepository
 {
     public function getAllData()
     {
-        $getMahasiswa = Mahasiswa::orderBy('created_at', 'DESC')
-            ->get();
-        
-        return $getMahasiswa;
-    }
-
-    public function getAllDataWithPagination()
-    {
-        $getMahasiswa = Mahasiswa::orderBy('created_at', 'DESC')
-            ->simplePaginate(5);
+        $getMahasiswa = Mahasiswa::All();
         
         return $getMahasiswa;
     }
 
     public function getSingleData($id)
     {
-        $getMahasiswa = Mahasiswa::where('id', '=', $id)
-            ->firstOrFail();
-
-        return $getMahasiswa;
-    }
-
-    public function getSingleDataForBlogDetail($slug)
-    {
-        $getMahasiswa = Mahasiswa::where('slug', '=', $slug)
-            ->firstOrFail();
-
+        $getMahasiswa = Mahasiswa::findOrFail($id);
+        
         return $getMahasiswa;
     }
 

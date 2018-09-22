@@ -63,20 +63,30 @@ class DosenController extends Controller
      */
     public function store(DosenRequest $dosenReq)
     {
+        $nip            = $dosenReq->nip;
+        $nama           = $dosenReq->nama;
+        $jenis_kelamin  = $dosenReq->jenis_kelamin;
+        $alamat         = $dosenReq->alamat;
+        $email          = $dosenReq->email;
+        $password       = $dosenReq->password;
+
         $data = [
-            'nip' => $dosenReq->nip,
-            'nama' => $dosenReq->nama,
-            'jenis_kelamin' => $dosenReq->jenis_kelamin,
-            'alamat' => $dosenReq->alamat,
-            'email' => $dosenReq->email,
-            'password' => bcrypt('123')
+            'nip'           => $nip,
+            'nama'          => $nama,
+            'jenis_kelamin' => $jenis_kelamin,
+            'alamat'        => $alamat,
+            'email'         => $email,
+            'password'      => bcrypt($password)
         ];
 
         $store = $this
             ->dosenRepo
             ->storeDosenData($data);
 
-        return redirect('/dasbor/dosen');
+        return redirect('/dasbor/dosen')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
     }
 
     /**
@@ -114,19 +124,49 @@ class DosenController extends Controller
      */
     public function update(DosenRequest $dosenReq, $id)
     {
-        $data = [
-            'nip' => $dosenReq->nip,
-            'nama' => $dosenReq->nama,
-            'jenis_kelamin' => $dosenReq->jenis_kelamin,
-            'alamat' => $dosenReq->alamat,
-            'email' => $dosenReq->email
-        ];
+        $nip = $dosenReq->nip;
+        $nama = $dosenReq->nama;
+        $jenis_kelamin = $dosenReq->jenis_kelamin;
+        $alamat = $dosenReq->alamat;
+        $email = $dosenReq->email;
+        $password = $dosenReq->password;
 
-        $store = $this
-            ->dosenRepo
-            ->updateDosenData($data, $id);
+        if($password == NULL){
+            $data = [
+                'nip' => $dosenReq->nip,
+                'nama' => $dosenReq->nama,
+                'jenis_kelamin' => $dosenReq->jenis_kelamin,
+                'alamat' => $dosenReq->alamat,
+                'email' => $dosenReq->email
+            ];
 
-        return redirect('/dasbor/dosen');
+            $store = $this
+                ->dosenRepo
+                ->updateDosenData($data, $id);
+
+            return redirect('/dasbor/dosen')
+                ->with([
+                    'notification' => 'Data berhasil diubah'
+                ]);
+        }else{
+            $data = [
+                'nip' => $dosenReq->nip,
+                'nama' => $dosenReq->nama,
+                'jenis_kelamin' => $dosenReq->jenis_kelamin,
+                'alamat' => $dosenReq->alamat,
+                'email' => $dosenReq->email,
+                'password' => bcrypt($password)
+            ];
+
+            $store = $this
+                ->dosenRepo
+                ->updateDosenData($data, $id);
+
+            return redirect('/dasbor/dosen')
+                ->with([
+                    'notification' => 'Data berhasil diubah'
+                ]);
+        }
     }
 
     /**

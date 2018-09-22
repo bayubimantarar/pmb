@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckKodeJenisUjian;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class JenisUjianRequest extends FormRequest
@@ -28,8 +28,8 @@ class JenisUjianRequest extends FormRequest
             case 'POST': {
                 return [
                     'kode' => [
-                        'required', 
-                        new CheckKodeJenisUjian
+                        'required',
+                        'unique:jenis_ujian'
                     ],
                     'nama' => [
                         'required'
@@ -39,7 +39,8 @@ class JenisUjianRequest extends FormRequest
             case 'PUT' : {
                 return [
                     'kode' => [
-                        'required'
+                        'required',
+                        Rule::unique('jenis_ujian')->ignore($this->id)
                     ],
                     'nama' => [
                         'required'
@@ -48,5 +49,14 @@ class JenisUjianRequest extends FormRequest
             }
             default:break;
         }
+    }
+
+    public function messages()
+    {
+        return [
+            'kode.required' => 'Kode jenis ujian perlu diisi',
+            'kode.unique'   => 'Kode jenis ujian sudah ada',
+            'nama.required' => 'Nama jenis ujian perlu diisi'
+        ];
     }
 }
