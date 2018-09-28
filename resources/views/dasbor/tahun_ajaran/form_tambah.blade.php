@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Tahun Ajaran &raquo; Form Tambah Data Tahun Ajaran
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -21,20 +25,31 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Form Data Dosen
+                Form Data Pertanyaan
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <form action="/dasbor/tahun-ajaran/simpan" method="post">
-                            @csrf
+                            @csrf>
+                            <div class="form-group {{ $errors->has('kode') ? ' has-error' : '' }}">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
+                                        <label class="control-label">Kode Tahun Ajaran</label>
+                                        <input type="text" class="form-control" id="kode" name="kode" value="{{ old('kode') }}" readonly />
+                                        @if($errors->has('kode'))
+                                            <p class="text-danger"><i>{{ $errors->first('kode') }}</i></p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label>Tahun Ajaran</label>
                                 <div class="form-inline">
                                     <div class="form-group {{ $errors->has('tahun_awal') ? ' has-error' : '' }}">
                                         <div class="row">
                                             <div class="col-lg-5 col-md-5 col-xs-12">
-                                                <input type="number" class="form-control" name="tahun_awal" value="{{ old('tahun_awal') }}"/>
+                                                <input type="number" class="form-control" id="tahun-awal" name="tahun_awal" value="{{ old('tahun_awal') }}"/>
                                             </div>
                                         </div>
                                     </div>
@@ -44,7 +59,7 @@
                                     <div class="form-group {{ $errors->has('tahun_akhir') ? ' has-error' : '' }}">
                                         <div class="row">
                                             <div class="col-lg-5 col-md-5 col-xs-12">
-                                                <input type="number" class="form-control" name="tahun_akhir" value="{{ old('tahun_akhir') }}" />
+                                                <input type="number" class="form-control" id="tahun-akhir" name="tahun_akhir" value="{{ old('tahun_akhir') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -57,7 +72,7 @@
                                 <div class="row">
                                     <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label">Semester</label>
-                                        <select name="semester" class="form-control">
+                                        <select name="semester" class="form-control" id="semester">
                                             <option value="1">Ganjil</option>
                                             <option value="2">Genap</option>
                                         </select>
@@ -80,3 +95,37 @@
 </div>
 <!-- /.row -->
 @endsection
+
+@push('js')
+<script>
+$(document).ready(function(){
+    $('#tahun-awal').keyup(function(){
+        var temptahunawal   = $('#tahun-awal').val();
+        var temptahunakhir  = $('#tahun-akhir').val();
+        var tempsemester    = $('#semester option:selected').text().toUpperCase();
+        var tahun_awal      = temptahunawal.substring(2, 4);
+        var tahun_akhir     = temptahunakhir.substring(2, 4);
+        var kode            = tahun_awal+tahun_akhir+tempsemester;
+        $('#kode').val(kode);
+    });
+    $('#tahun-akhir').keyup(function(){
+        var temptahunawal   = $('#tahun-awal').val();
+        var temptahunakhir  = $('#tahun-akhir').val();
+        var tempsemester    = $('#semester option:selected').text().toUpperCase();
+        var tahun_awal      = temptahunawal.substring(2, 4);
+        var tahun_akhir     = temptahunakhir.substring(2, 4);
+        var kode            = tahun_awal+tahun_akhir+tempsemester;
+        $('#kode').val(kode);
+    });
+    $('#semester').change(function(){
+        var temptahunawal   = $('#tahun-awal').val();
+        var temptahunakhir  = $('#tahun-akhir').val();
+        var tempsemester    = $('#semester option:selected').text().toUpperCase();
+        var tahun_awal      = temptahunawal.substring(2, 4);
+        var tahun_akhir     = temptahunakhir.substring(2, 4);
+        var kode            = tahun_awal+tahun_akhir+tempsemester;
+        $('#kode').val(kode);
+    });
+});
+</script>
+@endpush

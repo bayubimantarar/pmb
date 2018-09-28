@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Mahasiswa;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckEmailMahasiswa implements Rule
+class CheckSelectedKodeTahunAjaran implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,11 +25,8 @@ class CheckEmailMahasiswa implements Rule
      */
     public function passes($attribute, $value)
     {
-        $mahasiswa = Mahasiswa::where('email', $value)
-            ->exists();
-
-        if(empty($mahasiswa)){
-            return true;  
+        if(empty($value)){
+            return true;
         }else{
             return false;
         }
@@ -43,6 +39,6 @@ class CheckEmailMahasiswa implements Rule
      */
     public function message()
     {
-        return 'Email sudah ada.';
+        return 'Pilih salah satu tahun ajaran';
     }
 }

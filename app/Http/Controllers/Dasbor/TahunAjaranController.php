@@ -70,14 +70,16 @@ class TahunAjaranController extends Controller
      */
     public function store(TahunAjaranRequest $tahunajaranReq)
     {
-        $tahunAwal      = $tahunajaranReq->tahun_awal;
-        $tahunAkhir     = $tahunajaranReq->tahun_akhir;
-        $semester       = $tahunajaranReq->semester;
-        $tahunAjaran    = $tahunAwal.' - '.$tahunAkhir;
+        $tahunAwal  = $tahunajaranReq->tahun_awal;
+        $tahunAkhir = $tahunajaranReq->tahun_akhir;
+        $semester   = $tahunajaranReq->semester;
+        $tahun      = $tahunAwal.' - '.$tahunAkhir;
+        $kode       = $tahunajaranReq->kode;
 
         $data = [
-            'tahun_ajaran' => $tahunAjaran,
-            'semester' => $semester
+            'kode'      => $kode,
+            'tahun'     => $tahun,
+            'semester'  => $semester
         ];
 
         $store = $this
@@ -113,8 +115,8 @@ class TahunAjaranController extends Controller
             ->tahunajaranRepo
             ->getSingleData($id);
 
-        $temptahun_awal     = substr($tahunajaran->tahun_ajaran, 0, 4);
-        $temptahun_akhir    = substr($tahunajaran->tahun_ajaran, 7, 4);
+        $temptahun_awal     = substr($tahunajaran->tahun, 0, 4);
+        $temptahun_akhir    = substr($tahunajaran->tahun, 7, 4);
 
         $tahun_awal     = (int)$temptahun_awal;
         $tahun_akhir    = (int)$temptahun_akhir;
@@ -135,13 +137,15 @@ class TahunAjaranController extends Controller
      */
     public function update(TahunAjaranRequest $tahunajaranReq, $id)
     {
+        $kode           = $tahunajaranReq->kode;
         $tahunAwal      = $tahunajaranReq->tahun_awal;
         $tahunAkhir     = $tahunajaranReq->tahun_akhir;
         $semester       = $tahunajaranReq->semester;
-        $tahunAjaran    = $tahunAwal.' - '.$tahunAkhir;
+        $tahun          = $tahunAwal.' - '.$tahunAkhir;
 
         $data = [
-            'tahun_ajaran' => $tahunAjaran,
+            'kode' => $kode,
+            'tahun' => $tahun,
             'semester' => $semester
         ];
 

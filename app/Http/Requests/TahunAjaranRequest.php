@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TahunAjaranRequest extends FormRequest
@@ -23,11 +24,35 @@ class TahunAjaranRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'tahun_awal' => 'required',
-            'tahun_akhir' => 'required',
-            'semester' => 'required'
-        ];
+        switch($this->method()){
+            case 'POST': {
+                return [
+                    'kode' => [
+                        'unique:tahun_ajaran'
+                    ],
+                    'tahun_awal' => [
+                        'required'
+                    ],
+                    'tahun_akhir' => [
+                        'required'
+                    ]
+                ];
+            }
+            case 'PUT' : {
+                return [
+                    'kode' => [
+                        Rule::unique('tahun_ajaran')->ignore($this->id)
+                    ],
+                    'tahun_awal' => [
+                        'required'
+                    ],
+                    'tahun_akhir' => [
+                        'required'
+                    ]
+                ];
+            }
+            default:break;
+        }
     }
 
     /**
@@ -38,9 +63,9 @@ class TahunAjaranRequest extends FormRequest
     public function messages()
     {
         return [
-            'tahun_awal.required' => 'Tahun ajaran perlu diisi.',
-            'tahun_akhir.required' => 'Tahun ajaran perlu diisi.',
-            'semester.required' => 'Semester ajaran perlu diisi.'
+            'kode.unique'           => 'Kode tahun ajaran sudah ada',
+            'tahun_awal.required'   => 'Tahun ajaran perlu diisi.',
+            'tahun_akhir.required'  => 'Tahun ajaran perlu diisi.'
         ];
     }
 }

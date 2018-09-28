@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Pertanyaan &raquo; Form Tambah Data Pertanyaan
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -50,7 +54,7 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-xs-12">
                                         <label class="control-label" for="inputError">Kode Soal</label>
-                                        <input type="text" name="kode_soal" class="form-control" value="{{ $kodesoal }}" readonly />
+                                        <input type="text" name="kode" class="form-control" value="{{ $kodesoal }}" readonly />
                                     </div>
                                 </div>
                             </div>

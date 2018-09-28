@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Tahun Ajaran &raquo; Form Ubah Data Tahun Ajaran
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -37,6 +41,7 @@
                 <table width="100%" class="table table-striped table-bordered table-hover" id="tahunajaran-table">
                     <thead>
                         <tr>
+                            <th>Kode Tahun Ajaran</th>
                             <th>Tahun Ajaran</th>
                             <th>Semester</th>
                             <th>Opsi</th>
@@ -71,9 +76,9 @@
         serverSide: true,
         processing: true,
         ajax: '/dasbor/tahun-ajaran/data',
-        order: [[ 1, 'asc' ]],
         columns: [
-            {data: 'tahun_ajaran'},
+            {data: 'kode'},
+            {data: 'tahun'},
             {data: 'semester'},
             {data: 'action', orderable: false, searchable: false}
         ]

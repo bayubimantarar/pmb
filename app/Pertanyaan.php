@@ -22,4 +22,7 @@ class Pertanyaan extends Model
         'jawaban_pilihan',
         'bobot'
     ];
+    protected $dates = [
+        'tanggal_ujian'
+    ];
 }

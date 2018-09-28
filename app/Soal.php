@@ -18,7 +18,11 @@ class Soal extends Model
         'nip',
         'sifat_ujian',
         'tanggal_ujian',
-        'durasi_ujian'
+        'durasi_ujian',
+        'jumlah_pertanyaan'
+    ];
+    protected $dates = [
+        'tanggal_ujian'
     ];
 
     public function scopeAllDataWithRelationship()

@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Mahasiswa;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckNIMMahasiswa implements Rule
+class CheckSelectedKodeJenisUjian implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,11 +25,8 @@ class CheckNIMMahasiswa implements Rule
      */
     public function passes($attribute, $value)
     {
-        $mahasiswa = Mahasiswa::where('nim', $value)
-            ->exists();
-
-        if(empty($mahasiswa)){
-            return true;  
+        if($value != 0){
+            return true;
         }else{
             return false;
         }
@@ -43,6 +39,6 @@ class CheckNIMMahasiswa implements Rule
      */
     public function message()
     {
-        return 'NIM sudah ada.';
+        return 'Pilih salah satu jenis ujian';
     }
 }

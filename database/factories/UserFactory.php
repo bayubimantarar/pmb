@@ -17,7 +17,6 @@ $factory->define(App\User::class, function (Faker $faker) {
     return [
         'name' => 'Administrator',
         'email' => 'admin@stmik-bandung.ac.id',
-        'password' => bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'password' => bcrypt('123')
     ];
 });

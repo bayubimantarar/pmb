@@ -2,7 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\CheckKodeSoal;
+use Illuminate\Validation\Rule;
+use App\Rules\CheckSelectedNIPDosen;
+use App\Rules\CheckSelectedKodeKelas;
+use App\Rules\CheckSelectedKodeJenisUjian;
+use App\Rules\CheckSelectedKodeMataKuliah;
+use App\Rules\CheckSelectedKodeTahunAjaran;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SoalRequest extends FormRequest
@@ -28,8 +33,22 @@ class SoalRequest extends FormRequest
             case 'POST': {
                 return [
                     'kode' => [
-                        'required', 
-                        new CheckKodeSoal
+                        'unique:soal'
+                    ],
+                    'kode_jenis_ujian' => [
+                        'required'
+                    ],
+                    'kode_mata_kuliah' => [
+                        'required'
+                    ],
+                    'kode_kelas' => [
+                        'required'
+                    ],
+                    'kode_tahun_ajaran' => [
+                        'required'
+                    ],
+                    'nip' => [
+                        'required'
                     ],
                     'sifat_ujian' => [
                         'required'
@@ -40,12 +59,30 @@ class SoalRequest extends FormRequest
                     'durasi_ujian' => [
                         'required'
                     ],
+                    'jumlah_pertanyaan' => [
+                        'required'
+                    ]
                 ];
             }
             case 'PUT' : {
                 return [
                     'kode' => [
-                        'required',
+                        Rule::unique('soal')->ignore($this->id)
+                    ],
+                    'kode_jenis_ujian' => [
+                        'required'
+                    ],
+                    'kode_mata_kuliah' => [
+                        'required'
+                    ],
+                    'kode_kelas' => [
+                        'required'
+                    ],
+                    'kode_tahun_ajaran' => [
+                        'required'
+                    ],
+                    'nip' => [
+                        'required'
                     ],
                     'sifat_ujian' => [
                         'required'
@@ -56,6 +93,9 @@ class SoalRequest extends FormRequest
                     'durasi_ujian' => [
                         'required'
                     ],
+                    'jumlah_pertanyaan' => [
+                        'required'
+                    ]
                 ];
             }
             default:break;
@@ -65,10 +105,16 @@ class SoalRequest extends FormRequest
     public function messages()
     {
         return [
-            'kode.required' => 'Kode soal perlu diisi',
-            'sifat_ujian.required' => 'Sifat ujian perlu diisi',
-            'tanggal_ujian.required' => 'Tanggal ujian perlu diisi',
-            'durasi_ujian.required' => 'Durasi ujian perlu diisi'
+            'kode.unique'                   => 'Soal sudah ada',
+            'kode_jenis_ujian.required'     => 'Pilih salah satu jenis ujian',
+            'kode_mata_kuliah.required'     => 'Pilih salah satu mata kuliah',
+            'kode_kelas.required'           => 'Pilih salah satu kelas',
+            'kode_tahun_ajaran.required'    => 'Pilih salah satu tahun ajaran',
+            'nip.required'                  => 'Pilih salah satu dosen',
+            'sifat_ujian.required'          => 'Sifat ujian perlu diisi',
+            'tanggal_ujian.required'        => 'Tanggal ujian perlu diisi',
+            'durasi_ujian.required'         => 'Durasi ujian perlu diisi',
+            'jumlah_pertanyaan.required'    => 'Jumlah Pertanyaan perlu diisi'
         ];
     }
 }

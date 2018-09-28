@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Pertanyaan
+@endsection
+
 @push('meta')
 <meta name="kode-soal" content="{{ $tempkodesoal }}">
 @endpush
@@ -16,8 +20,7 @@
     <div class="col-lg-12">
         <ul class="breadcrumb">
             <li><a href="/dasbor">Dasbor</a></li>
-            <li class="active">Data Pertanyaan</li>
-            <li class="active">{{ $tempkodesoal }}</li>
+            <li class="active">Data Pertanyaan {{ $tempkodesoal }}</li>
         </ul>
     </div>
 </div>
@@ -89,8 +92,8 @@
                     url: '/dasbor/pertanyaan/'+kodesoal+'/hapus/'+id,
                     type: 'delete',
                     dataType: 'json',
-                    success: function(result) { 
-                        console.log(result);
+                    success: function(result) {
+                        alert('Data berhasil dihapus!');
                         pertanyaan_table.ajax.reload();
                     }
                 });

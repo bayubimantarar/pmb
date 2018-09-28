@@ -52,8 +52,7 @@ class SoalRepository
 
     public function getSingleDataForEdit($id)
     {
-        $getSoal = Soal::where('id', '=', $id)
-            ->firstOrFail();
+        $getSoal = Soal::findOrFail($id);
 
         return $getSoal;
     }

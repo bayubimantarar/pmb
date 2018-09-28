@@ -8,10 +8,9 @@ class TahunAjaranRepository
 {
     public function getAllData()
     {
-        $getDosen = TahunAjaran::orderBy('created_at', 'DESC')
-            ->get();
+        $getTahunAjaran = TahunAjaran::All();
         
-        return $getDosen;
+        return $getTahunAjaran;
     }
 
     public function getSingleData($id)
@@ -19,13 +18,6 @@ class TahunAjaranRepository
         $getTahunAjaran = TahunAjaran::findOrFail($id);
 
         return $getTahunAjaran;
-    }
-
-    public function getSingleDataForBlogDetail($slug)
-    {
-        $getDosen = Post::where('slug', '=', $slug)
-            ->firstOrFail();
-        return $getDosen;
     }
 
     public function storeTahunAjaranData($data)

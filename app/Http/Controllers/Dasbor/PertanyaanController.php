@@ -75,16 +75,30 @@ class PertanyaanController extends Controller
     {
         $kodesoal = Request::segment(3);
 
+        $checkPertanyaan = $this
+            ->pertanyaanRepo
+            ->getSingleDataForChecking($kodesoal)
+            ->count();
+
+        $totalPertanyaanSigned = $checkPertanyaan;
+
         $soal = $this
             ->soalRepo
             ->getSingleData($kodesoal)
             ->first();
 
-        $namaMataKuliah = $soal->nama_mata_kuliah;
-        $namaJenisUjian = $soal->nama_jenis_ujian;
+        $namaMataKuliah     = $soal->nama_mata_kuliah;
+        $namaJenisUjian     = $soal->nama_jenis_ujian;
+        $jumlahpertanyaan   = $soal->jumlah_pertanyaan;
+
+        $sisapertanyaan = $jumlahpertanyaan - $totalPertanyaanSigned;
 
         return view('dasbor.pertanyaan.form_tambah', compact(
-            'soal', 'kodesoal', 'namaMataKuliah', 'namaJenisUjian'
+            'soal', 
+            'kodesoal', 
+            'namaMataKuliah', 
+            'namaJenisUjian', 
+            'sisapertanyaan'
         ));
     }
 
@@ -96,105 +110,70 @@ class PertanyaanController extends Controller
      */
     public function store(PertanyaanRequest $pertanyaanReq)
     {
-        $kodeSoal = $pertanyaanReq->kode_soal;
-        $pertanyaan = $pertanyaanReq->pertanyaan;
-        $jenisPertanyaan = $pertanyaanReq->jenis_pertanyaan;
-        $pilihanA = $pertanyaanReq->pilihan_a;
-        $pilihanB = $pertanyaanReq->pilihan_b;
-        $pilihanC = $pertanyaanReq->pilihan_c;
-        $pilihanD = $pertanyaanReq->pilihan_d;
-        $pilihanE = $pertanyaanReq->pilihan_e;
-        $jawabanEssay = $pertanyaanReq->jawaban_essay;
-        $jawabanPilihan = $pertanyaanReq->jawaban_pilihan;
-        $bobot = $pertanyaanReq->bobot;
-        $jenisPertanyaan = $pertanyaanReq->jenis_pertanyaan;
-        $fileGambar  = $pertanyaanReq->file('gambar');
+        $jumlahpertanyaan = $pertanyaanReq->jumlah_pertanyaan;
+        
+        for ($i=0; $i<$jumlahpertanyaan; $i++){;
+            $kodesoal = $pertanyaanReq->kode_soal;
+            $pertanyaan = $pertanyaanReq->pertanyaan[$i];
+            $jenispertanyaan = $pertanyaanReq->jenis_pertanyaan[$i];
+            $pilihanA = $pertanyaanReq->pilihan_a[$i];
+            $pilihanB = $pertanyaanReq->pilihan_b[$i];
+            $pilihanC = $pertanyaanReq->pilihan_c[$i];
+            $pilihanD = $pertanyaanReq->pilihan_d[$i];
+            $pilihanE = $pertanyaanReq->pilihan_e[$i];
+            $jawabanessay = $pertanyaanReq->jawaban_essay[$i];
+            $jawabanpilihan = $pertanyaanReq->jawaban_pilihan[$i];
+            $bobot = $pertanyaanReq->bobot[$i];
+            $jenispertanyaan = $pertanyaanReq->jenis_pertanyaan[$i];
+            $filegambar  = $pertanyaanReq->gambar;
 
-        if($jenisPertanyaan == 'essay'){
-            if($fileGambar == NULL){
-                $data = [
-                    'kode_soal' => $kodeSoal,
+            if(!empty($filegambar[$i])){
+                $namagambar  = $pertanyaanReq
+                    ->gambar[$i]
+                    ->getClientOriginalName();
+
+                $filegambar  = $pertanyaanReq->gambar[$i];
+
+                $data[] = [
+                    'kode_soal' => $kodesoal,
                     'pertanyaan' => $pertanyaan,
-                    'jenis_pertanyaan' => $jenisPertanyaan,
-                    'jawaban_essay' => $jawabanEssay,
+                    'jenis_pertanyaan' => $jenispertanyaan,
+                    'gambar'    => $namagambar,
+                    'pilihan_a' => NULL,
+                    'pilihan_b' => NULL,
+                    'pilihan_c' => NULL,
+                    'pilihan_d' => NULL,
+                    'pilihan_e' => NULL,
+                    'jawaban_pilihan' => NULL,
+                    'jawaban_essay' => $jawabanessay,
                     'bobot' => $bobot,
                 ];
-
-                $store = $this
-                    ->pertanyaanRepo
-                    ->storePertanyaanData($data);
-
-                return redirect('/dasbor/pertanyaan/'.$kodeSoal);
-            }else{
-                $namaGambar = $fileGambar->getClientOriginalName();
-
-                $data = [
-                    'kode_soal' => $kodeSoal,
-                    'pertanyaan' => $pertanyaan,
-                    'jenis_pertanyaan' => $jenisPertanyaan,
-                    'jawaban_essay' => $jawabanEssay,
-                    'bobot' => $bobot,
-                    'gambar' => $namaGambar
-                ];
-
-                $store = $this
-                    ->pertanyaanRepo
-                    ->storePertanyaanData($data);
 
                 $uploadGambar = $this
                     ->pertanyaanServe
-                    ->handleUploadGambar($fileGambar, $namaGambar);
-
-                return redirect('/dasbor/pertanyaan/'.$kodeSoal);
-            }
-        }else{
-            if($fileGambar == NULL){
-                $data = [
-                    'kode_soal' => $kodeSoal,
+                    ->handleUploadGambar($filegambar, $namagambar);
+            }else{
+                $data[] = [
+                    'kode_soal' => $kodesoal,
                     'pertanyaan' => $pertanyaan,
-                    'jenis_pertanyaan' => $jenisPertanyaan,
+                    'jenis_pertanyaan' => $jenispertanyaan,
+                    'gambar'    => NULL,
                     'pilihan_a' => $pilihanA,
                     'pilihan_b' => $pilihanB,
                     'pilihan_c' => $pilihanC,
                     'pilihan_d' => $pilihanD,
                     'pilihan_e' => $pilihanE,
-                    'jawaban_pilihan' => $jawabanPilihan,
+                    'jawaban_pilihan' => $jawabanpilihan,
+                    'jawaban_essay' => NULL,
                     'bobot' => $bobot,
                 ];
-
-                $store = $this
-                    ->pertanyaanRepo
-                    ->storePertanyaanData($data);
-
-                return redirect('/dasbor/pertanyaan/'.$kodeSoal);
-            }else{
-                $namaGambar = $fileGambar->getClientOriginalName();
-
-                $data = [
-                    'kode_soal' => $kodeSoal,
-                    'pertanyaan' => $pertanyaan,
-                    'jenis_pertanyaan' => $jenisPertanyaan,
-                    'pilihan_a' => $pilihanA,
-                    'pilihan_b' => $pilihanB,
-                    'pilihan_c' => $pilihanC,
-                    'pilihan_d' => $pilihanD,
-                    'pilihan_e' => $pilihanE,
-                    'jawaban_pilihan' => $jawabanPilihan,
-                    'bobot' => $bobot,
-                    'gambar' => $namaGambar
-                ];
-
-                $store = $this
-                    ->pertanyaanRepo
-                    ->storePertanyaanData($data);
-
-                $uploadGambar = $this
-                    ->pertanyaanServe
-                    ->handleUploadGambar($fileGambar, $namaGambar);
-                    
-                return redirect('/dasbor/pertanyaan/'.$kodeSoal);
-            }
+            }   
         }
+        $store = $this
+            ->pertanyaanRepo
+            ->storePertanyaanData($data);
+
+        return redirect('/dasbor/pertanyaan/'.$kodesoal);
     }
 
     /**
@@ -243,7 +222,7 @@ class PertanyaanController extends Controller
     public function update(PertanyaanRequest $pertanyaanReq, $kodsoal, $id)
     {
         //define variables
-        $kodeSoal = $pertanyaanReq->kode_soal;
+        $kodeSoal = $pertanyaanReq->kode;
         $pertanyaan = $pertanyaanReq->pertanyaan;
         $jenisPertanyaan = $pertanyaanReq->jenis_pertanyaan;
         $pilihanA = $pertanyaanReq->pilihan_a;

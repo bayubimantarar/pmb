@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\Dosen;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckNIPDosen implements Rule
+class CheckSelectedNIPDosen implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,11 +25,8 @@ class CheckNIPDosen implements Rule
      */
     public function passes($attribute, $value)
     {
-        $dosen = Dosen::where('nip', $value)
-            ->exists();
-
-        if(empty($dosen)){
-            return true;  
+        if($value != 0){
+            return true;
         }else{
             return false;
         }
@@ -43,6 +39,6 @@ class CheckNIPDosen implements Rule
      */
     public function message()
     {
-        return 'NIP sudah ada.';
+        return 'Pilih salah satu dosen';
     }
 }

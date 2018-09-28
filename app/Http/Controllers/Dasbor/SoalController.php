@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Dasbor;
 
-use App\Soal;
 use Keygen;
+use App\Soal;
 use DataTables;
+use Carbon\Carbon;
 use App\Http\Requests\SoalRequest;
 use App\Services\PertanyaanService;
 use App\Repositories\SoalRepository;
@@ -64,7 +65,7 @@ class SoalController extends Controller
 
         return DataTables::of($soal)
             ->addColumn('action', function($soal){
-                return '<center><a href="#aktifkan" onclick="aktifkan('.$soal->id.')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a> <a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                return '<center><a href="#status" onclick="aktifkan('.$soal->id.','.$soal->status.')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a> <a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
             })
             ->editColumn('status', function($soal){
                 if($soal->status == 1){
@@ -77,7 +78,7 @@ class SoalController extends Controller
                 if($soal->status == 1){
                     return $soal->token;
                 }else{
-                    return '';
+                    return 'SOAL BELUM DIAKTIFKAN';
                 }
             })
             ->rawColumns(['action', 'status', 'token'])
@@ -142,39 +143,42 @@ class SoalController extends Controller
         $kodekelas          = $soalReq->kode_kelas;
         $kodejenisujian     = $soalReq->kode_jenis_ujian;
         $kodematakuliah     = $soalReq->kode_mata_kuliah;
+        $kodesoal           = $soalReq->kode;
         $nip                = $soalReq->nip;
         $sifatujian         = $soalReq->sifat_ujian;
-        $tanggalujian       = $soalReq->tanggal_ujian;
+        $tanggalujian       = Carbon::parse($soalReq->tanggal_ujian);
         $durasiujian        = $soalReq->durasi_ujian;
+        $jumlahpertanyaan   = $soalReq->jumlah_pertanyaan;
+        $token              = Keygen::numeric(5)->generate();
 
-        dd($soalReq->all());
+        $data = [
+            'kode'              => $kodesoal,
+            'kode_tahun_ajaran' => $kodetahunajaran,
+            'kode_kelas'        => $kodekelas,
+            'kode_jenis_ujian'  => $kodejenisujian,
+            'kode_mata_kuliah'  => $kodematakuliah,
+            'nip'               => $nip,
+            'sifat_ujian'       => $sifatujian,
+            'tanggal_ujian'     => $tanggalujian,
+            'durasi_ujian'      => $durasiujian,
+            'jumlah_pertanyaan' => $jumlahpertanyaan
+        ];
 
-        // $token = Keygen::numeric(5)
-        //     ->generate();
+        $dataForToken = [
+            'kode_soal' => $kodesoal,
+            'token' => $token,
+            'status' => 0
+        ];
 
-        // $data = [
-        //     'kode' => $soalReq->kode,
-        //     'kode_jenis_ujian' => $soalReq->kode_jenis_ujian,
-        //     'kode_mata_kuliah' => $soalReq->kode_mata_kuliah,
-        //     'sifat_ujian' => $soalReq->sifat_ujian,
-        //     'durasi_ujian' => $soalReq->durasi_ujian,
-        // ];
+        $store = $this
+            ->soalRepo
+            ->storeSoalData($data);
 
-        // $dataForToken = [
-        //     'kode_soal' => $soalReq->kode,
-        //     'token' => $token,
-        //     'status' => 0
-        // ];
+        $storeForToken = $this
+            ->tokenRepo
+            ->storeTokenData($dataForToken);
 
-        // $store = $this
-        //     ->soalRepo
-        //     ->storeSoalData($data);
-
-        // $storeForToken = $this
-        //     ->tokenRepo
-        //     ->storeTokenData($dataForToken);
-
-        // return redirect('/dasbor/soal');
+        return redirect('/dasbor/soal');
     }
 
     /**
@@ -200,8 +204,6 @@ class SoalController extends Controller
             ->soalRepo
             ->getSingleDataForEdit($id);
 
-        $tempsoal = $soal;
-        
         $jenisujian = $this
             ->jenisujianRepo
             ->getAllData();
@@ -210,10 +212,47 @@ class SoalController extends Controller
             ->matakuliahRepo
             ->getAllData();
 
+        $dosen = $this
+            ->dosenRepo
+            ->getAllData();
+
+        $kelas = $this
+            ->kelasRepo
+            ->getAllData();
+
+        $tahunajaran = $this
+            ->tahunajaranRepo
+            ->getAllData();
+
+        $id                 = $id;
+        $kodesoal           = $soal->kode;
+        $kodejenisujian     = $soal->kode_jenis_ujian;
+        $kodematakuliah     = $soal->kode_mata_kuliah;
+        $kodekelas          = $soal->kode_kelas;
+        $kodetahunajaran    = $soal->kode_tahun_ajaran;
+        $nip                = $soal->nip;
+        $tanggalujian       = $soal->tanggal_ujian;
+        $durasiujian        = $soal->durasi_ujian;
+        $sifatujian         = $soal->sifat_ujian;
+        $jumlahpertanyaan   = $soal->jumlah_pertanyaan;
+
         return view('dasbor.soal.form_ubah', compact(
-            'tempsoal',
+            'id',
+            'kodesoal',
+            'kodejenisujian',
+            'kodematakuliah',
+            'kodekelas',
+            'kodetahunajaran',
+            'nip',
+            'jumlahpertanyaan',
+            'tanggalujian',
+            'sifatujian',
+            'durasiujian',
             'jenisujian',
-            'matakuliah'
+            'matakuliah',
+            'dosen',
+            'kelas',
+            'tahunajaran'
         ));
     }
 
@@ -226,22 +265,100 @@ class SoalController extends Controller
      */
     public function update(SoalRequest $soalReq, $id)
     {
-        $data = [
-            'kode' => $soalReq->kode,
-            'kode_jenis_ujian' => $soalReq->kode_jenis_ujian,
-            'kode_mata_kuliah' => $soalReq->kode_mata_kuliah,
-            'sifat_ujian' => $soalReq->sifat_ujian,
-            'durasi_ujian' => $soalReq->durasi_ujian,
-        ];
-
-        $update = $this
+        $getOldKodeSoal = $this
             ->soalRepo
-            ->updateSoalData($data, $id);
+            ->getSingleDataForEdit($id);
 
-        return redirect('/dasbor/soal');
+        $oldkodesoal        = $getOldKodeSoal->kode;
+        $kodetahunajaran    = $soalReq->kode_tahun_ajaran;
+        $kodekelas          = $soalReq->kode_kelas;
+        $kodejenisujian     = $soalReq->kode_jenis_ujian;
+        $kodematakuliah     = $soalReq->kode_mata_kuliah;
+        $kode               = $soalReq->kode;
+        $nip                = $soalReq->nip;
+        $sifatujian         = $soalReq->sifat_ujian;
+        $tanggalujian       = Carbon::parse($soalReq->tanggal_ujian);
+        $durasiujian        = $soalReq->durasi_ujian;
+        $jumlahpertanyaan   = $soalReq->jumlah_pertanyaan;
+
+        $checkPertanyaan = $this
+            ->pertanyaanRepo
+            ->getAllData($kode);
+
+        if(empty($checkPertanyaan)){
+            $data = [
+                'kode'              => $kode,
+                'kode_tahun_ajaran' => $kodetahunajaran,
+                'kode_kelas'        => $kodekelas,
+                'kode_jenis_ujian'  => $kodejenisujian,
+                'kode_mata_kuliah'  => $kodematakuliah,
+                'nip'               => $nip,
+                'sifat_ujian'       => $sifatujian,
+                'tanggal_ujian'     => $tanggalujian,
+                'durasi_ujian'      => $durasiujian,
+                'jumlah_pertanyaan' => $jumlahpertanyaan
+            ];
+
+            $dataPertanyaan = [
+                'kode_soal' => $kode
+            ];
+
+            $dataToken = [
+                'kode_soal' => $kode
+            ];
+
+            $update = $this
+                ->soalRepo
+                ->updateSoalData($data, $id);
+
+            $updateToken = $this
+                ->tokenRepo
+                ->updateFromSoalData($dataToken, $oldkodesoal);
+
+            $updatePertanyaan = $this
+                ->pertanyaanRepo
+                ->updatePertanyaanBySoalData($dataPertanyaan, $oldkodesoal);
+
+            return redirect('/dasbor/soal');
+        }else{
+            $data = [
+                'kode'              => $kode,
+                'kode_tahun_ajaran' => $kodetahunajaran,
+                'kode_kelas'        => $kodekelas,
+                'kode_jenis_ujian'  => $kodejenisujian,
+                'kode_mata_kuliah'  => $kodematakuliah,
+                'nip'               => $nip,
+                'sifat_ujian'       => $sifatujian,
+                'tanggal_ujian'     => $tanggalujian,
+                'durasi_ujian'      => $durasiujian,
+                'jumlah_pertanyaan' => $jumlahpertanyaan
+            ];
+
+            $dataToken = [
+                'kode_soal' => $kode
+            ];
+
+            $dataPertanyaan = [
+                'kode_soal' => $kode
+            ];
+
+            $update = $this
+                ->soalRepo
+                ->updateSoalData($data, $id);
+
+            $updateToken = $this
+                ->tokenRepo
+                ->updateFromSoalData($dataToken, $oldkodesoal);
+            
+            $updatePertanyaan = $this
+                ->pertanyaanRepo
+                ->updatePertanyaanBySoalData($dataPertanyaan, $oldkodesoal);
+
+            return redirect('/dasbor/soal');
+        }
     }
 
-    public function updateToken($id)
+    public function activateToken($id)
     {
         $dataToken = $this
             ->soalRepo
@@ -251,6 +368,28 @@ class SoalController extends Controller
 
         $data = [
             'status' => 1
+        ];
+        
+        $updateToken = $this
+            ->tokenRepo
+            ->updateOnlyStatus($data, $token);
+
+        return response()
+            ->json([
+                'updated' => $updateToken
+            ], 200);
+    }
+
+    public function nonactivateToken($id)
+    {
+        $dataToken = $this
+            ->soalRepo
+            ->getSingleTokenData($id);
+
+        $token = $dataToken->token;
+
+        $data = [
+            'status' => 0
         ];
         
         $updateToken = $this

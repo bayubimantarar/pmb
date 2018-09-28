@@ -239,8 +239,12 @@ Route::group(['prefix' => 'dasbor'], function() {
                 'as'    => 'dasbor.soal.ubah'
             ]);
             Route::put('/aktifkan/{id}', [
-                'uses'  => 'Dasbor\SoalController@updateToken',
+                'uses'  => 'Dasbor\SoalController@activateToken',
                 'as'    => 'dasbor.soal.aktifkan'
+            ]);
+            Route::put('/nonaktifkan/{id}', [
+                'uses'  => 'Dasbor\SoalController@nonactivateToken',
+                'as'    => 'dasbor.soal.nonaktifkan'
             ]);
             Route::delete('/hapus/{id}', [
                 'uses'  => 'Dasbor\SoalController@destroy',
@@ -306,9 +310,17 @@ Route::group(['prefix' => 'mahasiswa'], function(){
                     'uses' => 'Mahasiswa\SoalController@index',
                     'as' => 'mahasiswa.ujian'
                 ]);
-                Route::post('/cari', [
+                Route::get('/cari', [
                     'uses' => 'Mahasiswa\SoalController@find',
                     'as' => 'mahasiswa.ujian.soal.cari'
+                ]);
+                Route::get('/mulai/{token}', [
+                    'uses' => 'Mahasiswa\SoalController@startExam',
+                    'as' => 'mahasiswa.ujian.soal.cari'
+                ]);
+                Route::post('/selesai', [
+                    'uses' => 'Mahasiswa\SoalController@store',
+                    'as' => 'mahasiswa.ujian.soal.selesai'
                 ]);
             });
         });

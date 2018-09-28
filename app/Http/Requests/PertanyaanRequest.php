@@ -24,7 +24,7 @@ class PertanyaanRequest extends FormRequest
     public function rules()
     {
         return [
-            'pertanyaan' => 'required'
+            'pertanyaan.*' => 'required'
         ];
     }
 
@@ -36,7 +36,7 @@ class PertanyaanRequest extends FormRequest
     public function messages()
     {
         return [
-            'pertanyaan.required' => 'Pertanyaan Perlu diisi.'
+            'pertanyaan.*.required' => 'Pertanyaan Perlu diisi.'
         ];
     }
 }

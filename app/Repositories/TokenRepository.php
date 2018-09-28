@@ -14,14 +14,6 @@ class TokenRepository
         return $getMataKuliah;
     }
 
-    public function getAllDataWithPagination()
-    {
-        $getMataKuliah = MataKuliah::orderBy('created_at', 'DESC')
-            ->simplePaginate(5);
-        
-        return $getMataKuliah;
-    }
-
     public function getSingleData($id)
     {
         $getMataKuliah = MataKuliah::where('id', '=', $id)
@@ -53,12 +45,12 @@ class TokenRepository
         return $storeTokenData;
     }
 
-    public function updateMataKuliahData($data, $id)
+    public function updateFromSoalData($data, $kode)
     {
-        $updateMataKuliah = MataKuliah::where('id', $id)
+        $updateToken = Token::where('kode_soal', '=', $kode)
             ->update($data);
 
-        return $updateMataKuliah;
+        return $updateToken;
     }
 
     public function updateOnlyStatus($data, $token)

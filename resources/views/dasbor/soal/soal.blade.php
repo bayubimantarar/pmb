@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Soal
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -32,8 +36,6 @@
                     <thead>
                         <tr>
                             <th>Kode Soal</th>
-                            <th>Jenis Ujian</th>
-                            <th>Mata Kuliah</th>
                             <th>Token</th>
                             <th>Status</th>
                             <th>Opsi</th>
@@ -70,8 +72,6 @@
         ajax: '/dasbor/soal/data',
         columns: [
             {data: 'kode'},
-            {data: 'nama_jenis_ujian'},
-            {data: 'nama_mata_kuliah'},
             {data: 'token'},
             {data: 'status'},
             {data: 'action', orderable: false, searchable: false}
@@ -98,30 +98,43 @@
         }
     }
 
-    function aktifkan(id, status)
+    function aktifkan(id, status, kode)
     {
         var tempstatus = status;
         var tempid = id;
 
-        if(tempstatus == 'Belum diaktifkan'){
+        if(tempstatus == 0){
             var confirmation = confirm("Yakin akan mengaktifkan soal ini?");
+            if (confirmation) {
+                $.ajax({
+                    headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '/dasbor/soal/aktifkan/'+id,
+                    type: 'put',
+                    dataType: 'json',
+                    success: function(result){
+                        alert('Soal berhasil diaktifkan');
+                        soal_table.ajax.reload();
+                    }
+                });
+            }
         }else{
             var confirmation = confirm("Yakin akan mengnonaktifkan soal ini?");
-        }
-
-        if (confirmation) {
-            $.ajax({
-                headers: {
-                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '/dasbor/soal/aktifkan/'+id,
-                type: 'put',
-                dataType: 'json',
-                success: function(result){
-                    alert('Data berhasil dihapus!');
-                    soal_table.ajax.reload();
-                }
-            });
+            if (confirmation) {
+                $.ajax({
+                    headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: '/dasbor/soal/nonaktifkan/'+id,
+                    type: 'put',
+                    dataType: 'json',
+                    success: function(result){
+                        alert('Data berhasil dihapus!');
+                        soal_table.ajax.reload();
+                    }
+                });
+            }
         }
       }
     </script>

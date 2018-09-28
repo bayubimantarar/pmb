@@ -29,21 +29,38 @@ class PertanyaanRepository
             Pertanyaan::join(
                 'soal', 'pertanyaan.kode_soal', '=', 'soal.kode'
             )
+            ->join(
+                'jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode'
+            )
+            ->join(
+                'tahun_ajaran', 'soal.kode_tahun_ajaran', '=', 'tahun_ajaran.kode'
+            )
+            ->join(
+                'kelas', 'soal.kode_kelas', '=', 'kelas.kode'
+            )
+            ->join(
+                'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
+            )
+            ->join(
+                'dosen', 'soal.nip', '=', 'dosen.nip'
+            )
             ->select(
-                'pertanyaan.*'
+                'pertanyaan.*', 
+                'soal.nip', 
+                'soal.kode AS kode_soal',
+                'soal.tanggal_ujian',
+                'soal.durasi_ujian',
+                'jenis_ujian.nama AS nama_jenis_ujian',
+                'tahun_ajaran.semester',
+                'tahun_ajaran.tahun',
+                'kelas.nama AS nama_kelas',
+                'mata_kuliah.nama AS nama_mata_kuliah',
+                'dosen.nama AS nama_dosen'
             )
             ->where('soal.kode', '=', $kodesoal)
             ->get();
         
         return $getPertanyaan;
-    }
-
-    public function getAllDataWithPagination()
-    {
-        $getMataKuliah = MataKuliah::orderBy('created_at', 'DESC')
-            ->simplePaginate(5);
-        
-        return $getMataKuliah;
     }
 
     public function getSingleData($id)
@@ -53,17 +70,17 @@ class PertanyaanRepository
         return $getPertanyaan;
     }
 
-    public function getSingleDataForBlogDetail($slug)
+    public function getSingleDataForChecking($kodesoal)
     {
-        $getMataKuliah = MataKuliah::where('slug', '=', $slug)
-            ->firstOrFail();
-
-        return $getMataKuliah;
+        $getPertanyaan = Pertanyaan::where('kode_soal', '=', $kodesoal)
+            ->get();
+        
+        return $getPertanyaan;
     }
 
     public function storePertanyaanData($data)
     {
-        $storePertanyaanData = Pertanyaan::create($data);
+        $storePertanyaanData = Pertanyaan::insert($data);
         
         return $storePertanyaanData;
     }
@@ -71,6 +88,14 @@ class PertanyaanRepository
     public function updatePertanyaanData($data, $id)
     {
         $updatePertanyaan = Pertanyaan::where('id', $id)
+            ->update($data);
+
+        return $updatePertanyaan;
+    }
+
+    public function updatePertanyaanBySoalData($data, $kodesoal)
+    {
+        $updatePertanyaan = Pertanyaan::where('kode_soal', $kodesoal)
             ->update($data);
 
         return $updatePertanyaan;

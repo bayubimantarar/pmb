@@ -2,10 +2,9 @@
 
 namespace App\Rules;
 
-use App\MataKuliah;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckKodeMataKuliah implements Rule
+class CheckSelectedKodeMataKuliah implements Rule
 {
     /**
      * Create a new rule instance.
@@ -26,11 +25,8 @@ class CheckKodeMataKuliah implements Rule
      */
     public function passes($attribute, $value)
     {
-        $matakuliah = MataKuliah::where('kode', $value)
-            ->exists();
-
-        if(empty($matakuliah)){
-            return true;  
+        if($value != 0){
+            return true;
         }else{
             return false;
         }
@@ -43,6 +39,6 @@ class CheckKodeMataKuliah implements Rule
      */
     public function message()
     {
-        return 'Kode mata kuliah sudah ada.';
+        return 'Pilih salah satu mata kuliah';
     }
 }

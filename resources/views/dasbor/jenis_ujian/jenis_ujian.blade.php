@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Jenis Ujian
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">

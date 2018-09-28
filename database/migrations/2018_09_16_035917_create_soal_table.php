@@ -20,10 +20,11 @@ class CreateSoalTable extends Migration
             $table->string('kode_kelas');
             $table->string('kode_jenis_ujian');
             $table->string('kode_mata_kuliah');
-            $table->integer('nip');
+            $table->string('nip');
             $table->string('sifat_ujian')->nullable();
             $table->timestamp('tanggal_ujian');
             $table->integer('durasi_ujian')->nullable();
+            $table->integer('jumlah_pertanyaan');
             $table->timestamps();
         });
     }

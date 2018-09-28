@@ -1,5 +1,9 @@
 @extends('dasbor.layouts.main')
 
+@section('title')
+Dasbor &raquo; Mahasiswa &raquo; Form Tambah Data Mahasiswa
+@endsection
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
