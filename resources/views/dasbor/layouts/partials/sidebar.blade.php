@@ -73,18 +73,7 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> Soal<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/soal"><i class="fa fa-files-o"></i> Data Soal</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Pertanyaan<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                @foreach($soal as $item)
-                                    <li>
-                                        <a href="/dasbor/pertanyaan/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <!-- /.nav-second-level -->
+                        <a href="/dasbor/soal"><i class="fa fa-file-text-o"></i> Data Soal</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

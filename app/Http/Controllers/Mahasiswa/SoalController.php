@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\SoalRepository;
+use App\Repositories\HasilRepository;
 use App\Repositories\TokenRepository;
 use App\Repositories\JawabanRepository;
 use App\Repositories\PertanyaanRepository;
@@ -16,6 +17,7 @@ class SoalController extends Controller
 {
     private $soalRepo;
     private $tokenRepo;
+    private $hasilRepo;
     private $jawabanRepo;
     private $pertanyaanRepo;
 
@@ -23,12 +25,14 @@ class SoalController extends Controller
         SoalRepository $soalRepository,
         TokenRepository $tokenRepo,
         PertanyaanRepository $pertanyaanRepo,
-        JawabanRepository $jawabanRepository
+        JawabanRepository $jawabanRepository,
+        HasilRepository $hasilRepository
     ) {
         $this->soalRepo         = $soalRepository;
         $this->tokenRepo        = $tokenRepo;
         $this->pertanyaanRepo   = $pertanyaanRepo;
         $this->jawabanRepo      = $jawabanRepository;
+        $this->hasilRepo        = $hasilRepository;
     }
 
     /**
@@ -69,47 +73,70 @@ class SoalController extends Controller
             $nomorpertanyaan    = $request->nomor_pertanyaan[$i];
             $jawabanessay       = $request->jawaban_essay;
             $jawabanpilihan     = $request->jawaban_pilihan;
+            $createdAt          = Carbon::now();
 
             if($jenispertanyaan == 'essay'){
                 if(!empty($jawabanessay[$i])){
                     $data[] = [
-                        'nim' => $nim,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
+                        'nim' => $nim,
                         'jawaban_essay' => $jawabanessay[$i],
+                        'jawaban_pilihan' => NULL,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt
                     ];
                 }else{
                     $data[] = [
-                        'nim' => $nim,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
+                        'nim' => $nim,
                         'jawaban_essay' => NULL,
+                        'jawaban_pilihan' => NULL,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt
                     ];
                 }
             }else{
                 if(!empty($jawabanpilihan[$i])){
                     $data[] = [
-                        'nim' => $nim,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
-                        'jawaban_piihan' => $jawabanpilihan[$i],
+                        'nim' => $nim,
+                        'jawaban_essay' => NULL,
+                        'jawaban_pilihan' => $jawabanpilihan[$i],
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt
                     ];
                 }else{
                     $data[] = [
-                        'nim' => $nim,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
+                        'nim' => $nim,
+                        'jawaban_essay' => NULL,
                         'jawaban_pilihan' => NULL,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt
                     ];
                 }
             }
         }
 
+        $dataHasil = [
+            'kode_soal' => $kodesoal,
+            'nim'       => $nim,
+            'status'    => 0
+        ];
+
         $store = $this
             ->jawabanRepo
             ->storeJawabanData($data);
+        
+        $storeHasil = $this
+            ->hasilRepo
+            ->storeHasilData($dataHasil);
 
-        dd($store);
+        return redirect('/mahasiswa');
     }
 
     /**
@@ -186,21 +213,15 @@ class SoalController extends Controller
     
     public function find()
     {
-        $token      = \Request::get('token');
-
-        $dataSoal = $this
-            ->tokenRepo
-            ->getSingleDataForSoal($token);
-
-        $kodeSoal   = $dataSoal->kode_soal;
+        $kodesoal = \Request::get('kode_soal');
 
         $dataPertanyaan = $this
             ->pertanyaanRepo
-            ->getAllDataBySoal($kodeSoal);
+            ->getAllDataBySoal($kodesoal);
 
         $detailSoal = $this
             ->pertanyaanRepo
-            ->getAllDataBySoal($kodeSoal)
+            ->getAllDataBySoal($kodesoal)
             ->first();
 
         $kodesoal       = $detailSoal->kode_soal; 
@@ -213,15 +234,29 @@ class SoalController extends Controller
         $jenisujian     = $detailSoal->nama_jenis_ujian;
         $tanggalujian   = $detailSoal->tanggal_ujian->formatLocalized('%A'.', '.'%d %B %Y');
         $durasi         = $detailSoal->durasi_ujian;
+        $nim = Auth::Guard('mahasiswa')->User()->nim;
 
         $totalPertanyaan = $dataPertanyaan
             ->count();
-        
-        if($dataSoal->status == 0){
-            abort(404);
-        }else{
-            $i = 1;
+
+        $checkMahasiswaHasExam = $this
+            ->jawabanRepo
+            ->checkMahasiswaHasExam($nim, $kodesoal);
+
+        if(!empty($checkMahasiswaHasExam)){
+            $hasExam = 0;
+            
             return view('mahasiswa.ujian.soal', compact(
+                'hasExam',
+                'kodesoal',
+                'matakuliah',
+                'token'
+            ));
+        }else{
+            $hasExam = 1;
+
+            return view('mahasiswa.ujian.soal', compact(
+                'hasExam',
                 'kodesoal',
                 'matakuliah',
                 'token'
@@ -229,7 +264,32 @@ class SoalController extends Controller
         }
     }
 
-    public function startExam($token)
+    public function checkToken($token)
+    {
+        $checkSoal = $this
+            ->tokenRepo
+            ->getSingleDataForSoal($token);
+
+        $status     = $checkSoal->status;
+        $kodesoal   = $checkSoal->kode_soal;
+        $token      = $checkSoal->token;
+
+        if($status == 1){
+            return response()->json([
+                'active' => true,
+                'data' => [
+                    'kode_soal' => $kodesoal,
+                    'token'     => $token
+                ]
+            ], 200);
+        }else{
+            return response()->json([
+                'active' => false
+            ], 200);
+        }
+    }
+
+    public function startExam($kodesoal, $token)
     {
         $dataSoal = $this
             ->tokenRepo
@@ -258,18 +318,17 @@ class SoalController extends Controller
         $tanggalujian       = $detailSoal->tanggal_ujian->formatLocalized('%A'.', '.'%d %B %Y');
         $durasi             = $detailSoal->durasi_ujian;
 
-        $totalPertanyaan = $dataPertanyaan
-            ->count();
+        $totalPertanyaan = $dataPertanyaan->count();
 
-        $nim = Auth::Guard('mahasiswa')
-        ->User()
-        ->nim;
+        $nim = Auth::Guard('mahasiswa')->User()->nim;
 
         $checkMahasiswaHasExam = $this
             ->jawabanRepo
-            ->checkMahasiswaHasExam($kodesoal, $nim);
+            ->checkMahasiswaHasExam($nim, $kodesoal);
 
         if(!empty($checkMahasiswaHasExam)){
+            abort(404);
+        }else{
             if($dataSoal->status == 0){
                 abort(404);
             }else{
@@ -296,8 +355,6 @@ class SoalController extends Controller
                     'dosen'
                 ));
             }
-        }else{
-            abort(404);
         }
     }
 }

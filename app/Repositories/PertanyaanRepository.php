@@ -18,6 +18,7 @@ class PertanyaanRepository
                 'pertanyaan.*'
             )
             ->where('soal.kode', '=', $kodesoal)
+            ->orderBy('pertanyaan.id', 'ASC')
             ->get();
         
         return $getPertanyaan;
@@ -50,6 +51,7 @@ class PertanyaanRepository
                 'soal.kode AS kode_soal',
                 'soal.tanggal_ujian',
                 'soal.durasi_ujian',
+                'soal.jumlah_pertanyaan',
                 'jenis_ujian.nama AS nama_jenis_ujian',
                 'tahun_ajaran.semester',
                 'tahun_ajaran.tahun',

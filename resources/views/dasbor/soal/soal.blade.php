@@ -23,9 +23,6 @@ Dasbor &raquo; Soal
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <p>
-            <a href="/dasbor/soal/form-tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Data Soal</a>
-        </p>
         <div class="panel panel-default">
             <div class="panel-heading">
                 Tabel Data Soal
@@ -36,6 +33,7 @@ Dasbor &raquo; Soal
                     <thead>
                         <tr>
                             <th>Kode Soal</th>
+                            <th>Soal</th>
                             <th>Token</th>
                             <th>Status</th>
                             <th>Opsi</th>
@@ -72,6 +70,7 @@ Dasbor &raquo; Soal
         ajax: '/dasbor/soal/data',
         columns: [
             {data: 'kode'},
+            {data: 'nama_mata_kuliah'},
             {data: 'token'},
             {data: 'status'},
             {data: 'action', orderable: false, searchable: false}

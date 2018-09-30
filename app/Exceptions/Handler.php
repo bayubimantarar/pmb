@@ -64,6 +64,9 @@ class Handler extends ExceptionHandler
             case 'mahasiswa':
                 $login = 'mahasiswa.autentikasi.form_login';
                 break;
+            case 'dosen':
+                $login = 'dosen.autentikasi.form_login';
+                break;
             default:
                 $login = 'dasbor.autentikasi.form_login';
                 break;

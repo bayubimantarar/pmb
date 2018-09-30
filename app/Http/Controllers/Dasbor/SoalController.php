@@ -65,7 +65,11 @@ class SoalController extends Controller
 
         return DataTables::of($soal)
             ->addColumn('action', function($soal){
-                return '<center><a href="#status" onclick="aktifkan('.$soal->id.','.$soal->status.')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a> <a href="/dasbor/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                if($soal->status == 1){
+                    return '<center><a href="#status" onclick="aktifkan('.$soal->id.','.$soal->status.')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a></center>';
+                }else{
+                    return '<center><a href="#status" onclick="aktifkan('.$soal->id.','.$soal->status.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                }
             })
             ->editColumn('status', function($soal){
                 if($soal->status == 1){

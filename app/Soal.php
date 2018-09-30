@@ -25,21 +25,18 @@ class Soal extends Model
         'tanggal_ujian'
     ];
 
-    public function scopeAllDataWithRelationship()
+    public function scopeAllDataWithRelationship($query, $nip)
     {
-        $getSoal = 
-            Soal::join(
-                'jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode'
-            )
-            ->join(
-                'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
-            )
+        $getSoal = $query
+            ->join('jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode')
+            ->join('mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode')
             ->select(
-                'soal.*', 
+                'soal.*',
                 'jenis_ujian.nama AS nama_jenis_ujian',
                 'jenis_ujian.kode AS kode_jenis_ujian',
                 'mata_kuliah.nama AS nama_mata_kuliah'
             )
+            ->where('soal.nip', '=', $nip)
             ->get();
         
         return $getSoal;

@@ -4,10 +4,6 @@
 Dasbor &raquo; Pertanyaan
 @endsection
 
-@push('meta')
-<meta name="kode-soal" content="{{ $tempkodesoal }}">
-@endpush
-
 @section('content')
 <div class="row">
     <div class="col-lg-12">

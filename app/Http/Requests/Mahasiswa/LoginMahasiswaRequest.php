@@ -38,7 +38,7 @@ class LoginMahasiswaRequest extends FormRequest
     {
         return [
             'nim.required' => 'Nomor Induk Mahasiswa perlu diisi',
-            'password.required' => 'Password perlu diisi'
+            'password.required' => 'Kata sandi perlu diisi'
         ];
     }
 }

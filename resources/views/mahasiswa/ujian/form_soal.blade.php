@@ -59,7 +59,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h3><b>Pertanyaan Nomor {{$nomorsoal}}</b></h3>
-                                                <input type="hidden" name="jenis_pertanyaan[{{$i}}]" value="{{$jenispertanyaan}}" />
+                                                <input type="hidden" name="jenis_pertanyaan[{{$i}}]" value="{{ $item->jenis_pertanyaan }}" />
                                                 <input type="hidden" name="nomor_pertanyaan[{{$i}}]" value="{{$item->id}}" />
                                                 @if($item->gambar != null)
                                                     <center>
@@ -77,7 +77,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <h3><b>Pertanyaan Nomor {{$nomorsoal}}</b></h3>
-                                                <input type="hidden" name="jenis_pertanyaan[{{$i}}]" value="{{$jenispertanyaan}}" />
+                                                <input type="hidden" name="jenis_pertanyaan[{{$i}}]" value="{{ $item->jenis_pertanyaan }}" />
                                                 <input type="hidden" name="nomor_pertanyaan[{{$i}}]" value="{{$item->id}}" />
                                                 @if($item->gambar != null)
                                                     <center>
@@ -91,7 +91,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        A) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="{!! $item->pilihan_a !!}" />
+                                                        A) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="a" />
                                                     </label>
                                                     {!! $item->pilihan_a !!}
                                                 </div>
@@ -99,7 +99,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        B) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="{!! $item->pilihan_b !!}" />
+                                                        B) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="b" />
                                                     </label>
                                                     {!! $item->pilihan_b !!}
                                                 </div>
@@ -107,7 +107,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="{!! $item->pilihan_c !!}" />
+                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="c" />
                                                     </label>
                                                     {!! $item->pilihan_c !!}
                                                 </div>
@@ -115,7 +115,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        D) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="{!! $item->pilihan_d !!}" />
+                                                        D) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="d" />
                                                     </label>
                                                     {!! $item->pilihan_d !!}
                                                 </div>
@@ -123,7 +123,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        E) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="{!! $item->pilihan_e !!}" />
+                                                        E) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="e" />
                                                     </label>
                                                     {!! $item->pilihan_e !!}
                                                 </div>

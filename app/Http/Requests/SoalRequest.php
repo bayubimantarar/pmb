@@ -3,11 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
-use App\Rules\CheckSelectedNIPDosen;
-use App\Rules\CheckSelectedKodeKelas;
-use App\Rules\CheckSelectedKodeJenisUjian;
-use App\Rules\CheckSelectedKodeMataKuliah;
-use App\Rules\CheckSelectedKodeTahunAjaran;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SoalRequest extends FormRequest

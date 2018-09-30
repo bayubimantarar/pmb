@@ -24,6 +24,15 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+            <li>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Hasil Ujian<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="/mahasiswa/hasil"><i class="fa fa-book"></i> Data Hasil Ujian</a>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

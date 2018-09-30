@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Auth;
 use App\Soal;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,9 +16,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view) {
-            $soal = Soal::AllDataWithRelationship();
-            
-            $view->with('soal', $soal);
+            if ($view->getName() == 'dosen.layouts.main') {
+                $nip    = Auth::guard('dosen')->User()->nip;
+                $soal   = Soal::AllDataWithRelationship($nip);
+                
+                $view->with('soal', $soal);
+            }
         });
     }
 

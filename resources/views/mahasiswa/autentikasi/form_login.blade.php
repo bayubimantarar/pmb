@@ -40,15 +40,21 @@
                             @endif
                             <fieldset>
                                 <div class="form-group {{$errors->has('nim') ? ' has-error' : ''}}">
-                                    <input class="form-control" placeholder="Nomor Induk Mahasiswa" name="nim" type="number" autofocus>
+                                    <label class="control-label">NIM</label>
+                                    <input class="form-control" name="nim" type="number" autofocus>
                                     @if($errors->has('nim'))
-                                        <p class="text-danger">{{ $errors->first('nim') }}</p>
+                                        <p class="text-danger">
+                                            <i>{{ $errors->first('nim') }}</i>
+                                        </p>
                                     @endif
                                 </div>
                                 <div class="form-group {{$errors->has('password') ? ' has-error' : ''}}">
-                                    <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                    <label class="control-label">Kata Sandi</label>
+                                    <input class="form-control" name="password" type="password" value="">
                                     @if($errors->has('password'))
-                                        <p class="text-danger">{{ $errors->first('password') }}</p>
+                                        <p class="text-danger">
+                                            <i>{{ $errors->first('password') }}</i>
+                                        </p>
                                     @endif
                                 </div>
                                 <input type="submit" class="btn btn-lg btn-primary btn-block" value="Login" />

@@ -3,8 +3,10 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Dosen extends Model
+class Dosen extends Authenticatable
 {
     protected $table = 'dosen';
     protected $guard = 'dosen';
