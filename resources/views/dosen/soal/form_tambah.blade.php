@@ -124,7 +124,7 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                <div class="col-lg-2 col-md-2 col-xs-12">
                                     <div class="form-group {{ $errors->has('sifat_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Sifat Ujian</label>
                                         <input type="text" name="sifat_ujian" class="form-control" value="{{ old('sifat_ujian') }}" />
@@ -136,25 +136,44 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-xs-12">
-                                    <div class="form-group {{$errors->has('tanggal_ujian') ? ' has-error' : ''}}">
-                                        <label class="control-label">Tanggal Ujian</label>
-                                        <div class='input-group date' id='datetimepicker1'>
-                                            <input type="text" name="tanggal_ujian" class="form-control" value="{{ old('tanggal_ujian') }}" />
+                                    <div class="form-group {{$errors->has('tanggal_mulai_ujian') ? ' has-error' : ''}}">
+                                        <label class="control-label">Tanggal Mulai Ujian</label>
+                                        <div class='input-group date' id='tanggal-mulai-ujian'>
+                                            <input type="text" name="tanggal_mulai_ujian" class="form-control" value="{{ old('tanggal_mulai_ujian') }}" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
                                         </div>
-                                        @if($errors->has('tanggal_ujian'))
+                                        @if($errors->has('tanggal_mulai_ujian'))
                                             <p class="text-danger">
-                                                <i>{{ $errors->first('tanggal_ujian') }}</i>
+                                                <i>{{ $errors->first('tanggal_mulai_ujian') }}</i>
                                             </p>
                                         @endif
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-xs-12">
+                                    <div class="form-group {{$errors->has('tanggal_selesai_ujian') ? ' has-error' : ''}}">
+                                        <label class="control-label">Tanggal Selesai Ujian</label>
+                                        <div class='input-group date' id='tanggal-selesai-ujian'>
+                                            <input type="text" name="tanggal_selesai_ujian" class="form-control" value="{{ old('tanggal_selesai_ujian') }}" />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                        @if($errors->has('tanggal_selesai_ujian'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('tanggal_selesai_ujian') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-12">
                                     <div class="form-group {{$errors->has('durasi_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Durasi Ujian</label>
                                         <input type="number" name="durasi_ujian" class="form-control" value="{{ old('durasi_ujian') }}" />
+                                        <p class="help-block">
+                                            <i>Dalam satuan menit</i>
+                                        </p>
                                         @if($errors->has('durasi_ujian'))
                                             <p class="text-danger">
                                                 <i>{{ $errors->first('durasi_ujian') }}</i>
@@ -162,7 +181,7 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                <div class="col-lg-2 col-md-2 col-xs-12">
                                     <div class="form-group {{$errors->has('jumlah_pertanyaan') ? ' has-error' : ''}}">
                                         <label class="control-label">Jumlah Pertanyaan</label>
                                         <input type="number" name="jumlah_pertanyaan" class="form-control" value="{{ old('jumlah_pertanyaan') }}" />
@@ -175,7 +194,7 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <a href="/dasbor/soal" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
+                            <a href="/dosen/soal" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->
@@ -197,7 +216,11 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(document).ready(function(){
-    $('#datetimepicker1').datetimepicker({
+    $('#tanggal-mulai-ujian').datetimepicker({
+        locale: 'id',
+        format:'DD-MM-YYYY HH:mm:ss',
+    });
+    $('#tanggal-selesai-ujian').datetimepicker({
         locale: 'id',
         format:'DD-MM-YYYY HH:mm:ss',
     });

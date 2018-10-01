@@ -30,6 +30,26 @@ class SoalRepository
         return $getSoal;
     }
 
+    public function getAllDataByDosen($nip)
+    {
+        $getSoal = 
+            Soal::join(
+                'jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode'
+            )
+            ->join(
+                'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
+            )
+            ->select(
+                'soal.*',
+                'jenis_ujian.nama AS nama_jenis_ujian',
+                'mata_kuliah.nama AS nama_mata_kuliah'
+            )
+            ->where('soal.nip', '=', $nip)
+            ->get();
+        
+        return $getSoal;
+    }
+
     public function getSingleData($kodesoal)
     {
         $getSoal = 

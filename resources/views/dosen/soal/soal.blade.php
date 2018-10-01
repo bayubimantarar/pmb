@@ -36,9 +36,9 @@ Dosen &raquo; Soal
                     <thead>
                         <tr>
                             <th>Kode Soal</th>
-                            <th>Soal</th>
                             <th>Token</th>
                             <th>Status</th>
+                            <th>Soal</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>

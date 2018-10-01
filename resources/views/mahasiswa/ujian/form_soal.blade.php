@@ -1,5 +1,16 @@
 @extends('mahasiswa.layouts.main')
 
+@push('css')
+<style>
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    background-color: rgba(255, 0, 0, 0.3);
+    top: 20px;
+    text-align: center;
+}
+</style>
+@endpush
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -52,6 +63,10 @@
                                     </div>
                                     </div>
                                 </div>
+                            </div>
+                            <hr />
+                            <div class="sticky">
+                                Sisa waktu <input id="minutes" type="text" style="width: 30px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly> menit <input id="seconds" type="text" style="width: 26px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly>detik
                             </div>
                             @foreach($dataPertanyaan as $item)
                                 @if($item->jenis_pertanyaan == 'essay')
@@ -154,14 +169,53 @@
 @push('js')
 <script src="/assets/vendor/tinymce/js/jquery.tinymce.min.js"></script>
 <script src="/assets/vendor/tinymce/js/tinymce.min.js"></script>
-<script>
+<script type="text/javascript">
 $(document).ready(function(){
     // window.onbeforeunload = function () {
-    //     return "Do you want to leave this page?";
+    //     return "Do you want to leave this ?";
     // };
     tinymce.init({
         mode: "textareas"
     });
+    
 });
+// set minutes
+var mins = 0.1;
+ 
+// calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+var secs = mins * 60;
+function countdown() {
+    setTimeout('Decrement()',1000);
+}
+function Decrement() {
+    if (document.getElementById) {
+        minutes = document.getElementById("minutes");
+        seconds = document.getElementById("seconds");
+        // if less than a minute remaining
+        if (seconds < 59) {
+            seconds.value = secs;
+        } else {
+            minutes.value = getminutes();
+            seconds.value = getseconds();
+        }
+
+        if(minutes.value == 0 && seconds.value == 0){
+            alert('Its over!');
+        }else{
+            secs--;
+            setTimeout('Decrement()',1000);
+        }
+    }
+}
+function getminutes() {
+    // minutes is seconds divided by 60, rounded down
+    mins = Math.floor(secs / 60);
+    return mins;
+}
+function getseconds() {
+    // take mins remaining (as seconds) away from total seconds remaining
+    return secs-Math.round(mins *60);
+}
+countdown();
 </script>
 @endpush

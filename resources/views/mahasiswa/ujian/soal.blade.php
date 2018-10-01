@@ -63,7 +63,7 @@
 <script>
 function startExam(){
     $.confirm({
-    title: 'Prompt!',
+    title: 'Mulai ujian',
     content: '' +
     '<form action="" class="formName">' +
     '<div class="form-group">' +

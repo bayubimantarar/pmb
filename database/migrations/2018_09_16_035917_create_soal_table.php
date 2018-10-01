@@ -22,7 +22,8 @@ class CreateSoalTable extends Migration
             $table->string('kode_mata_kuliah');
             $table->string('nip');
             $table->string('sifat_ujian')->nullable();
-            $table->timestamp('tanggal_ujian');
+            $table->timestamp('tanggal_mulai_ujian');
+            $table->timestamp('tanggal_selesai_ujian');
             $table->integer('durasi_ujian')->nullable();
             $table->integer('jumlah_pertanyaan');
             $table->timestamps();

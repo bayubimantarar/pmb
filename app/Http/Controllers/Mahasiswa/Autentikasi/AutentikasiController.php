@@ -21,7 +21,7 @@ class AutentikasiController extends Controller
 
         if(Auth::guard('mahasiswa')->attempt(['nim' => $nim, 'password' => $password])){
             return redirect()
-                ->intended('/');
+                ->intended('/mahasiswa');
         }
         
         return redirect()

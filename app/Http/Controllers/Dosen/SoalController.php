@@ -64,9 +64,18 @@ class SoalController extends Controller
      */
     public function data()
     {
+        $nip = Auth::guard('dosen')->user()->nip;
+
         $soal = $this
             ->soalRepo
-            ->getAllData();
+            ->getAllData($nip);
+
+        // return DataTables::of($soal)
+        //     ->addColumn('action', function($soal){
+        //         return '<center><a href="/dosen/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+        //     })
+        //     ->rawColumns(['action'])
+        //     ->make(true);
 
         return DataTables::of($soal)
             ->addColumn('action', function($soal){
@@ -148,29 +157,31 @@ class SoalController extends Controller
      */
     public function store(SoalRequest $soalReq)
     {
-        $kodetahunajaran    = $soalReq->kode_tahun_ajaran;
-        $kodekelas          = $soalReq->kode_kelas;
-        $kodejenisujian     = $soalReq->kode_jenis_ujian;
-        $kodematakuliah     = $soalReq->kode_mata_kuliah;
-        $kodesoal           = $soalReq->kode;
-        $nip                = Auth::guard('dosen')->user()->nip;
-        $sifatujian         = $soalReq->sifat_ujian;
-        $tanggalujian       = Carbon::parse($soalReq->tanggal_ujian);
-        $durasiujian        = $soalReq->durasi_ujian;
-        $jumlahpertanyaan   = $soalReq->jumlah_pertanyaan;
-        $token              = Keygen::numeric(5)->generate();
+        $kodetahunajaran        = $soalReq->kode_tahun_ajaran;
+        $kodekelas              = $soalReq->kode_kelas;
+        $kodejenisujian         = $soalReq->kode_jenis_ujian;
+        $kodematakuliah         = $soalReq->kode_mata_kuliah;
+        $kodesoal               = $soalReq->kode;
+        $nip                    = Auth::guard('dosen')->user()->nip;
+        $sifatujian             = $soalReq->sifat_ujian;
+        $tanggalmulaiujian      = Carbon::parse($soalReq->tanggal_mulai_ujian);
+        $tanggalselesaiujian    = Carbon::parse($soalReq->tanggal_selesai_ujian);
+        $durasiujian            = $soalReq->durasi_ujian;
+        $jumlahpertanyaan       = $soalReq->jumlah_pertanyaan;
+        $token                  = Keygen::numeric(5)->generate();
 
         $data = [
-            'kode'              => $kodesoal,
-            'kode_tahun_ajaran' => $kodetahunajaran,
-            'kode_kelas'        => $kodekelas,
-            'kode_jenis_ujian'  => $kodejenisujian,
-            'kode_mata_kuliah'  => $kodematakuliah,
-            'nip'               => $nip,
-            'sifat_ujian'       => $sifatujian,
-            'tanggal_ujian'     => $tanggalujian,
-            'durasi_ujian'      => $durasiujian,
-            'jumlah_pertanyaan' => $jumlahpertanyaan
+            'kode'                  => $kodesoal,
+            'kode_tahun_ajaran'     => $kodetahunajaran,
+            'kode_kelas'            => $kodekelas,
+            'kode_jenis_ujian'      => $kodejenisujian,
+            'kode_mata_kuliah'      => $kodematakuliah,
+            'nip'                   => $nip,
+            'sifat_ujian'           => $sifatujian,
+            'tanggal_mulai_ujian'   => $tanggalmulaiujian,
+            'tanggal_selesai_ujian' => $tanggalselesaiujian,
+            'durasi_ujian'          => $durasiujian,
+            'jumlah_pertanyaan'     => $jumlahpertanyaan
         ];
 
         $dataForToken = [
@@ -233,29 +244,18 @@ class SoalController extends Controller
             ->tahunajaranRepo
             ->getAllData();
 
-        $id                 = $id;
-        $kodesoal           = $soal->kode;
-        $kodejenisujian     = $soal->kode_jenis_ujian;
-        $kodematakuliah     = $soal->kode_mata_kuliah;
-        $kodekelas          = $soal->kode_kelas;
-        $kodetahunajaran    = $soal->kode_tahun_ajaran;
-        $nip                = $soal->nip;
-        $tanggalujian       = $soal->tanggal_ujian;
-        $durasiujian        = $soal->durasi_ujian;
-        $sifatujian         = $soal->sifat_ujian;
-        $jumlahpertanyaan   = $soal->jumlah_pertanyaan;
+        $tanggalmulaiujian      = $soal
+            ->tanggal_mulai_ujian
+            ->format('d-m-Y h:i:s');
 
+        $tanggalselesaiujian    = $soal
+            ->tanggal_selesai_ujian
+            ->format('d-m-Y h:i:s');
+        
         return view('dosen.soal.form_ubah', compact(
-            'id',
-            'kodesoal',
-            'kodejenisujian',
-            'kodematakuliah',
-            'kodekelas',
-            'kodetahunajaran',
-            'nip',
-            'jumlahpertanyaan',
-            'tanggalujian',
-            'sifatujian',
+            'soal',
+            'tanggalmulaiujian',
+            'tanggalselesaiujian',
             'durasiujian',
             'jenisujian',
             'matakuliah',
@@ -278,17 +278,18 @@ class SoalController extends Controller
             ->soalRepo
             ->getSingleDataForEdit($id);
 
-        $oldkodesoal        = $getOldKodeSoal->kode;
-        $kodetahunajaran    = $soalReq->kode_tahun_ajaran;
-        $kodekelas          = $soalReq->kode_kelas;
-        $kodejenisujian     = $soalReq->kode_jenis_ujian;
-        $kodematakuliah     = $soalReq->kode_mata_kuliah;
-        $kode               = $soalReq->kode;
-        $nip                = Auth::guard('dosen')->user()->nip;
-        $sifatujian         = $soalReq->sifat_ujian;
-        $tanggalujian       = Carbon::parse($soalReq->tanggal_ujian);
-        $durasiujian        = $soalReq->durasi_ujian;
-        $jumlahpertanyaan   = $soalReq->jumlah_pertanyaan;
+        $oldkodesoal            = $getOldKodeSoal->kode;
+        $kodetahunajaran        = $soalReq->kode_tahun_ajaran;
+        $kodekelas              = $soalReq->kode_kelas;
+        $kodejenisujian         = $soalReq->kode_jenis_ujian;
+        $kodematakuliah         = $soalReq->kode_mata_kuliah;
+        $kode                   = $soalReq->kode;
+        $nip                    = Auth::guard('dosen')->user()->nip;
+        $sifatujian             = $soalReq->sifat_ujian;
+        $tanggalmulaiujian      = Carbon::parse($soalReq->tanggal_mulai_ujian);
+        $tanggalselesaiujian    = Carbon::parse($soalReq->tanggal_selesai_ujian);
+        $durasiujian            = $soalReq->durasi_ujian;
+        $jumlahpertanyaan       = $soalReq->jumlah_pertanyaan;
 
         $checkPertanyaan = $this
             ->pertanyaanRepo
@@ -296,33 +297,34 @@ class SoalController extends Controller
 
         if(empty($checkPertanyaan)){
             $data = [
-                'kode'              => $kode,
-                'kode_tahun_ajaran' => $kodetahunajaran,
-                'kode_kelas'        => $kodekelas,
-                'kode_jenis_ujian'  => $kodejenisujian,
-                'kode_mata_kuliah'  => $kodematakuliah,
-                'nip'               => $nip,
-                'sifat_ujian'       => $sifatujian,
-                'tanggal_ujian'     => $tanggalujian,
-                'durasi_ujian'      => $durasiujian,
-                'jumlah_pertanyaan' => $jumlahpertanyaan
+                'kode'                  => $kode,
+                'kode_tahun_ajaran'     => $kodetahunajaran,
+                'kode_kelas'            => $kodekelas,
+                'kode_jenis_ujian'      => $kodejenisujian,
+                'kode_mata_kuliah'      => $kodematakuliah,
+                'nip'                   => $nip,
+                'sifat_ujian'           => $sifatujian,
+                'tanggal_mulai_ujian'   => $tanggalmulaiujian,
+                'tanggal_selesai_ujian' => $tanggalselesaiujian,
+                'durasi_ujian'          => $durasiujian,
+                'jumlah_pertanyaan'     => $jumlahpertanyaan
             ];
 
             $dataPertanyaan = [
                 'kode_soal' => $kode
             ];
 
-            $dataToken = [
-                'kode_soal' => $kode
-            ];
+            // $dataToken = [
+            //     'kode_soal' => $kode
+            // ];
 
             $update = $this
                 ->soalRepo
                 ->updateSoalData($data, $id);
 
-            $updateToken = $this
-                ->tokenRepo
-                ->updateFromSoalData($dataToken, $oldkodesoal);
+            // $updateToken = $this
+            //     ->tokenRepo
+            //     ->updateFromSoalData($dataToken, $oldkodesoal);
 
             $updatePertanyaan = $this
                 ->pertanyaanRepo
@@ -331,16 +333,17 @@ class SoalController extends Controller
             return redirect('/dosen/soal');
         }else{
             $data = [
-                'kode'              => $kode,
-                'kode_tahun_ajaran' => $kodetahunajaran,
-                'kode_kelas'        => $kodekelas,
-                'kode_jenis_ujian'  => $kodejenisujian,
-                'kode_mata_kuliah'  => $kodematakuliah,
-                'nip'               => $nip,
-                'sifat_ujian'       => $sifatujian,
-                'tanggal_ujian'     => $tanggalujian,
-                'durasi_ujian'      => $durasiujian,
-                'jumlah_pertanyaan' => $jumlahpertanyaan
+                'kode'                  => $kode,
+                'kode_tahun_ajaran'     => $kodetahunajaran,
+                'kode_kelas'            => $kodekelas,
+                'kode_jenis_ujian'      => $kodejenisujian,
+                'kode_mata_kuliah'      => $kodematakuliah,
+                'nip'                   => $nip,
+                'sifat_ujian'           => $sifatujian,
+                'tanggal_mulai_ujian'   => $tanggalmulaiujian,
+                'tanggal_selesai_ujian' => $tanggalselesaiujian,
+                'durasi_ujian'          => $durasiujian,
+                'jumlah_pertanyaan'     => $jumlahpertanyaan
             ];
 
             $dataToken = [

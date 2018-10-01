@@ -17,12 +17,14 @@ class Soal extends Model
         'kode_mata_kuliah',
         'nip',
         'sifat_ujian',
-        'tanggal_ujian',
+        'tanggal_mulai_ujian',
+        'tanggal_selesai_ujian',
         'durasi_ujian',
         'jumlah_pertanyaan'
     ];
     protected $dates = [
-        'tanggal_ujian'
+        'tanggal_mulai_ujian',
+        'tanggal_selesai_ujian'
     ];
 
     public function scopeAllDataWithRelationship($query, $nip)

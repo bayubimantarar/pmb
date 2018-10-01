@@ -23,6 +23,7 @@ class Pertanyaan extends Model
         'bobot'
     ];
     protected $dates = [
-        'tanggal_ujian'
+        'tanggal_mulai_ujian',
+        'tanggal_selesai_ujian'
     ];
 }

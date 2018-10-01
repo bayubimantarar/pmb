@@ -232,9 +232,11 @@ class SoalController extends Controller
         $matakuliah     = $detailSoal->nama_mata_kuliah;
         $dosen          = $detailSoal->nama_dosen;
         $jenisujian     = $detailSoal->nama_jenis_ujian;
-        $tanggalujian   = $detailSoal->tanggal_ujian->formatLocalized('%A'.', '.'%d %B %Y');
-        $durasi         = $detailSoal->durasi_ujian;
+        $tanggalmulaiujian      = $detailSoal->tanggal_mulai_ujian->formatLocalized('%A'.', '.'%d %B %Y');
+        $tanggalselesaiujian    = $detailSoal->tanggal_selesai_ujian->formatLocalized('%A'.', '.'%d %B %Y');
+        $durasi                 = $detailSoal->durasi_ujian;
         $nim = Auth::Guard('mahasiswa')->User()->nim;
+        $tanggalsekarang = Carbon::now();
 
         $totalPertanyaan = $dataPertanyaan
             ->count();
@@ -243,20 +245,28 @@ class SoalController extends Controller
             ->jawabanRepo
             ->checkMahasiswaHasExam($nim, $kodesoal);
 
-        if(!empty($checkMahasiswaHasExam)){
-            $hasExam = 0;
-            
+        if(
+            $tanggalsekarang >= $detailSoal->tanggal_mulai_ujian && 
+            $tanggalsekarang <= $detailSoal->tanggal_selesai_ujian &&
+            empty($checkMahasiswaHasExam)
+        ) {
+            $hasExam    = 1;
+            $examDate   = 1;
+                
             return view('mahasiswa.ujian.soal', compact(
                 'hasExam',
+                'examDate',
                 'kodesoal',
                 'matakuliah',
                 'token'
             ));
         }else{
-            $hasExam = 1;
+            $hasExam    = 0;
+            $examDate   = 0;
 
             return view('mahasiswa.ujian.soal', compact(
                 'hasExam',
+                'examDate',
                 'kodesoal',
                 'matakuliah',
                 'token'
@@ -315,7 +325,7 @@ class SoalController extends Controller
         $matakuliah         = $detailSoal->nama_mata_kuliah;
         $dosen              = $detailSoal->nama_dosen;
         $jenisujian         = $detailSoal->nama_jenis_ujian;
-        $tanggalujian       = $detailSoal->tanggal_ujian->formatLocalized('%A'.', '.'%d %B %Y');
+        $tanggalujian       = $detailSoal->tanggal_mulai_ujian->formatLocalized('%A'.', '.'%d %B %Y');
         $durasi             = $detailSoal->durasi_ujian;
 
         $totalPertanyaan = $dataPertanyaan->count();

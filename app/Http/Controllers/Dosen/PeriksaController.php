@@ -169,9 +169,7 @@ class PeriksaController extends Controller
             ->hasilRepo
             ->updateHasilData($nim, $kodesoal, $dataHasil);
 
-        dd($update);
-
-        // return $total = array_sum(array_intersect_key($data, array_flip($nilai)));
+        return redirect('/dosen');
     }
 
     /**
