@@ -25,7 +25,7 @@ class TokenRepository
     public function getSingleDataForSoal($token)
     {
         $getToken = Token::where('token', '=', $token)
-            ->firstOrFail();
+            ->first();
             
         return $getToken;
     }

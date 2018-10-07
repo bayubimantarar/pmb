@@ -117,6 +117,16 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                                             </div>
                                                         </div>
                                                     </div>
+                                                @else
+                                                    <div class="row">
+                                                        <div class="col-md-7">
+                                                            <div class="form-group">
+                                                                <label for="">Bobot Nilai</label>
+                                                                <input type="number" class="form-control" name="bobot[]" value="0" readonly />
+                                                                <p class="help-block"><i>Bobot nilai maksimal 10</i></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             @elseif($item->jawaban_pilihan == 'd')
                                                 <b>D)</b> {!! $item->pilihan_d !!}

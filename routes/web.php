@@ -448,5 +448,19 @@ Route::group(['prefix' => 'dosen'], function(){
                 'as'    => 'dosen.periksa.simpan'
             ]);
         });
+        Route::group(['prefix' => 'nilai'], function(){
+            Route::get('/{kodesoal}', [
+                'uses'  => 'Dosen\NilaiController@index',
+                'as'    => 'dosen.periksa'
+            ]);
+            Route::get('/{kodesoal}/data', [
+                'uses'  => 'Dosen\NilaiController@data',
+                'as'    => 'dosen.data.periksa'
+            ]);
+            Route::get('/{kodesoal}/{nim}/', [
+                'uses'  => 'Dosen\NilaiController@checkAnswer',
+                'as'    => 'dosen.data.form_periksa'
+            ]);
+        });
     });
 });

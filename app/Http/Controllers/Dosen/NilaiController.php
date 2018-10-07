@@ -11,7 +11,7 @@ use App\Repositories\HasilRepository;
 use App\Repositories\PertanyaanRepository;
 use App\Http\Requests\Dosen\PeriksaRequest;
 
-class PeriksaController extends Controller
+class NilaiController extends Controller
 {
     private $hasilRepo;
     private $jawabanRepo;
@@ -38,24 +38,24 @@ class PeriksaController extends Controller
 
         $jawaban = $this
             ->jawabanRepo
-            ->getSingleDataByDosenForPeriksa($kodesoal);
+            ->getSingleDataByDosenForNilai($kodesoal);
 
         return DataTables::of($jawaban)
-            ->addColumn('action', function($jawaban){
-                if($jawaban->status == 1){
-                    return '<center><a href="/dosen/periksa/'.$jawaban->kode.'/'.$jawaban->nim.'/form-periksa" class="btn btn-success btn-xs disabled"><i class="fa fa-edit"></i></a> </center>';
-                }else{
-                    return '<center><a href="/dosen/periksa/'.$jawaban->kode.'/'.$jawaban->nim.'/form-periksa" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a> </center>';
-                }                
-            })
-            ->editColumn('status', function($jawaban){
-                if($jawaban->status == 1){
-                    return '<center><span class="label label-success">Sudah diperiksa</span></center>';
-                }else{
+            ->editColumn('nilai_angka', function($jawaban){
+                if($jawaban->nilai_angka == NULL){
                     return '<center><span class="label label-danger">Belum diperiksa</span></center>';
+                }else{
+                    return $jawaban->nilai_angka;
                 }
             })
-            ->rawColumns(['action', 'status'])
+            ->editColumn('nilai_huruf', function($jawaban){
+                if($jawaban->nilai_angka == NULL){
+                    return '<center><span class="label label-danger">Belum diperiksa</span></center>';
+                }else{
+                    return $jawaban->nilai_huruf;
+                }
+            })
+            ->rawColumns(['nilai_angka', 'nilai_huruf'])
             ->make(true);
     }
 
@@ -66,7 +66,7 @@ class PeriksaController extends Controller
      */
     public function index($kodesoal)
     {
-        return view('dosen.periksa.periksa', compact(
+        return view('dosen.nilai.nilai', compact(
             'kodesoal'
         ));
     }

@@ -41,7 +41,14 @@ class HasilController extends Controller
                     return $hasil->nilai_angka;
                 }
             })
-            ->rawColumns(['action', 'tahun_ajaran', 'nilai_angka'])
+            ->editColumn('nilai_huruf', function($hasil){
+                if($hasil->nilai_angka == NULL){
+                    return '<center><span class="label label-danger">Belum diperiksa</span></center>';
+                }else{
+                    return $hasil->nilai_huruf;
+                }
+            })
+            ->rawColumns(['action', 'tahun_ajaran', 'nilai_angka', 'nilai_huruf'])
             ->make(true);
     }
 

@@ -11,7 +11,7 @@ Dosen &raquo; Periksa
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Periksa Jawaban</h1>
+        <h1 class="page-header">Data Nilai</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -20,7 +20,7 @@ Dosen &raquo; Periksa
     <div class="col-lg-12">
         <ul class="breadcrumb">
             <li><a href="/dasbor">Dosen</a></li>
-            <li class="active">Periksa Jawaban</li>
+            <li class="active">Data Nilai</li>
         </ul>
     </div>
 </div>
@@ -35,7 +35,7 @@ Dosen &raquo; Periksa
         @endif
         <div class="panel panel-default">
             <div class="panel-heading">
-                Tabel Data Periksa
+                Tabel Data Nilai
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -45,8 +45,8 @@ Dosen &raquo; Periksa
                             <th>Kode Soal</th>
                             <th>NIM</th>
                             <th>Nama Mahasiswa</th>
-                            <th>Status</th>
-                            <th>Opsi</th>
+                            <th>Nilai Angka</th>
+                            <th>Nilai Huruf</th>
                         </tr>
                     </thead>
                 </table>
@@ -79,13 +79,13 @@ Dosen &raquo; Periksa
     var jawaban_table = $('#jawaban-table').DataTable({
         serverSide: true,
         processing: true,
-        ajax: '/dosen/periksa/'+kodesoal+'/data/',
+        ajax: '/dosen/nilai/'+kodesoal+'/data/',
         columns: [
             {data: 'kode'},
             {data: 'nim'},
             {data: 'nama_mahasiswa'},
-            {data: 'status'},
-            {data: 'action', orderable: false, searchable: false}
+            {data: 'nilai_angka'},
+            {data: 'nilai_huruf'}
         ]
     });
     </script>

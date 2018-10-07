@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\TokenRepository;
 use App\Repositories\KelasRepository;
 use App\Repositories\DosenRepository;
+use App\Repositories\HasilRepository;
 use App\Repositories\JawabanRepository;
 use App\Repositories\JenisUjianRepository;
 use App\Repositories\MataKuliahRepository;
@@ -26,6 +27,7 @@ class SoalController extends Controller
     private $tokenRepo;
     private $dosenRepo;
     private $kelasRepo;
+    private $hasilRepo;
     private $jawabanRepo;
     private $jenisujianRepo;
     private $matakuliahRepo;
@@ -35,6 +37,7 @@ class SoalController extends Controller
 
     public function __construct(
         SoalRepository $soalRepository,
+        HasilRepository $hasilRepository,
         TokenRepository $tokenRepository,
         DosenRepository $dosenRepository,
         KelasRepository $kelasRepository,
@@ -49,6 +52,7 @@ class SoalController extends Controller
         $this->tokenRepo        = $tokenRepository;
         $this->kelasRepo        = $kelasRepository;
         $this->dosenRepo        = $dosenRepository;
+        $this->hasilRepo        = $hasilRepository;
         $this->jawabanRepo      = $jawabanRepository;
         $this->pertanyaanServe  = $pertanyaanService;
         $this->jenisujianRepo   = $jenisujianRepository;
@@ -460,9 +464,17 @@ class SoalController extends Controller
             ->tokenRepo
             ->destroyTokenData($token);
 
+        $destroyJawaban = $this
+            ->jawabanRepo
+            ->destroyJawabanData($kodeSoal);
+
+        $destroyHasil = $this
+            ->hasilRepo
+            ->destroyHasilData($kodeSoal);
+
         return response()
             ->json([
-                'destroyed' => true
+                'destroyed' => TRUE
             ], 200);
     }
 }

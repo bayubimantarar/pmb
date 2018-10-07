@@ -16,7 +16,7 @@ class HasilRepository
             ->join('mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode')
             ->join('tahun_ajaran', 'soal.kode_tahun_ajaran', '=', 'tahun_ajaran.kode')
             ->join('jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode')
-            ->select('hasil.kode_soal', 'mata_kuliah.nama AS nama_mata_kuliah', 'tahun_ajaran.tahun AS tahun_ajaran', 'tahun_ajaran.semester AS semester', 'jenis_ujian.nama AS nama_jenis_ujian', 'hasil.nilai_angka')
+            ->select('hasil.kode_soal', 'mata_kuliah.nama AS nama_mata_kuliah', 'tahun_ajaran.tahun AS tahun_ajaran', 'tahun_ajaran.semester AS semester', 'jenis_ujian.nama AS nama_jenis_ujian', 'hasil.nilai_angka', 'hasil.nilai_huruf')
             ->where('hasil.nim', '=', $nim)
             ->get();
         
@@ -38,4 +38,12 @@ class HasilRepository
         
         return $updateHasil;
     }    
+
+    public function destroyHasilData($kodesoal)
+    {
+        $destroyHasil = Hasil::where('kode_soal', '=', $kodesoal)
+            ->delete();
+
+        return $destroyHasil;
+    }
 }

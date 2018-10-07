@@ -37,12 +37,37 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">#Tata cara penggunaan aplikasi</a>
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">#Tata Cara Penggunaan Aplikasi</a>
                                     </h4>
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        <ul class="timeline">
+                                            <li>
+                                                <div class="timeline-badge"><i class="fa fa-sign-in"></i>
+                                                </div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <h4 class="timeline-title"><b>Masuk Ke Aplikasi</b></h4>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <small>Masuk menggunakan email dan password masing-masing pengguna</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="timeline-inverted">
+                                                <div class="timeline-badge primary"><i class="fa fa-dashboard"></i>
+                                                </div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <h4 class="timeline-title"><b>Kelola Data</b></h4>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <small>Kelola semua data pada dasbor, disana tersedia menu-menu data yang bisa dikelola oleh pengguna</small>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

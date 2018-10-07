@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Auth;
 use App\Soal;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+        
         view()->composer('*', function ($view) {
             if ($view->getName() == 'dosen.layouts.main') {
                 $nip    = Auth::guard('dosen')->User()->nip;

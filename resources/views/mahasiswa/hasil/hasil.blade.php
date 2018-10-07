@@ -42,7 +42,8 @@ Mahasiswa &raquo; Hasil
                             <th>Mata Kuliah</th>
                             <th>Tahun Ajaran</th>
                             <th>Ujian</th>
-                            <th>Nilai</th>
+                            <th>Nilai Angka</th>
+                            <th>Nilai Huruf</th>
                         </tr>
                     </thead>
                 </table>
@@ -79,7 +80,8 @@ Mahasiswa &raquo; Hasil
             {data: 'nama_mata_kuliah'},
             {data: 'tahun_ajaran'},
             {data: 'nama_jenis_ujian'},
-            {data: 'nilai_angka'}
+            {data: 'nilai_angka'},
+            {data: 'nilai_huruf'}
         ]
       });
     </script>

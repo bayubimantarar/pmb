@@ -52,6 +52,23 @@
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+            <li>
+                <a href="#"><i class="fa fa-book fa-fw"></i> Nilai<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Soal<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @foreach($soal as $item)
+                                    <li>
+                                        <a href="/dosen/nilai/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            <!-- /.nav-second-level -->
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

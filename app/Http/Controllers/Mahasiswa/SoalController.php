@@ -280,18 +280,23 @@ class SoalController extends Controller
             ->tokenRepo
             ->getSingleDataForSoal($token);
 
-        $status     = $checkSoal->status;
-        $kodesoal   = $checkSoal->kode_soal;
-        $token      = $checkSoal->token;
-
-        if($status == 1){
-            return response()->json([
-                'active' => true,
-                'data' => [
-                    'kode_soal' => $kodesoal,
-                    'token'     => $token
-                ]
-            ], 200);
+        if(!empty($checkSoal)){
+            $status     = $checkSoal->status;
+            $kodesoal   = $checkSoal->kode_soal;
+            $token      = $checkSoal->token;
+            if($status == 1){
+                return response()->json([
+                    'active' => true,
+                    'data' => [
+                        'kode_soal' => $kodesoal,
+                        'token'     => $token
+                    ]
+                ], 200);
+            }else{
+                return response()->json([
+                    'active' => false
+                ], 200);
+            }
         }else{
             return response()->json([
                 'active' => false

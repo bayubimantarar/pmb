@@ -40,6 +40,20 @@ class JawabanRepository
         return $getJawaban;
     }
 
+    public function getSingleDataByDosenForNilai($kodesoal)
+    {
+        $getJawaban = Jawaban::join('mahasiswa', 'jawaban.nim', '=', 'mahasiswa.nim')
+        ->join('soal', 'jawaban.kode_soal', '=', 'soal.kode')
+        ->join('hasil', 'jawaban.nim', '=', 'hasil.nim')
+        ->select('jawaban.*','soal.kode', 'mahasiswa.nim', 'mahasiswa.nama AS nama_mahasiswa', 'hasil.status', 'hasil.kode_soal', 'hasil.nilai_angka', 'hasil.nilai_huruf')
+        ->where('soal.kode', '=', $kodesoal)
+        ->where('hasil.kode_soal', '=', $kodesoal)
+        ->groupBy('mahasiswa.nim')
+        ->get();
+
+        return $getJawaban;
+    }
+
     public function getSingleDataByDosenForPeriksaJawaban($nim, $kodesoal)
     {
         $getJawaban = Jawaban::join('mahasiswa', 'jawaban.nim', '=', 'mahasiswa.nim')
@@ -51,5 +65,13 @@ class JawabanRepository
             ->get();
 
         return $getJawaban;
+    }
+
+    public function destroyJawabanData($kodesoal)
+    {
+        $destroyJawaban = Jawaban::where('kode_soal', '=', $kodesoal)
+            ->delete();
+
+        return $destroyJawaban;
     }
 }

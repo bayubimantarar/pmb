@@ -66,7 +66,7 @@
                             </div>
                             <hr />
                             <div class="sticky">
-                                Sisa waktu <input id="minutes" type="text" style="width: 30px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly> menit <input id="seconds" type="text" style="width: 26px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly>detik
+                                Sisa waktu <input id="minutes" type="text" style="width: 27px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly> menit <input id="seconds" type="text" style="width: 20px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly>detik
                             </div>
                             @foreach($dataPertanyaan as $item)
                                 @if($item->jenis_pertanyaan == 'essay')
@@ -122,7 +122,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="c" />
+                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="c" readonly />
                                                     </label>
                                                     {!! $item->pilihan_c !!}
                                                 </div>
@@ -175,12 +175,13 @@ $(document).ready(function(){
     //     return "Do you want to leave this ?";
     // };
     tinymce.init({
-        mode: "textareas"
+        mode: "textareas",
+        readonly: 0
     });
     
 });
 // set minutes
-var mins = 0.1;
+var mins = {{ $durasi }};
  
 // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
 var secs = mins * 60;
@@ -200,7 +201,9 @@ function Decrement() {
         }
 
         if(minutes.value == 0 && seconds.value == 0){
-            alert('Its over!');
+            alert('Waktu sudah habis, silahkan simpan ujiannya.');
+            $(':radio:not(:checked)').attr('disabled', true);
+            tinymce.activeEditor.getBody().setAttribute('contenteditable', false);
         }else{
             secs--;
             setTimeout('Decrement()',1000);
