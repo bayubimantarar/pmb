@@ -10,6 +10,14 @@ use App\Hasil;
 
 class HasilRepository
 {
+    public function checkHasilDataBySoal($kodeSoal)
+    {
+        $getHasil = Hasil::where('kode_soal', '=', $kodeSoal)
+            ->get();
+
+        return $getHasil;
+    }
+
     public function getAllHasilData($nim)
     {
         $getHasil = Hasil::join('soal', 'hasil.kode_soal', '=', 'soal.kode')
@@ -39,9 +47,9 @@ class HasilRepository
         return $updateHasil;
     }    
 
-    public function destroyHasilData($kodesoal)
+    public function destroyHasilData($kodeSoal)
     {
-        $destroyHasil = Hasil::where('kode_soal', '=', $kodesoal)
+        $destroyHasil = Hasil::where('kode_soal', '=', $kodeSoal)
             ->delete();
 
         return $destroyHasil;

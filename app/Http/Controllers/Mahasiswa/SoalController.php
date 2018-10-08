@@ -321,17 +321,20 @@ class SoalController extends Controller
             ->getAllDataBySoal($kodeSoal)
             ->first();
 
-        $kodesoal           = $detailSoal->kode_soal; 
-        $jenispertanyaan    = $detailSoal->jenis_pertanyaan;
-        $semester           = $detailSoal->semester;
-        $tahun              = $detailSoal->tahun;
-        $nip                = $detailSoal->nip;
-        $kelas              = $detailSoal->nama_kelas;
-        $matakuliah         = $detailSoal->nama_mata_kuliah;
-        $dosen              = $detailSoal->nama_dosen;
-        $jenisujian         = $detailSoal->nama_jenis_ujian;
-        $tanggalujian       = $detailSoal->tanggal_mulai_ujian->formatLocalized('%A'.', '.'%d %B %Y');
-        $durasi             = $detailSoal->durasi_ujian;
+        $kodesoal               = $detailSoal->kode_soal; 
+        $jenispertanyaan        = $detailSoal->jenis_pertanyaan;
+        $semester               = $detailSoal->semester;
+        $tahun                  = $detailSoal->tahun;
+        $nip                    = $detailSoal->nip;
+        $kelas                  = $detailSoal->nama_kelas;
+        $matakuliah             = $detailSoal->nama_mata_kuliah;
+        $dosen                  = $detailSoal->nama_dosen;
+        $jenisujian             = $detailSoal->nama_jenis_ujian;
+        $tanggalujian           = $detailSoal->tanggal_mulai_ujian->formatLocalized('%A'.', '.'%d %B %Y');
+        $tanggalselesaiujian    = $detailSoal->tanggal_selesai_ujian;
+        $durasi                 = $detailSoal->durasi_ujian;
+
+        $tanggal_sekarang = Carbon::now();
 
         $totalPertanyaan = $dataPertanyaan->count();
 
@@ -360,7 +363,10 @@ class SoalController extends Controller
                     'nomorsoal',
                     'nip',
                     'jenisujian',
+                    'tanggalselesaiujian',
+                    'durasiujian',
                     'tanggalujian',
+                    'durasiujian',
                     'durasi',
                     'kodesoal',
                     'tahun',

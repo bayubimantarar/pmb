@@ -7,7 +7,6 @@ use Keygen;
 use App\Soal;
 use DataTables;
 use Carbon\Carbon;
-use App\Http\Requests\Dosen\SoalRequest;
 use App\Services\PertanyaanService;
 use App\Repositories\SoalRepository;
 use App\Http\Controllers\Controller;
@@ -16,6 +15,7 @@ use App\Repositories\KelasRepository;
 use App\Repositories\DosenRepository;
 use App\Repositories\HasilRepository;
 use App\Repositories\JawabanRepository;
+use App\Http\Requests\Dosen\SoalRequest;
 use App\Repositories\JenisUjianRepository;
 use App\Repositories\MataKuliahRepository;
 use App\Repositories\PertanyaanRepository;
@@ -73,13 +73,6 @@ class SoalController extends Controller
         $soal = $this
             ->soalRepo
             ->getAllData($nip);
-
-        // return DataTables::of($soal)
-        //     ->addColumn('action', function($soal){
-        //         return '<center><a href="/dosen/soal/form-ubah/'.$soal->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$soal->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
-        //     })
-        //     ->rawColumns(['action'])
-        //     ->make(true);
 
         return DataTables::of($soal)
             ->addColumn('action', function($soal){
@@ -464,17 +457,29 @@ class SoalController extends Controller
             ->tokenRepo
             ->destroyTokenData($token);
 
-        $destroyJawaban = $this
+        $checkJawaban = $this
             ->jawabanRepo
-            ->destroyJawabanData($kodeSoal);
+            ->checkJawabanDataBySoal($kodeSoal);
 
-        $destroyHasil = $this
+        $checkHasil = $this
             ->hasilRepo
-            ->destroyHasilData($kodeSoal);
+            ->checkHasilDataBySoal($kodeSoal);
+
+        if(!empty($checkJawaban)){
+            $destroyJawaban = $this
+                ->jawabanRepo
+                ->destroyJawabanData($kodeSoal);
+        }
+
+        if(!empty($checkHasil)){
+            $destroyHasil = $this
+                ->hasilRepo
+                ->destroyHasilData($kodeSoal);
+        }
 
         return response()
             ->json([
-                'destroyed' => TRUE
+                'destroyed' => $checkHasil
             ], 200);
     }
 }

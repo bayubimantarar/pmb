@@ -16,6 +16,14 @@ class JawabanRepository
         return $storeJawaban;
     }
 
+    public function checkJawabanDataBySoal($kodeSoal)
+    {
+        $getJawaban = Jawaban::where('kode_soal', '=', $kodeSoal)
+            ->get();
+
+        return $getJawaban;
+    }
+
     public function checkMahasiswaHasExam($nim, $kodesoal)
     {
         $getJawaban = Jawaban::where([

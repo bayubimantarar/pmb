@@ -11,6 +11,7 @@
 }
 </style>
 @endpush
+
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -181,7 +182,7 @@ $(document).ready(function(){
     
 });
 // set minutes
-var mins = {{ $durasi }};
+var mins = {{ \Carbon\Carbon::now()->diffInMinutes($tanggalselesaiujian) }};
  
 // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
 var secs = mins * 60;
