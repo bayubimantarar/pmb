@@ -44,14 +44,19 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                             <h3><b>Pertanyaan Nomor {{$nomorsoal}}</b></h3>
                                             <input type="hidden" name="jenis_pertanyaan[]" value="{{ $item->jenis_pertanyaan }}" />
                                             <input type="hidden" name="nomor_pertanyaan" value="{{$item->id}}" />
-                                            @if($item->gambar != null)
+                                            @if($item->gambar_pertanyaan != null)
                                                 <center>
-                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar }}" class="img-responsive" />
+                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar_pertanyaan }}" class="img-responsive" />
                                                 </center>
                                             @endif
                                             <p>{!! $item->pertanyaan !!}</p>
                                             <p>Jawaban</p>
                                             <p>{!! $item->jawaban_essay !!}</p>
+                                            @if($item->gambar_pertanyaan != null)
+                                                <center>
+                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar }}" class="img-responsive" />
+                                                </center>
+                                            @endif
                                             <div class="row">
                                                 <div class="col-md-7">
                                                     <div class="form-group">
@@ -72,9 +77,9 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                             <h3><b>Pertanyaan Nomor {{$nomorsoal}}</b></h3>
                                             <input type="hidden" name="jenis_pertanyaan[]" value="{{ $item->jenis_pertanyaan }}" />
                                             <input type="hidden" name="nomor_pertanyaan" value="{{$item->id}}" />
-                                            @if($item->gambar != null)
+                                            @if($item->gambar_pertanyaan != null)
                                                 <center>
-                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar }}" class="img-responsive" />
+                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar_pertanyaan }}" class="img-responsive" />
                                                 </center>
                                             @endif
                                             {!! $item->pertanyaan !!}
@@ -190,9 +195,9 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                             <h3><b>Pertanyaan Nomor {{$nomorsoalpertanyaan}}</b></h3>
                                             <input type="hidden" name="jenis_pertanyaan" value="{{ $item->jenis_pertanyaan }}" />
                                             <input type="hidden" name="nomor_pertanyaan" value="{{$item->id}}" />
-                                            @if($item->gambar != null)
+                                            @if($item->gambar_pertanyaan != null)
                                                 <center>
-                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar }}" class="img-responsive" />
+                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar_pertanyaan }}" class="img-responsive" />
                                                 </center>
                                             @endif
                                             <p>{!! $item->pertanyaan !!}</p>
@@ -209,9 +214,9 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                             <h3><b>Pertanyaan Nomor {{$nomorsoalpertanyaan}}</b></h3>
                                             <input type="hidden" name="jenis_pertanyaan" value="{{ $item->jenis_pertanyaan }}" />
                                             <input type="hidden" name="nomor_pertanyaan" value="{{$item->id}}" />
-                                            @if($item->gambar != null)
+                                            @if($item->gambar_pertanyaan != null)
                                                 <center>
-                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar }}" class="img-responsive" />
+                                                    <img src="/uploads/pertanyaan/gambar/{{ $item->gambar_pertanyaan }}" class="img-responsive" />
                                                 </center>
                                             @endif
                                             {!! $item->pertanyaan !!}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mahasiswa;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Services\PertanyaanService;
 use App\Http\Controllers\Controller;
 use App\Repositories\SoalRepository;
 use App\Repositories\HasilRepository;
@@ -20,19 +21,22 @@ class SoalController extends Controller
     private $hasilRepo;
     private $jawabanRepo;
     private $pertanyaanRepo;
+    private $pertanyaanServe;
 
     public function __construct(
         SoalRepository $soalRepository,
         TokenRepository $tokenRepo,
         PertanyaanRepository $pertanyaanRepo,
         JawabanRepository $jawabanRepository,
-        HasilRepository $hasilRepository
+        HasilRepository $hasilRepository,
+        PertanyaanService $pertanyaanService
     ) {
         $this->soalRepo         = $soalRepository;
         $this->tokenRepo        = $tokenRepo;
         $this->pertanyaanRepo   = $pertanyaanRepo;
         $this->jawabanRepo      = $jawabanRepository;
         $this->hasilRepo        = $hasilRepository;
+        $this->pertanyaanServe  = $pertanyaanService;
     }
 
     /**
@@ -74,50 +78,119 @@ class SoalController extends Controller
             $jawabanessay       = $request->jawaban_essay;
             $jawabanpilihan     = $request->jawaban_pilihan;
             $createdAt          = Carbon::now();
+            $filegambar  = $request->gambar;
 
-            if($jenispertanyaan == 'essay'){
-                if(!empty($jawabanessay[$i])){
-                    $data[] = [
-                        'kode_soal' => $kodesoal,
-                        'nomor_pertanyaan' => $nomorpertanyaan,
-                        'nim' => $nim,
-                        'jawaban_essay' => $jawabanessay[$i],
-                        'jawaban_pilihan' => NULL,
-                        'created_at' => $createdAt,
-                        'updated_at' => $createdAt
-                    ];
+            if(!empty($filegambar[$i])){
+                $namagambar  = $request
+                    ->gambar[$i]
+                    ->getClientOriginalName();
+
+                $namagambarfull = $kodesoal.''.$nim.''.$nomorpertanyaan.''.$namagambar;
+
+                $filegambar  = $request->gambar[$i];
+
+                $uploadGambar = $this
+                    ->pertanyaanServe
+                    ->handleUploadGambar($filegambar, $namagambarfull);
+                    
+                if($jenispertanyaan == 'essay'){
+                    if(!empty($jawabanessay[$i])){
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => $jawabanessay[$i],
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => $namagambarfull,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }else{
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => $namagambarfull,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }
                 }else{
-                    $data[] = [
-                        'kode_soal' => $kodesoal,
-                        'nomor_pertanyaan' => $nomorpertanyaan,
-                        'nim' => $nim,
-                        'jawaban_essay' => NULL,
-                        'jawaban_pilihan' => NULL,
-                        'created_at' => $createdAt,
-                        'updated_at' => $createdAt
-                    ];
+                    if(!empty($jawabanpilihan[$i])){
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => $jawabanpilihan[$i],
+                            'gambar' => $namagambarfull,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }else{
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => $namagambarfull,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }
                 }
             }else{
-                if(!empty($jawabanpilihan[$i])){
-                    $data[] = [
-                        'kode_soal' => $kodesoal,
-                        'nomor_pertanyaan' => $nomorpertanyaan,
-                        'nim' => $nim,
-                        'jawaban_essay' => NULL,
-                        'jawaban_pilihan' => $jawabanpilihan[$i],
-                        'created_at' => $createdAt,
-                        'updated_at' => $createdAt
-                    ];
+                if($jenispertanyaan == 'essay'){
+                    if(!empty($jawabanessay[$i])){
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => $jawabanessay[$i],
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => NULL,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }else{
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => NULL,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }
                 }else{
-                    $data[] = [
-                        'kode_soal' => $kodesoal,
-                        'nomor_pertanyaan' => $nomorpertanyaan,
-                        'nim' => $nim,
-                        'jawaban_essay' => NULL,
-                        'jawaban_pilihan' => NULL,
-                        'created_at' => $createdAt,
-                        'updated_at' => $createdAt
-                    ];
+                    if(!empty($jawabanpilihan[$i])){
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => $jawabanpilihan[$i],
+                            'gambar' => NULL,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }else{
+                        $data[] = [
+                            'kode_soal' => $kodesoal,
+                            'nomor_pertanyaan' => $nomorpertanyaan,
+                            'nim' => $nim,
+                            'jawaban_essay' => NULL,
+                            'jawaban_pilihan' => NULL,
+                            'gambar' => NULL,
+                            'created_at' => $createdAt,
+                            'updated_at' => $createdAt
+                        ];
+                    }
                 }
             }
         }
@@ -127,7 +200,7 @@ class SoalController extends Controller
             'nim'       => $nim,
             'status'    => 0
         ];
-
+        
         $store = $this
             ->jawabanRepo
             ->storeJawabanData($data);

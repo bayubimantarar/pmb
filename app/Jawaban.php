@@ -13,6 +13,7 @@ class Jawaban extends Model
         'nomor_pertanyaan',
         'nim',
         'jawaban_essay',
-        'jawaban_pilihan'
+        'jawaban_pilihan',
+        'gambar'
     ];
 }

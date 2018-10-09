@@ -87,6 +87,19 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <input type="file" name="gambar[{{$i}}]" id="gambar-{{$i}}" data="{{$i}}"/>
+                                                <p class="help-block"><i>Kosongkan jika tidak memerlukan jawaban bergambar</i></p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <img id="show-image-{{$i}}" />
+                                            </div>
+                                        </div>
+                                    </div>
                                     <hr />
                                 @else
                                     <div class="form-group">
@@ -179,6 +192,13 @@ $(document).ready(function(){
         mode: "textareas",
         readonly: 0
     });
+
+    for(var i=0; i<{{ $totalPertanyaan}}; i++){
+        $('#gambar-'+i).change(function(input){
+            var url = URL.createObjectURL($('#gambar-'+$(this).attr("data")).get(0).files[0]);
+            $("#show-image-"+$(this).attr("data")).attr('src', url).show();
+        });
+    }
     
 });
 // set minutes

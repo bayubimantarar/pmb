@@ -20,6 +20,7 @@ class CreateJawabanTable extends Migration
             $table->string('nim');
             $table->string('jawaban_essay')->nullable();
             $table->string('jawaban_pilihan')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

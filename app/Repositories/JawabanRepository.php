@@ -67,7 +67,7 @@ class JawabanRepository
         $getJawaban = Jawaban::join('mahasiswa', 'jawaban.nim', '=', 'mahasiswa.nim')
             ->join('soal', 'jawaban.kode_soal', '=', 'soal.kode')
             ->join('pertanyaan', 'jawaban.nomor_pertanyaan', '=', 'pertanyaan.id')
-            ->select('jawaban.*', 'soal.kode', 'pertanyaan.pertanyaan', 'pertanyaan.gambar', 'pertanyaan.pilihan_a', 'pertanyaan.pilihan_b', 'pertanyaan.pilihan_c', 'pertanyaan.pilihan_d', 'pertanyaan.pilihan_e','pertanyaan.jenis_pertanyaan', 'pertanyaan.jawaban_pilihan AS jawaban_pilihan_pertanyaan')
+            ->select('jawaban.*', 'soal.kode', 'pertanyaan.pertanyaan', 'pertanyaan.gambar AS gambar_pertanyaan', 'pertanyaan.pilihan_a', 'pertanyaan.pilihan_b', 'pertanyaan.pilihan_c', 'pertanyaan.pilihan_d', 'pertanyaan.pilihan_e','pertanyaan.jenis_pertanyaan', 'pertanyaan.jawaban_pilihan AS jawaban_pilihan_pertanyaan')
             ->where('jawaban.nim', '=', $nim)
             ->where('jawaban.kode_soal', '=', $kodesoal)
             ->get();

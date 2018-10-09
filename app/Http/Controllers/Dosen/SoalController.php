@@ -469,6 +469,14 @@ class SoalController extends Controller
             $destroyJawaban = $this
                 ->jawabanRepo
                 ->destroyJawabanData($kodeSoal);
+
+            foreach ($checkJawaban as $item) {
+                if($item->gambar != null){
+                    $deleteFileGambar = $this
+                        ->pertanyaanServe
+                        ->handleDeleteGambar($item->gambar);
+                }
+            }
         }
 
         if(!empty($checkHasil)){
