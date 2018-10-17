@@ -90,6 +90,7 @@ class PertanyaanController extends Controller
         $namaMataKuliah     = $soal->nama_mata_kuliah;
         $namaJenisUjian     = $soal->nama_jenis_ujian;
         $jumlahpertanyaan   = $soal->jumlah_pertanyaan;
+        $nomor = 1;
 
         $sisapertanyaan = $jumlahpertanyaan - $totalPertanyaanSigned;
 
@@ -98,7 +99,8 @@ class PertanyaanController extends Controller
             'kodesoal', 
             'namaMataKuliah', 
             'namaJenisUjian', 
-            'sisapertanyaan'
+            'sisapertanyaan',
+            'nomor'
         ));
     }
 

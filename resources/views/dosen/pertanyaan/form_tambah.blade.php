@@ -65,8 +65,8 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                 </div>
                                 <h1><b>Pertanyaan</b></h1>
                                 <hr />
-                                @for($i=1; $i<=$sisapertanyaan; $i++)
-                                    <h3><b>Pertanyaan Nomor {{ $i }}</b></h3>
+                                @for($i=0; $i<$sisapertanyaan; $i++)
+                                    <h3><b>Pertanyaan Nomor {{ $nomor++ }}</b></h3>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-lg-5 col-md-5 col-xs-12">
@@ -79,16 +79,26 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group {{$errors->has('gambar.'.$i) ? ' has-error' : ''}}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-xs-12">
-                                                <img src="https://via.placeholder.com/350x150" id="show-image-{{$i}}">
+                                                <img id="show-image-{{$i}}" class="img-responsive img-thumbnail" />
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-5 col-md-5 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
                                                 <label class="control-label" for="inputError">Gambar</label>
                                                 <input type="file" name="gambar[]" id="gambar-{{$i}}" data="{{$i}}" />
+                                                @if($errors->has('gambar.'.$i))
+                                                    <p class="text-danger">
+                                                        <i>
+                                                            {{ $errors->first('gambar.'.$i) }}
+                                                        </i>
+                                                    </p>
+                                                @endif
+                                                    <p class="help-block">
+                                                        Gambar yang bisa diunggah hanya [JPG|JPEG|PNG] dan maksimal ukuran file 2 MB
+                                                    </p>
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +215,7 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
 <script src="/assets/vendor/tinymce/js/tinymce.min.js"></script>
 <script>
     $(document).ready(function(){
-        for(var i=1; i<={{ $sisapertanyaan}}; i++){
+        for(var i=0; i<={{ $sisapertanyaan}}; i++){
                 $('#essay-'+i).hide();
                 $('#pilihan-ganda-'+i).hide();
                 $('#gambar-'+i).change(function(input){

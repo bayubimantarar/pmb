@@ -13,6 +13,7 @@ use App\Repositories\TokenRepository;
 use App\Repositories\JawabanRepository;
 use App\Repositories\PertanyaanRepository;
 use App\Http\Requests\Mahasiswa\SoalRequest;
+use App\Http\Requests\Mahasiswa\UjianRequest;
 
 class SoalController extends Controller
 {
@@ -65,7 +66,7 @@ class SoalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UjianRequest $request)
     {
         $totalPertanyaan = $request->total_pertanyaan;
 

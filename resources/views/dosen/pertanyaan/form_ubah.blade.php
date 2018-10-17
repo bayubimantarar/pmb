@@ -78,9 +78,9 @@ Dosen &raquo; Pertanyaan &raquo; Form Tambah Data Pertanyaan
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-xs-12">
                                         @if($pertanyaan->gambar == NULL)
-                                            <img src="https://via.placeholder.com/350x150" id="show-image" />
+                                            <img id="show-image" class="img-responsive img-thumbnail" />
                                         @else
-                                            <img src="/uploads/pertanyaan/gambar/{{ $pertanyaan->gambar }}" id="show-image" />
+                                            <img src="/uploads/pertanyaan/gambar/{{ $pertanyaan->gambar }}" id="show-image" / class="img-responsive img-thumbnail" />
                                         @endif
                                     </div>
                                 </div>

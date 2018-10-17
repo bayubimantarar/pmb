@@ -87,16 +87,25 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group {{$errors->has('gambar.'.$i) ? ' has-error' : ''}}">
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-xs-12">
-                                                <input type="file" name="gambar[{{$i}}]" id="gambar-{{$i}}" data="{{$i}}"/>
-                                                <p class="help-block"><i>Kosongkan jika tidak memerlukan jawaban bergambar</i></p>
+                                                <input type="file" name="gambar[{{$i}}]" id="gambar-{{$i}}" data="{{$i}}" />
+                                                @if($errors->has('gambar.'.$i))
+                                                    <p class="text-danger">
+                                                        <i>
+                                                            {{ $errors->first('gambar.'.$i) }}
+                                                        </i>
+                                                    </p>
+                                                @endif
+                                                <p class="help-block">
+                                                    <i>Kosongkan jika tidak memerlukan jawaban bergambar</i>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-xs-12">
-                                                <img id="show-image-{{$i}}" />
+                                                <img id="show-image-{{$i}}" class="img-responsive img-thumbnail"/>
                                             </div>
                                         </div>
                                     </div>

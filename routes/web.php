@@ -13,6 +13,10 @@
 
 Auth::Routes();
 
+Route::get('/', function(){
+    return \Illuminate\Foundation\Inspiring::quote();
+});
+
 Route::group(['prefix' => 'dasbor'], function() {
     Route::group(['prefix' => 'autentikasi'], function(){
         Route::get('/form-login', [

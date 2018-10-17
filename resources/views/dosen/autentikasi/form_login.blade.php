@@ -33,45 +33,6 @@
                         <h3 class="panel-title">Login Dosen</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="panel-group" id="accordion">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">#Tata Cara Penggunaan Aplikasi</a>
-                                    </h4>
-                                </div>
-                                <div id="collapseOne" class="panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <ul class="timeline">
-                                            <li>
-                                                <div class="timeline-badge"><i class="fa fa-sign-in"></i>
-                                                </div>
-                                                <div class="timeline-panel">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title"><b>Masuk Ke Aplikasi</b></h4>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <small>Masuk menggunakan email dan password masing-masing pengguna</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="timeline-inverted">
-                                                <div class="timeline-badge primary"><i class="fa fa-dashboard"></i>
-                                                </div>
-                                                <div class="timeline-panel">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title"></h4>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <small>Kelola semua data pada dasbor, disana tersedia menu-menu data yang bisa dikelola oleh pengguna</small>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <form action="/dosen/autentikasi/login" method="post">
                             @csrf
                             @if($errors->has('notification'))

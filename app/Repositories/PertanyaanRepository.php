@@ -18,7 +18,7 @@ class PertanyaanRepository
                 'pertanyaan.*'
             )
             ->where('soal.kode', '=', $kodesoal)
-            ->orderBy('pertanyaan.id', 'ASC')
+            ->orderBy('pertanyaan.id', 'DESC')
             ->get();
         
         return $getPertanyaan;
