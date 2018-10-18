@@ -17,6 +17,19 @@ Route::get('/', function(){
     return \Illuminate\Foundation\Inspiring::quote();
 });
 
+Route::group(['prefix' => 'pmb'], function(){
+    Route::group(['prefix' => 'pendaftaran'], function(){
+        Route::get('/', [
+            'uses' => 'pmb\PendaftaranController@formPendaftaran',
+            'as' => 'pmb.pendaftaran.form_pendaftaran'
+        ]);
+        Route::post('/simpan', [
+            'uses' => 'pmb\PendaftaranController@store',
+            'as' => 'pmb.pendaftaran.simpan'
+        ]);
+    });
+});
+
 Route::group(['prefix' => 'dasbor'], function() {
     Route::group(['prefix' => 'autentikasi'], function(){
         Route::get('/form-login', [
