@@ -61,14 +61,14 @@ class Handler extends ExceptionHandler
     {
         $guard = array_get($exception->guards(), 0);
         switch ($guard) {
+            case 'master':
+                $login = 'dasbor.autentikasi.form_login';
+                break;
             case 'mahasiswa':
                 $login = 'mahasiswa.autentikasi.form_login';
                 break;
             case 'dosen':
                 $login = 'dosen.autentikasi.form_login';
-                break;
-            default:
-                $login = 'dasbor.autentikasi.form_login';
                 break;
         }
         return redirect()->guest(route($login));

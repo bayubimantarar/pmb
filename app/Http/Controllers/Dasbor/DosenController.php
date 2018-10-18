@@ -67,7 +67,6 @@ class DosenController extends Controller
         $nama           = $dosenReq->nama;
         $jenis_kelamin  = $dosenReq->jenis_kelamin;
         $alamat         = $dosenReq->alamat;
-        $email          = $dosenReq->email;
         $password       = $dosenReq->password;
 
         $data = [
@@ -162,7 +161,7 @@ class DosenController extends Controller
                 ->dosenRepo
                 ->updateDosenData($data, $id);
 
-            return redirect('/dasbor/dosen')
+            return redirect('/dasbor/pengguna/panitia')
                 ->with([
                     'notification' => 'Data berhasil diubah'
                 ]);

@@ -29,7 +29,7 @@ class AutentikasiController extends Controller
         $email      = $autentikasiReq->email;
         $password   = $autentikasiReq->password;
         
-        if(Auth::attempt([
+        if(Auth::guard('master')->attempt([
             'email' => $email, 'password' => $password
         ])) {
             return redirect()

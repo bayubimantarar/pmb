@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Dasbor\Pengguna;
 
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DosenRequest extends FormRequest
+class PanitiaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +27,9 @@ class DosenRequest extends FormRequest
         switch($this->method()){
             case 'POST': {
                 return [
-                    'nip' => [
+                    'nidn' => [
                         'required',
-                        'unique:dosen'
+                        'unique:pengguna_panitia'
                     ],
                     'nama' => [
                         'required'
@@ -40,7 +40,11 @@ class DosenRequest extends FormRequest
                     'email' => [
                         'required',
                         'email',
-                        'unique:dosen'
+                        'unique:pengguna_panitia'
+                    ],
+                    'nomor_telepon' => [
+                        'required',
+                        'unique:pengguna_panitia'
                     ],
                     'password' => [
                         'required',
@@ -53,9 +57,9 @@ class DosenRequest extends FormRequest
             }
             case 'PUT' : {
                 return [
-                    'nip' => [
+                    'nidn' => [
                         'required',
-                        Rule::unique('dosen')->ignore($this->id)
+                        Rule::unique('pengguna_panitia')->ignore($this->id)
                     ],
                     'nama' => [
                         'required'
@@ -66,7 +70,11 @@ class DosenRequest extends FormRequest
                     'email' => [
                         'email',
                         'required',
-                        Rule::unique('dosen')->ignore($this->id)
+                        Rule::unique('pengguna_panitia')->ignore($this->id)
+                    ],
+                    'nomor_telepon' => [
+                        'required',
+                        Rule::unique('pengguna_panitia')->ignore($this->id)
                     ],
                     'password_confirmation' => [
                         'same:password'
@@ -85,8 +93,8 @@ class DosenRequest extends FormRequest
     public function messages()
     {
         return [
-            'nip.required' => 'NIP perlu diisi',
-            'nip.unique' => 'NIP sudah ada',
+            'nidn.required' => 'NIDN perlu diisi',
+            'nidn.unique' => 'NIDN sudah ada',
             'nama.required' => 'Nama perlu diisi',
             'alamat.required' => 'Alamat perlu diisi',
             'email.required' => 'Email perlu diisi',

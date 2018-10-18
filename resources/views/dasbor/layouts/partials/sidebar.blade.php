@@ -16,64 +16,25 @@
                 <a href="/dasbor" class="{{ Request::segment(2) ? 'dasbor' : 'active'}}"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-user fa-fw"></i> Dosen<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-calendar fa-fw"></i> Master<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/dosen" class="active"><i class="fa fa-file-text-o"></i> Data Dosen</a>
+                        <a href="/dasbor/master/prodi"><i class="fa fa-file-text-o"></i> Prodi</a>
+                    </li>
+                    <li>
+                        <a href="/dasbor/master/tahun-ajaran"><i class="fa fa-file-text-o"></i> Tahun Ajaran</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-users fa-fw"></i> Mahasiswa<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-users fa-fw"></i> Pengguna<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/mahasiswa"><i class="fa fa-file-text-o"></i> Data Mahasiswa</a>
+                        <a href="/dasbor/pengguna/panitia"><i class="fa fa-file-text-o"></i> Panitia</a>
                     </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-calendar fa-fw"></i> Tahun Ajaran<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
                     <li>
-                        <a href="/dasbor/tahun-ajaran"><i class="fa fa-file-text-o"></i> Data Tahun Ajaran</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-building fa-fw"></i> Kelas<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/dasbor/kelas"><i class="fa fa-file-text-o"></i> Data Kelas</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Jenis Ujian<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/dasbor/jenis-ujian"><i class="fa fa-file-text-o"></i> Data Jenis Ujian</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Mata Kuliah<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/dasbor/mata-kuliah"><i class="fa fa-file-text-o"></i> Data Kuliah</a>
-                    </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Soal<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="/dasbor/soal"><i class="fa fa-file-text-o"></i> Data Soal</a>
+                        <a href="/dasbor/pengguna/prodi"><i class="fa fa-file-text-o"></i> Prodi</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

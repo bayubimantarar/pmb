@@ -41,9 +41,19 @@ return [
             'provider' => 'users',
         ],
 
+        'master' => [
+            'driver' => 'session',
+            'provider' => 'master',
+        ],
+
         'mahasiswa' => [
             'driver' => 'session',
             'provider' => 'mahasiswa',
+        ],
+
+        'calon_mahasiswa' => [
+            'driver' => 'session',
+            'provider' => 'calon_mahasiswa',
         ],
 
         'dosen' => [
@@ -80,9 +90,19 @@ return [
             'model' => App\User::class,
         ],
 
+        'master' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dasbor\Pengguna\Master::class,
+        ],
+
         'mahasiswa' => [
             'driver' => 'eloquent',
             'model' => App\Mahasiswa::class,
+        ],
+
+        'calon_mahasiswa' => [
+            'driver' => 'eloquent',
+            'model' => App\CalonMahasiswa::class,
         ],
 
         'dosen' => [

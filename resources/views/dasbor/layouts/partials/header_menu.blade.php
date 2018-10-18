@@ -5,7 +5,7 @@
         </a>
         <ul class="dropdown-menu dropdown-user">
             <li>
-                <a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::User()->name }}</a>
+                <a href="#"><i class="fa fa-user fa-fw"></i> {{ Auth::Guard('master')->User()->nama }}</a>
             </li>
             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Pengaturan</a>
             </li>
