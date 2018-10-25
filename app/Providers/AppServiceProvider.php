@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Auth;
-use App\Soal;
+use App\Models\PMB\Soal;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,9 +19,9 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         
         view()->composer('*', function ($view) {
-            if ($view->getName() == 'dosen.layouts.main') {
-                $nip    = Auth::guard('dosen')->User()->nip;
-                $soal   = Soal::AllDataWithRelationship($nip);
+            if ($view->getName() == 'prodi.layouts.main') {
+                $nidn    = Auth::guard('prodi')->User()->nidn;
+                $soal   = Soal::AllDataWithRelationship($nidn);
                 
                 $view->with('soal', $soal);
             }

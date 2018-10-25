@@ -37,7 +37,7 @@
             <div class="col-lg-12 col-xs-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Form pendaftaran mahasiswa baru
+                        Formulir calon mahasiswa baru
                     </div>
                     <div class="panel-body">
                         <form action="/pmb/pendaftaran/simpan" method="post" enctype="multipart/form-data">

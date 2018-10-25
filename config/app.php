@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'STMIK Bandung'),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +165,8 @@ return [
 
         //Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
+
+        App\Providers\MacroServiceProvider::class,
 
     ],
 

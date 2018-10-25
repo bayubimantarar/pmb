@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\pmb;
 
+use Crypt;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PMB\PendaftaranRequest;
 use App\Repositories\CalonMahasiswaRepository;
+use App\Repositories\PMB\PendaftaranRepository;
 
 class PendaftaranController extends Controller
 {
+    private $pendaftaranRepo;
     private $calonMahasiswaRepo;
 
     public function __construct(
+        PendaftaranRepository $pendaftaranRepository,
         CalonMahasiswaRepository $calonMahasiswaRepository
     ) {
+        $this->pendaftaranRepo = $pendaftaranRepository;
         $this->calonMahasiswaRepo = $calonMahasiswaRepository;
     }
 
@@ -32,8 +37,20 @@ class PendaftaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function formPendaftaran()
+    public function formPendaftaran($encryptID)
     {
+        $id = Crypt::decrypt($encryptID);
+
+        $pendaftaran = $this
+            ->pendaftaranRepo
+            ->getSingleData($id);
+
+        $status = $pendaftaran->status;
+
+        if($status == 1){
+            abort(404);
+        }
+
         return view('pmb.pendaftaran.form_pendaftaran');
     }
 

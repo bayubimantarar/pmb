@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Route;
+use App\Exports\Prodi\PMB\PertanyaanExport;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -26,6 +27,10 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        // Route::bind('id', function ($id) {
+        //     return app()->makeWith(PertanyaanExport::class, compact('id'));   
+        // });
     }
 
     /**

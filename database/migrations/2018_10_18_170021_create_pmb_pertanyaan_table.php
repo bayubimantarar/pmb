@@ -17,6 +17,7 @@ class CreatePmbPertanyaanTable extends Migration
             $table->increments('id');
             $table->string('kode_soal');
             $table->text('pertanyaan');
+            $table->string('jenis_pertanyaan');
             $table->text('gambar')->nullable();
             $table->text('pilihan_a')->nullable();
             $table->text('pilihan_b')->nullable();
@@ -24,6 +25,7 @@ class CreatePmbPertanyaanTable extends Migration
             $table->text('pilihan_d')->nullable();
             $table->text('pilihan_e')->nullable();
             $table->text('jawaban_pilihan')->nullable();
+            $table->text('jawaban_benar_salah')->nullable();
             $table->integer('bobot')->nullable();
             $table->timestamps();
         });

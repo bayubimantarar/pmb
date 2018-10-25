@@ -47,6 +47,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \Illuminate\Http\Exceptions\PostTooLargeException){
+            return redirect('/konfirmasi-pembayaran')
+                ->with([
+                    'ukuran' => 'Ukuran file terlalu besar'
+                ]);
+        }
+
+        if($exception instanceof \illuminate\Contracts\Encryption\DecryptException){
+            abort(404);
+        }
+
         return parent::render($request, $exception);
     }
 
@@ -64,8 +75,14 @@ class Handler extends ExceptionHandler
             case 'master':
                 $login = 'dasbor.autentikasi.form_login';
                 break;
+            case 'prodi':
+                $login = 'prodi.autentikasi.form_login';
+                break;
             case 'mahasiswa':
                 $login = 'mahasiswa.autentikasi.form_login';
+                break;
+            case 'panitia':
+                $login = 'panitia.autentikasi.form_login';
                 break;
             case 'dosen':
                 $login = 'dosen.autentikasi.form_login';

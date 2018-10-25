@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Panitia extends Authenticatable
 {
     protected $table = 'pengguna_panitia';
+    protected $guard = 'panitia';
     protected $fillable = [
         'nidn',
         'nama',

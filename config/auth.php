@@ -46,9 +46,19 @@ return [
             'provider' => 'master',
         ],
 
+        'prodi' => [
+            'driver' => 'session',
+            'provider' => 'prodi',
+        ],
+
         'mahasiswa' => [
             'driver' => 'session',
             'provider' => 'mahasiswa',
+        ],
+
+        'panitia' => [
+            'driver' => 'session',
+            'provider' => 'panitia',
         ],
 
         'calon_mahasiswa' => [
@@ -95,9 +105,19 @@ return [
             'model' => App\Models\Dasbor\Pengguna\Master::class,
         ],
 
+        'prodi' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dasbor\Pengguna\Prodi::class,
+        ],
+
         'mahasiswa' => [
             'driver' => 'eloquent',
             'model' => App\Mahasiswa::class,
+        ],
+
+        'panitia' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dasbor\Pengguna\Panitia::class,
         ],
 
         'calon_mahasiswa' => [
