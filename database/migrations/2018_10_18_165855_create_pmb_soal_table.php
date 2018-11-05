@@ -18,8 +18,8 @@ class CreatePmbSoalTable extends Migration
             $table->string('kode')->unique(); //form
             $table->string('kode_tahun_ajaran'); //form 
             $table->string('nidn'); //panitia or dosen
-            $table->timestamp('tanggal_mulai_ujian');
-            $table->timestamp('tanggal_selesai_ujian');
+            // $table->timestamp('tanggal_mulai_ujian');
+            // $table->timestamp('tanggal_selesai_ujian');
             $table->integer('jumlah_pertanyaan');
             $table->timestamps();
         });

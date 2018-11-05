@@ -10,22 +10,21 @@ class SoalRepository
     {
         $getSoal = 
             Soal::join(
-                'jenis_ujian', 'soal.kode_jenis_ujian', '=', 'jenis_ujian.kode'
-            )
-            ->join(
-                'mata_kuliah', 'soal.kode_mata_kuliah', '=', 'mata_kuliah.kode'
-            )
-            ->join(
-                'token', 'soal.kode', '=', 'token.kode_soal'
+                'pmb_token', 'pmb_soal.kode', '=', 'pmb_token.kode_soal'
             )
             ->select(
-                'soal.*', 
-                'token.status',
-                'token.token',
-                'jenis_ujian.nama AS nama_jenis_ujian',
-                'mata_kuliah.nama AS nama_mata_kuliah'
+                'pmb_soal.*', 
+                'pmb_token.status',
+                'pmb_token.token'
             )
             ->get();
+        
+        return $getSoal;
+    }
+
+    public function getAllDataByJadwalUjian()
+    {
+        $getSoal = Soal::All();
         
         return $getSoal;
     }
@@ -51,6 +50,20 @@ class SoalRepository
     {
         $getSoal = Soal::select(
                 'pmb_soal.*'
+            )
+            ->where('pmb_soal.kode', '=', $kodesoal)
+            ->get();
+
+        return $getSoal;
+    }
+
+    public function getSingleDataByJadwalUjian($kodesoal)
+    {
+        $getSoal = Soal::join(
+                'pmb_token', 'pmb_soal.kode', '=', 'pmb_token.kode_soal' 
+            )
+            ->select(
+                'pmb_soal.*', 'pmb_token.token'
             )
             ->where('pmb_soal.kode', '=', $kodesoal)
             ->get();

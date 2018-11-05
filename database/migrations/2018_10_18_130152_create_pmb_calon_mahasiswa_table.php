@@ -15,7 +15,12 @@ class CreatePmbCalonMahasiswaTable extends Migration
     {
         Schema::create('pmb_calon_mahasiswa', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode_pmb')->unique();
+            $table->string('kode')->unique();
+            $table->string('kode_jurusan');
+            $table->string('kode_kelas');
+            $table->string('kode_gelombang');
+            $table->string('status_pendaftaran');
+            $table->string('password')->nullable();
             $table->timestamps();
         });
     }

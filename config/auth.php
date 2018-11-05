@@ -122,7 +122,7 @@ return [
 
         'calon_mahasiswa' => [
             'driver' => 'eloquent',
-            'model' => App\CalonMahasiswa::class,
+            'model' => App\Models\PMB\CalonMahasiswa::class,
         ],
 
         'dosen' => [

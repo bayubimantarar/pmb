@@ -1,25 +1,39 @@
 <?php
 
-namespace App\Http\Controllers\pmb;
+namespace App\Http\Controllers\Panitia\PMB;
 
-use Crypt;
+use DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PMB\PendaftaranRequest;
-use App\Repositories\CalonMahasiswaRepository;
-use App\Repositories\PMB\PendaftaranRepository;
+use App\Repositories\PMB\NilaiLulusRepository;
+use App\Http\Requests\Panitia\PMB\NilaiLulusRequest;
 
-class PendaftaranController extends Controller
+class NilaiLulusController extends Controller
 {
-    private $pendaftaranRepo;
-    private $calonMahasiswaRepo;
+    private $nilaiLulusRepo;
 
-    public function __construct(
-        PendaftaranRepository $pendaftaranRepository,
-        CalonMahasiswaRepository $calonMahasiswaRepository
-    ) {
-        $this->pendaftaranRepo = $pendaftaranRepository;
-        $this->calonMahasiswaRepo = $calonMahasiswaRepository;
+    public function __construct(NilaiLulusRepository $nilaiLulusRepository)
+    {
+        $this->nilaiLulusRepo = $nilaiLulusRepository;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function data()
+    {
+        $nilaiLulus = $this
+            ->nilaiLulusRepo
+            ->getAllData();
+
+        return DataTables::of($nilaiLulus)
+            ->addColumn('action', function($nilaiLulus){
+                return '<center><a href="/panitia/pmb/biaya/form-ubah/'.$nilaiLulus->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$nilaiLulus->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -29,29 +43,12 @@ class PendaftaranController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $nilaiLulus = $this
+            ->nilaiLulusRepo
+            ->getAllData()
+            ->count();
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function formPendaftaran($encryptID)
-    {
-        $id = Crypt::decrypt($encryptID);
-
-        $pendaftaran = $this
-            ->pendaftaranRepo
-            ->getSingleData($id);
-
-        $status = $pendaftaran->status;
-
-        if($status == 1){
-            abort(404);
-        }
-
-        return view('pmb.pendaftaran.form_pendaftaran');
+        return view('panitia.pmb.nilai_lulus.nilai_lulus', compact('nilaiLulus'));
     }
 
     /**
@@ -70,9 +67,9 @@ class PendaftaranController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PendaftaranRequest $pendaftaranReq)
+    public function store(Request $request)
     {
-        dd($pendaftaranReq->all());
+        //
     }
 
     /**

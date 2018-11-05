@@ -105,8 +105,8 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                                     <label class="control-label" for="inputError">Jenis Pertanyaan</label>
                                                     <select name="jenis_pertanyaan[]" id="jenis-pertanyaan-{{$i}}" class="form-control" data="{{$i}}">
                                                         <option value="">-- Pilih jenis pertanyaan --</option>
-                                                        <option value="benar_salah">Benar-Salah</option>
-                                                        <option value="pilihan_ganda">Pilihan Ganda</option>
+                                                        <option value="Benar-Salah">Benar-Salah</option>
+                                                        <option value="Pilihan Ganda">Pilihan Ganda</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -195,11 +195,11 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                                     <div class="col-lg-5 col-md-5 col-xs-12">
                                                         <label class="control-label" for="inputError">Jawaban Pilihan</label>
                                                         <select name="jawaban_pilihan[]" id="" class="form-control">
-                                                            <option value="a">A</option>
-                                                            <option value="b">B</option>
-                                                            <option value="c">C</option>
-                                                            <option value="d">D</option>
-                                                            <option value="e">E</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -211,8 +211,8 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                                                     <div class="col-lg-5 col-md-5 col-xs-12">
                                                         <label class="control-label" for="inputError">Jawaban Benar Salah</label>
                                                         <select name="jawaban_benar_salah[]" id="" class="form-control">
-                                                            <option value="benar">Benar</option>
-                                                            <option value="salah">Salah</option>
+                                                            <option value="Benar">Benar</option>
+                                                            <option value="Salah">Salah</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -298,10 +298,10 @@ Dosen &raquo; Pertanyaan &raquo; Form Ubah Data Pertanyaan
                 });
                 $('#jenis-pertanyaan-'+i).change(function(){
                     console.log($(this).attr("data"));
-                    if($(this).val() === "benar_salah"){
+                    if($(this).val() === "Benar-Salah"){
                         $('#benar-salah-'+$(this).attr("data")).show();
                         $('#pilihan-ganda-'+$(this).attr("data")).hide();
-                    }else if($(this).val() === "pilihan_ganda"){
+                    }else if($(this).val() === "Pilihan Ganda"){
                         $('#pilihan-ganda-'+$(this).attr("data")).show();
                         $('#benar-salah-'+$(this).attr("data")).hide();
                     }else{

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLogUnggahSoalTable extends Migration
+class CreatePmbNilaiLulusTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateLogUnggahSoalTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_unggah_soal', function (Blueprint $table) {
+        Schema::create('pmb_nilai_lulus', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode_soal');
+            $table->string('nilai');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreateLogUnggahSoalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_unggah_soal');
+        Schema::dropIfExists('pmb_nilai_lulus');
     }
 }

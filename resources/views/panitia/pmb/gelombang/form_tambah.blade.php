@@ -30,9 +30,8 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Gelombang
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="/panitia/pmb/gelombang/ubah" method="post">
+                        <form action="/panitia/pmb/gelombang/simpan" method="post">
                             @csrf
-                            <input type="hidden" name="_method" value="put" />
                             <div class="form-group {{ $errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
                                     <div class="col-lg-5 col-md-5 col-xs-12">

@@ -128,7 +128,7 @@ class PertanyaanController extends Controller
                 $jenispertanyaan = $pertanyaanReq->jenis_pertanyaan[$i];
                 $filegambar  = $pertanyaanReq->gambar;
 
-                if($jenispertanyaan == 'benar_salah'){
+                if($jenispertanyaan == 'Benar-Salah'){
                     if(!empty($filegambar[$i])){
                         $namagambar  = $pertanyaanReq
                             ->gambar[$i]

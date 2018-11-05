@@ -33,9 +33,6 @@ class PertanyaanRepository
                 'pmb_pertanyaan.*', 
                 'pmb_soal.nidn', 
                 'pmb_soal.kode AS kode_soal',
-                'pmb_soal.tanggal_mulai_ujian',
-                'pmb_soal.tanggal_selesai_ujian',
-                'pmb_soal.durasi_ujian',
                 'pmb_soal.jumlah_pertanyaan'
             )
             ->where('pmb_soal.kode', '=', $kodeSoal)

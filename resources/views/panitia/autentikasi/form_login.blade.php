@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Login Dosen | Ujian Online STMIK Bandung</title>
+    <title>Login Panitia | PMB STMIK Bandung</title>
     <!-- Bootstrap Core CSS -->
     <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- MetisMenu CSS -->
@@ -30,7 +30,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Login Prodi</h3>
+                        <h3 class="panel-title">Login Panitia</h3>
                     </div>
                     <div class="panel-body">
                         <form action="/panitia/autentikasi/login" method="post">

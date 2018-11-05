@@ -147,5 +147,7 @@ class PendaftaranController extends Controller
         $encryptID = Crypt::encrypt($id);
 
         $sendEmail = Mail::to($email)->send(new Pendaftaran($encryptID));
+
+        return redirect('/panitia/pmb/pendaftaran');
     }
 }

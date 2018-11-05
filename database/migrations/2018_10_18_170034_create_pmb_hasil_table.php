@@ -15,11 +15,12 @@ class CreatePmbHasilTable extends Migration
     {
         Schema::create('pmb_hasil', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('kode_pendaftaran');
+            $table->string('kode_gelombang');
+            $table->string('kode_jurusan');
             $table->string('kode_soal');
-            $table->string('kode_pmb');
-            $table->float('nilai_angka')->nullable();
-            $table->string('nilai_huruf')->nullable();
-            $table->string('status')->nullable();
+            $table->float('nilai_angka');
+            $table->timestamps();
         });
     }
 

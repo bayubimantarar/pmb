@@ -11,14 +11,14 @@ class Soal extends Model
         'kode',
         'kode_tahun_ajaran',
         'nidn',
-        'tanggal_mulai_ujian',
-        'tanggal_selesai_ujian',
+        // 'tanggal_mulai_ujian',
+        // 'tanggal_selesai_ujian',
         'jumlah_pertanyaan'
     ];
-    protected $dates = [
-        'tanggal_mulai_ujian',
-        'tanggal_selesai_ujian'
-    ];
+    // protected $dates = [
+    //     'tanggal_mulai_ujian',
+    //     'tanggal_selesai_ujian'
+    // ];
 
     public function scopeAllDataWithRelationship($query, $nidn)
     {

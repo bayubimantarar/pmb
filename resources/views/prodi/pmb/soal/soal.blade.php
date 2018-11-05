@@ -110,7 +110,7 @@ Dosen &raquo; Soal
                     headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/dosen/soal/aktifkan/'+id,
+                    url: '/prodi/pmb/soal/aktifkan/'+id,
                     type: 'put',
                     dataType: 'json',
                     success: function(result){
@@ -126,7 +126,7 @@ Dosen &raquo; Soal
                     headers: {
                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    url: '/dosen/soal/nonaktifkan/'+id,
+                    url: '/prodi/pmb/soal/nonaktifkan/'+id,
                     type: 'put',
                     dataType: 'json',
                     success: function(result){

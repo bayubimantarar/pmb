@@ -97,6 +97,11 @@ class KonfirmasiPembayaranController extends Controller
                 ->konfirmasiPembayaranRepo
                 ->storeKonfirmasiPembayaranData($data);
         }
+
+        return redirect('/konfirmasi-pembayaran')
+            ->with([
+                'notification' => 'Terimakasih banyak, konfirmasi pembayaran telah kami terima. Silahkan cek email untuk informasi lebih lanjut'
+            ]);
     }
 
     /**

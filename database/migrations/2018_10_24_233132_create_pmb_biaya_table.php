@@ -22,6 +22,7 @@ class CreatePmbBiayaTable extends Migration
             $table->integer('biaya_pengembangan_institusi');
             $table->integer('biaya_kuliah');
             $table->integer('biaya_kemahasiswaan');
+            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }

@@ -112,8 +112,8 @@ class SoalController extends Controller
         $kodetahunajaran        = $soalReq->kode_tahun_ajaran;
         $kodesoal               = $soalReq->kode;
         $nidn                   = Auth::guard('prodi')->user()->nidn;
-        $tanggalmulaiujian      = Carbon::parse($soalReq->tanggal_mulai_ujian);
-        $tanggalselesaiujian    = Carbon::parse($soalReq->tanggal_selesai_ujian);
+        // $tanggalmulaiujian      = Carbon::parse($soalReq->tanggal_mulai_ujian);
+        // $tanggalselesaiujian    = Carbon::parse($soalReq->tanggal_selesai_ujian);
         $jumlahpertanyaan       = $soalReq->jumlah_pertanyaan;
         $token                  = Keygen::numeric(5)->generate();
 
@@ -121,8 +121,8 @@ class SoalController extends Controller
             'kode'                  => $kodesoal,
             'kode_tahun_ajaran'     => $kodetahunajaran,
             'nidn'                  => $nidn,
-            'tanggal_mulai_ujian'   => $tanggalmulaiujian,
-            'tanggal_selesai_ujian' => $tanggalselesaiujian,
+            // 'tanggal_mulai_ujian'   => $tanggalmulaiujian,
+            // 'tanggal_selesai_ujian' => $tanggalselesaiujian,
             'jumlah_pertanyaan'     => $jumlahpertanyaan
         ];
 
@@ -173,18 +173,18 @@ class SoalController extends Controller
             ->tahunAjaranRepo
             ->getAllData();
 
-        $tanggalmulaiujian = $soal
-            ->tanggal_mulai_ujian
-            ->format('d-m-Y h:i:s');
+        // $tanggalmulaiujian = $soal
+        //     ->tanggal_mulai_ujian
+        //     ->format('d-m-Y h:i:s');
 
-        $tanggalselesaiujian = $soal
-            ->tanggal_selesai_ujian
-            ->format('d-m-Y h:i:s');
+        // $tanggalselesaiujian = $soal
+        //     ->tanggal_selesai_ujian
+        //     ->format('d-m-Y h:i:s');
         
         return view('prodi.pmb.soal.form_ubah', compact(
             'soal',
-            'tanggalmulaiujian',
-            'tanggalselesaiujian',
+            // 'tanggalmulaiujian',
+            // 'tanggalselesaiujian',
             'tahunAjaran'
         ));
     }
@@ -331,5 +331,49 @@ class SoalController extends Controller
         $kode_soal = $dataPertanyaan->kode;
 
         return Excel::download(new PertanyaanExport($id), $kode_soal.'.xlsx');
+    }
+
+    public function activateToken($id)
+    {
+        $dataToken = $this
+            ->soalRepo
+            ->getSingleTokenData($id);
+
+        $token = $dataToken->token;
+
+        $data = [
+            'status' => 1
+        ];
+        
+        $updateToken = $this
+            ->tokenRepo
+            ->updateOnlyStatus($data, $token);
+
+        return response()
+            ->json([
+                'updated' => $updateToken
+            ], 200);
+    }
+
+    public function nonactivateToken($id)
+    {
+        $dataToken = $this
+            ->soalRepo
+            ->getSingleTokenData($id);
+
+        $token = $dataToken->token;
+
+        $data = [
+            'status' => 0
+        ];
+        
+        $updateToken = $this
+            ->tokenRepo
+            ->updateOnlyStatus($data, $token);
+
+        return response()
+            ->json([
+                'updated' => $updateToken
+            ], 200);
     }
 }

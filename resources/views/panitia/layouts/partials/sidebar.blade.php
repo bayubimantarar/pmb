@@ -13,24 +13,28 @@
                 <!-- /input-group -->
             </li>
             <li>
-                <a href="/dosen"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
+                <a href="/panitia"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-book fa-fw"></i> PMB<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/panitia/pmb/gelombang"><i class="fa fa-book"></i> Gelombang</a>
+                        <a href="/panitia/pmb/gelombang"><i class="fa fa-book"></i> Data Gelombang</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i>Pendaftaran<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/panitia/pmb/pendaftaran"><i class="fa fa-book fa-fw"></i> Data Pendaftaran</a>
-                            </li>
-                            {{-- <li>
-                                <a href="/panitia/pmb/konfirmasi-pembayaran"><i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran</a>
-                            </li> --}}
-                        </ul>
+                        <a href="/panitia/pmb/biaya"><i class="fa fa-book"></i> Data Biaya</a>
+                    </li>
+                    <li>
+                        <a href="/panitia/pmb/pendaftaran"><i class="fa fa-book fa-fw"></i> Data Pendaftaran</a>
+                    </li>
+                     <li>
+                        <a href="/panitia/pmb/nilai-kelulusan"><i class="fa fa-book fa-fw"></i> Data Nilai Kelulusan</a>
+                    </li>
+                    <li>
+                        <a href="/panitia/pmb/jadwal-ujian"><i class="fa fa-book fa-fw"></i> Data Jadwal Ujian</a>
+                    </li>
+                    <li>
+                        <a href="/panitia/pmb/hasil-ujian"><i class="fa fa-book fa-fw"></i> Data Hasil Ujian</a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

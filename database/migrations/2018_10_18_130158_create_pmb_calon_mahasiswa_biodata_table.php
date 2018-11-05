@@ -17,7 +17,7 @@ class CreatePmbCalonMahasiswaBiodataTable extends Migration
             $table->increments('id');
             $table->string('kode_pendaftaran');
             $table->string('nama');
-            $table->integer('jenis_kelamin');
+            $table->string('jenis_kelamin');
             $table->text('alamat');
             $table->string('rt_rw')->nullable();
             $table->string('kelurahan')->nullable();
@@ -35,7 +35,6 @@ class CreatePmbCalonMahasiswaBiodataTable extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('website')->nullable();
             $table->string('mengenal_stmik')->nullable();
-            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }

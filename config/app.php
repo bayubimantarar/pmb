@@ -167,7 +167,6 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         App\Providers\MacroServiceProvider::class,
-
     ],
 
     /*

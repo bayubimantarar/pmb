@@ -27,12 +27,12 @@ Route::group(['prefix' => 'pendaftaran'], function(){
         'as' => 'pendaftaran.simpan'
     ]);
     Route::group(['prefix' => 'formulir'], function(){
-        Route::get('/formulir/{encryptID}', [
-            'uses' => 'pmb\PendaftaranController@formPendaftaran',
+        Route::get('/{encryptID}', [
+            'uses' => 'PMB\PendaftaranController@formPendaftaran',
             'as' => 'pmb.pendaftaran.form_pendaftaran'
         ]);
-        Route::post('/simpan', [
-            'uses' => 'pmb\PendaftaranController@store',
+        Route::post('{encryptID}/simpan', [
+            'uses' => 'PMB\PendaftaranController@store',
             'as' => 'pmb.pendaftaran.simpan'
         ]);
     });
@@ -49,11 +49,11 @@ Route::group(['prefix' => 'konfirmasi-pembayaran'], function(){
     ]);
 });
 
-Route::group(['prefix' => 'pmb'], function(){
-    Route::group(['prefix' => 'pendaftaran'], function(){
+// Route::group(['prefix' => 'pmb'], function(){
+//     Route::group(['prefix' => 'pendaftaran'], function(){
 
-    });
-});
+//     });
+// });
 
 Route::group(['prefix' => 'dasbor'], function() {
     Route::group(['prefix' => 'autentikasi'], function(){
@@ -202,64 +202,6 @@ Route::group(['prefix' => 'dasbor'], function() {
         });
     });
 });
-
-Route::group(['prefix' => 'mahasiswa'], function(){
-    Route::group(['prefix' => 'autentikasi'], function(){
-        Route::get('/form-login', [
-            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@showFormLogin',
-            'as' => 'mahasiswa.autentikasi.form_login'
-        ]);
-        Route::post('/login', [
-            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@login',
-            'as' => 'mahasiswa.autentikasi.login'
-        ]);
-        Route::post('/logout', [
-            'uses' => 'Mahasiswa\Autentikasi\AutentikasiController@logout',
-            'as' => 'mahasiswa.autentikasi.logout'
-        ]);
-    });
-    Route::group(['middleware' => 'auth:mahasiswa'], function(){
-        Route::get('/', [
-            'uses' => 'Mahasiswa\MahasiswaController@index',
-            'as' => 'mahasiswa.mahasiswa'
-        ]);
-        Route::group(['prefix' => 'ujian'], function(){
-            Route::group(['prefix' => 'soal'], function(){
-                Route::get('/', [
-                    'uses' => 'Mahasiswa\SoalController@index',
-                    'as' => 'mahasiswa.ujian'
-                ]);
-                Route::get('/cari', [
-                    'uses' => 'Mahasiswa\SoalController@find',
-                    'as' => 'mahasiswa.ujian.soal.cari'
-                ]);
-                Route::get('/cek-token/{token}', [
-                    'uses' => 'Mahasiswa\SoalController@checkToken',
-                    'as' => 'mahasiswa.ujian.soal.cektoken'
-                ]);
-                Route::get('/mulai/{kodesoal}/{token}', [
-                    'uses' => 'Mahasiswa\SoalController@startExam',
-                    'as' => 'mahasiswa.ujian.soal.cari'
-                ]);
-                Route::post('/selesai', [
-                    'uses' => 'Mahasiswa\SoalController@store',
-                    'as' => 'mahasiswa.ujian.soal.selesai'
-                ]);
-            });
-        });
-        Route::group(['prefix' => 'hasil'], function(){
-            Route::get('/', [
-                'uses' => 'Mahasiswa\HasilController@index',
-                'as' => 'mahasiswa.hasil'
-            ]);
-            Route::get('/data', [
-                'uses' => 'Mahasiswa\HasilController@data',
-                'as' => 'mahasiswa.hasil.data' 
-            ]);
-        });
-    });
-});
-
 
 Route::group(['prefix' => 'prodi'], function(){
    Route::group(['prefix' => 'autentikasi'], function(){
@@ -496,6 +438,187 @@ Route::group(['prefix' => 'panitia'], function(){
                     'as' => 'panitia.pmb.gelombang.data'
                 ]);
             });
+            Route::group(['prefix' => 'biaya'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\BiayaController@index',
+                    'as' => 'panitia.pmb.biaya'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\BiayaController@create',
+                    'as' => 'panitia.pmb.biaya.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\BiayaController@edit',
+                    'as' => 'panitia.pmb.biaya.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\BiayaController@store',
+                    'as' => 'panitia.pmb.biaya.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\BiayaController@update',
+                    'as' => 'panitia.pmb.biaya.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\BiayaController@destroy',
+                    'as' => 'panitia.pmb.biaya.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\BiayaController@data',
+                    'as' => 'panitia.pmb.biaya.data'
+                ]);
+            });
+            Route::group(['prefix' => 'jadwal-ujian'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@index',
+                    'as' => 'panitia.pmb.jadwal'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@create',
+                    'as' => 'panitia.pmb.jadwal.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@edit',
+                    'as' => 'panitia.pmb.jadwal.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@store',
+                    'as' => 'panitia.pmb.jadwal.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@update',
+                    'as' => 'panitia.pmb.jadwal.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\JadwalUjianController@destroy',
+                    'as' => 'panitia.pmb.jadwal.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@data',
+                    'as' => 'panitia.pmb.jadwal.data'
+                ]);
+                Route::get('/kirim-jadwal-ujian/{id}/{kode_soal}/{kode_gelombang}/{kode_jurusan}/{status_pendaftaran}', [
+                    'uses' => 'Panitia\PMB\JadwalUjianController@sendEmail',
+                    'as' => 'panitia.pmb.jadwal.kirim_email'
+                ]);
+            });
+            Route::group(['prefix' => 'nilai-kelulusan'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@index',
+                    'as' => 'panitia.pmb.nilai_lulus'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@create',
+                    'as' => 'panitia.pmb.nilai_lulus.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@edit',
+                    'as' => 'panitia.pmb.nilai_lulus.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@store',
+                    'as' => 'panitia.pmb.nilai_lulus.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@update',
+                    'as' => 'panitia.pmb.nilai_lulus.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\NilaiLulusController@destroy',
+                    'as' => 'panitia.pmb.nilai_lulus.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\NilaiLulusController@data',
+                    'as' => 'panitia.pmb.nilai_lulus.data'
+                ]);
+            });
+            Route::group(['prefix' => 'hasil-ujian'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\HasilController@index',
+                    'as' => 'panitia.pmb.hasil_ujian'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\HasilController@create',
+                    'as' => 'panitia.pmb.hasil_ujian.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\HasilController@edit',
+                    'as' => 'panitia.pmb.hasil_ujian.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\HasilController@store',
+                    'as' => 'panitia.pmb.hasil_ujian.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\HasilController@update',
+                    'as' => 'panitia.pmb.hasil_ujian.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\HasilController@destroy',
+                    'as' => 'panitia.pmb.hasil_ujian.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\HasilController@data',
+                    'as' => 'panitia.pmb.hasil_ujian.data'
+                ]);
+            });
+        });
+    });
+});
+
+Route::group(['prefix' => 'pmb'], function(){
+    Route::group(['prefix' => 'autentikasi'], function(){
+        Route::get('/form-login', [
+            'uses' => 'PMB\Autentikasi\AutentikasiController@showFormLogin',
+            'as' => 'pmb.autentikasi.form_login'
+        ]);
+        Route::post('/login', [
+            'uses' => 'PMB\Autentikasi\AutentikasiController@login',
+            'as' => 'pmb.autentikasi.login'
+        ]);
+        Route::post('/logout', [
+            'uses' => 'PMB\Autentikasi\AutentikasiController@logout',
+            'as' => 'pmb.autentikasi.logout'
+        ]);
+    });
+    Route::group(['middleware' => 'auth:calon_mahasiswa'], function(){
+        Route::get('/', [
+            'uses' => 'PMB\PMBController@index',
+            'as' => 'pmb.pmb'
+        ]);
+        Route::group(['prefix' => 'ujian'], function(){
+            Route::group(['prefix' => 'soal'], function(){
+                Route::get('/', [
+                    'uses' => 'PMB\SoalController@index',
+                    'as' => 'pmb.ujian'
+                ]);
+                Route::get('/cari', [
+                    'uses' => 'PMB\SoalController@find',
+                    'as' => 'pmb.ujian.soal.cari'
+                ]);
+                Route::get('/cek-token/{token}', [
+                    'uses' => 'PMB\SoalController@checkToken',
+                    'as' => 'pmb.ujian.soal.cektoken'
+                ]);
+                Route::get('/mulai/{kodesoal}/{token}', [
+                    'uses' => 'PMB\SoalController@startExam',
+                    'as' => 'pmb.ujian.soal.cari'
+                ]);
+                Route::post('/selesai', [
+                    'uses' => 'PMB\SoalController@store',
+                    'as' => 'pmb.ujian.soal.selesai'
+                ]);
+            });
+        });
+        Route::group(['prefix' => 'hasil'], function(){
+            Route::get('/', [
+                'uses' => 'Mahasiswa\HasilController@index',
+                'as' => 'mahasiswa.hasil'
+            ]);
+            Route::get('/data', [
+                'uses' => 'Mahasiswa\HasilController@data',
+                'as' => 'mahasiswa.hasil.data' 
+            ]);
         });
     });
 });

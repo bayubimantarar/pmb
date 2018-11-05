@@ -87,6 +87,9 @@ class Handler extends ExceptionHandler
             case 'dosen':
                 $login = 'dosen.autentikasi.form_login';
                 break;
+            case 'calon_mahasiswa':
+                $login = 'pmb.autentikasi.form_login';
+                break;
         }
         return redirect()->guest(route($login));
     }

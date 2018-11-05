@@ -378,7 +378,7 @@ class SoalController extends Controller
         }
     }
 
-    public function startExam($kodesoal, $token)
+    public function startExam($kodeSoal, $token)
     {
         $dataSoal = $this
             ->tokenRepo

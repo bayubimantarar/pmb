@@ -33,12 +33,6 @@ class SoalRequest extends FormRequest
                     'kode_tahun_ajaran' => [
                         'required'
                     ],
-                    'tanggal_mulai_ujian' => [
-                        'required'
-                    ],
-                    'tanggal_selesai_ujian' => [
-                        'required'
-                    ],
                     'jumlah_pertanyaan' => [
                         'required'
                     ]
@@ -50,12 +44,6 @@ class SoalRequest extends FormRequest
                         Rule::unique('pmb_soal')->ignore($this->id)
                     ],
                     'kode_tahun_ajaran' => [
-                        'required'
-                    ],
-                    'tanggal_mulai_ujian' => [
-                        'required'
-                    ],
-                    'tanggal_selesai_ujian' => [
                         'required'
                     ],
                     'jumlah_pertanyaan' => [
@@ -72,8 +60,6 @@ class SoalRequest extends FormRequest
         return [
             'kode.unique'                       => 'Soal sudah ada',
             'kode_tahun_ajaran.required'        => 'Pilih salah satu tahun ajaran',
-            'tanggal_mulai_ujian.required'      => 'Tanggal Mulai ujian perlu diisi',
-            'tanggal_selesai_ujian.required'    => 'Tanggal Selesai ujian perlu diisi',
             'jumlah_pertanyaan.required'        => 'Jumlah Pertanyaan perlu diisi'
         ];
     }

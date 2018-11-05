@@ -69,7 +69,7 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                {{-- <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_mulai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Mulai Ujian</label>
                                         <div class='input-group date' id='tanggal-mulai-ujian'>
@@ -100,7 +100,7 @@ Dosen &raquo; Soal &raquo; Form Tambah Data Soal
                                             </p>
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('jumlah_pertanyaan') ? ' has-error' : ''}}">
                                         <label class="control-label">Jumlah Pertanyaan</label>

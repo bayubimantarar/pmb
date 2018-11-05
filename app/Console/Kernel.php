@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\KirimEmailJadwalUjianJob;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // 'App\Console\Commands\JadwalUjianCron',
     ];
 
     /**
@@ -26,6 +27,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        
+        // $schedule->command('pmb:email-jadwal-ujian')->everyMinute();
+        $schedule->job(new KirimEmailJadwalUjianJob)->everyMinute();
+
     }
 
     /**

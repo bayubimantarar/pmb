@@ -14,7 +14,7 @@ Terima kasih telah mendaftar sebagai calon mahasiswa di STMIK Bandung.
 | ![logo MANDIRI](https://dev.ujian.bimantara.web.id/assets/img/mandiri.png) | 1370012937001 a/n STMIK Bandung |
 | ![logo BCA](https://dev.ujian.bimantara.web.id/assets/img/bca.png) | 0306236012 a/n STMIK Bandung |
 
-@component('mail::button', ['url' => 'http://localhost:8000/pmb/formulir/konfirmasi-pembayaran'])
+@component('mail::button', ['url' => 'https://dev.ujian.bimantara.web.id/konfirmasi-pembayaran'])
 Konfirmasi Pembayaran
 @endcomponent
 
