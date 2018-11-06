@@ -79,7 +79,6 @@ class SoalController extends Controller
     {
         $totalPertanyaan = $ujianReq->total_pertanyaan;
 
-
         for($i=0; $i<$totalPertanyaan; $i++){
             $kodePendaftaran = $ujianReq->kode_pendaftaran;
             $kodesoal = $ujianReq->kode_soal;
@@ -182,12 +181,14 @@ class SoalController extends Controller
         $nilaiAngka = $nilaiLulus->nilai;
         $kodeGelombang = Auth::guard('calon_mahasiswa')->User()->kode_gelombang;
         $kodeJurusan = Auth::guard('calon_mahasiswa')->User()->kode_jurusan;
+        $kodeKelas = Auth::guard('calon_mahasiswa')->User()->kode_kelas;
 
         $dataHasil = [
             'kode_pendaftaran' => $kodePendaftaran,
             'kode_gelombang' => $kodeGelombang,
             'kode_jurusan' => $kodeJurusan,
             'kode_soal' => $kodesoal,
+            'kode_kelas' => $kodeKelas,
             'nilai_angka' => $totalNilai
         ];
 

@@ -12,6 +12,7 @@ class Hasil extends Model
         'kode_gelombang',
         'kode_jurusan',
         'kode_soal',
+        'kode_kelas',
         'nilai_angka'
     ];
 }

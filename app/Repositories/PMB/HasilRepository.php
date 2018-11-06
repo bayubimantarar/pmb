@@ -25,6 +25,21 @@ class HasilRepository
         return $getHasil;
     }
 
+    public function getAllHasilDataByFilter(
+        $kodeJurusan, 
+        $kodeGelombang, 
+        $kodeKelas,
+        $tahun
+    ) {
+        $getHasil = Hasil::where('kode_jurusan', '=', $kodeJurusan)
+            ->where('kode_gelombang', '=', $kodeGelombang)
+            ->where('kode_kelas', '=', $kodeKelas)
+            ->whereYear('created_at', $tahun)
+            ->get();
+        
+        return $getHasil;
+    }
+
     public function storeHasilData($data)
     {
         $storeHasil = Hasil::create($data);

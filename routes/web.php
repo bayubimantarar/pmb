@@ -561,6 +561,10 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\HasilController@data',
                     'as' => 'panitia.pmb.hasil_ujian.data'
                 ]);
+                Route::get('/data/cari/{kode_jurusan}/{kode_gelombang}/{kode_kelas}/{tahun}', [
+                    'uses' => 'Panitia\PMB\HasilController@dataFilter',
+                    'as' => 'panitia.pmb.hasil_ujian.data_filter'
+                ]);
             });
         });
     });
