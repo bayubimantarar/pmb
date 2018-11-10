@@ -15,6 +15,7 @@ class CreatePmbJawabanTable extends Migration
     {
         Schema::create('pmb_jawaban', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('kode_jadwal_ujian');
             $table->string('kode_pendaftaran');
             $table->string('kode_soal');
             $table->string('nomor_pertanyaan');

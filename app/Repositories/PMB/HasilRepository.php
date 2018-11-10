@@ -25,6 +25,17 @@ class HasilRepository
         return $getHasil;
     }
 
+    public function getAllHasilDataByCalonMahasiswa()
+    {
+        $getHasil = Hasil::join(
+            'pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran'
+        )
+        ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama')
+        ->get();
+        
+        return $getHasil;
+    }
+
     public function getAllHasilDataByFilter(
         $kodeJurusan, 
         $kodeGelombang, 

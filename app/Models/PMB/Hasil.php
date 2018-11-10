@@ -8,6 +8,7 @@ class Hasil extends Model
 {
     protected $table = 'pmb_hasil';
     protected $fillable = [
+        'kode_jadwal_ujian',
         'kode_pendaftaran',
         'kode_gelombang',
         'kode_jurusan',

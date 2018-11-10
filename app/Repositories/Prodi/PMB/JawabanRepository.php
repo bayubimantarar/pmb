@@ -62,6 +62,17 @@ class JawabanRepository
         return $getJawaban;
     }
 
+    public function getSingleDataByPanitiaForNilai($kodeJadwalUjian)
+    {
+        $getJawaban = Jawaban::join('pmb_calon_mahasiswa_biodata', 'pmb_jawaban.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+        ->select('pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+        ->where('pmb_jawaban.kode_jadwal_ujian', '=', $kodeJadwalUjian)
+        ->groupBy('pmb_jawaban.kode_pendaftaran')
+        ->get();
+
+        return $getJawaban;
+    }
+
     public function getSingleDataByDosenForPeriksaJawaban($nim, $kodesoal)
     {
         $getJawaban = Jawaban::join('mahasiswa', 'jawaban.nim', '=', 'mahasiswa.nim')

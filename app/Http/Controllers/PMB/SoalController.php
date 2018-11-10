@@ -80,6 +80,7 @@ class SoalController extends Controller
         $totalPertanyaan = $ujianReq->total_pertanyaan;
 
         for($i=0; $i<$totalPertanyaan; $i++){
+            $kodeJadwalUjian = $ujianReq->kode_jadwal_ujian;
             $kodePendaftaran = $ujianReq->kode_pendaftaran;
             $kodesoal = $ujianReq->kode_soal;
 
@@ -92,6 +93,7 @@ class SoalController extends Controller
             if($jenispertanyaan == 'benar-salah' || $jenispertanyaan == 'Benar-Salah'){
                 if(!empty($jawabanBenarSalah[$i])){
                     $data[] = [
+                        'kode_jadwal_ujian' => $kodeJadwalUjian,
                         'kode_pendaftaran' => $kodePendaftaran,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
@@ -103,6 +105,7 @@ class SoalController extends Controller
                     ];
                 }else{
                     $data[] = [
+                        'kode_jadwal_ujian' => $kodeJadwalUjian,
                         'kode_pendaftaran' => $kodePendaftaran,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
@@ -116,6 +119,7 @@ class SoalController extends Controller
             }else{
                 if(!empty($jawabanpilihan[$i])){
                     $data[] = [
+                        'kode_jadwal_ujian' => $kodeJadwalUjian,
                         'kode_pendaftaran' => $kodePendaftaran,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
@@ -127,6 +131,7 @@ class SoalController extends Controller
                     ];
                 }else{
                     $data[] = [
+                        'kode_jadwal_ujian' => $kodeJadwalUjian,
                         'kode_pendaftaran' => $kodePendaftaran,
                         'kode_soal' => $kodesoal,
                         'nomor_pertanyaan' => $nomorpertanyaan,
@@ -184,6 +189,7 @@ class SoalController extends Controller
         $kodeKelas = Auth::guard('calon_mahasiswa')->User()->kode_kelas;
 
         $dataHasil = [
+            'kode_jadwal_ujian' => $kodeJadwalUjian,
             'kode_pendaftaran' => $kodePendaftaran,
             'kode_gelombang' => $kodeGelombang,
             'kode_jurusan' => $kodeJurusan,
@@ -418,6 +424,7 @@ class SoalController extends Controller
             ->getAllDataBySoal($kodeSoal)
             ->first();
 
+        $kodeJadwalUjian        = $jadwalUjian->kode;
         $kodesoal               = $detailSoal->kode_soal; 
         $jenispertanyaan        = $detailSoal->jenis_pertanyaan;
         $nip                    = $detailSoal->nip;
@@ -461,14 +468,10 @@ class SoalController extends Controller
                     'tanggalselesaiujian',
                     'durasiujian',
                     'tanggalujian',
-                    'durasiujian',
                     'durasi',
                     'kodesoal',
                     'tahun',
-                    'semester',
-                    'kelas',
-                    'matakuliah',
-                    'dosen'
+                    'kodeJadwalUjian'
                 ));
             }
         }

@@ -36,6 +36,8 @@ Panitia &raquo; PMB &raquo; Data Pendaftaran
                             <th>Nomor Telepon</th>
                             <th>Email</th>
                             <th>Alamat</th>
+                            <th>Tanggal Pembayaran</th>
+                            <th>Bukti Transaksi</th>
                         </tr>
                     </thead>
                 </table>
@@ -71,7 +73,9 @@ Panitia &raquo; PMB &raquo; Data Pendaftaran
             {data: 'nama'},
             {data: 'nomor_telepon'},
             {data: 'email'},
-            {data: 'alamat'}
+            {data: 'alamat'},
+            {data: 'tanggal_pembayaran'},
+            {data: 'bukti_transaksi'}
         ]
       });
       

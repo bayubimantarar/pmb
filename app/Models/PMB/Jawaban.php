@@ -8,6 +8,7 @@ class Jawaban extends Model
 {
     protected $table = 'pmb_jawaban';
     protected $fillable = [
+        'kode_jadwal_ujian',
         'kode_pendaftaran',
         'kode_soal',
         'nomor_pertanyaan',

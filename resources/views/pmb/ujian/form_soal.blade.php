@@ -40,6 +40,7 @@
                         <form action="/pmb/ujian/soal/selesai" method="post" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="total_pertanyaan" value="{{ $totalPertanyaan }}" />
+                            <input type="hidden" name="kode_jadwal_ujian" value="{{ $kodeJadwalUjian }}" />
                             <input type="hidden" name="kode_soal" value="{{ $kodesoal }}" />
                             <input type="hidden" name="kode_pendaftaran" value="{{ Auth::Guard('calon_mahasiswa')->User()->kode }}">
                             <center>

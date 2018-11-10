@@ -167,6 +167,10 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         App\Providers\MacroServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+        Chumper\Zipper\ZipperServiceProvider::class,
     ],
 
     /*
@@ -218,6 +222,8 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Keygen' => Keygen\Keygen::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Zipper' => Chumper\Zipper\Zipper::class,
 
     ],
 

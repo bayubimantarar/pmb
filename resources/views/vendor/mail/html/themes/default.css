@@ -44,7 +44,7 @@ h1 {
     font-size: 19px;
     font-weight: bold;
     margin-top: 0;
-    text-align: left;
+    text-align: center;
 }
 
 h2 {
@@ -103,6 +103,7 @@ img {
 /* Header */
 
 .header {
+    background-color: #0e0726; 
     padding: 25px 0;
     text-align: center;
 }

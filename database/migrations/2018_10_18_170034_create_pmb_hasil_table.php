@@ -15,6 +15,7 @@ class CreatePmbHasilTable extends Migration
     {
         Schema::create('pmb_hasil', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('kode_jadwal_ujian');
             $table->string('kode_pendaftaran');
             $table->string('kode_gelombang');
             $table->string('kode_jurusan');

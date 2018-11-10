@@ -532,38 +532,114 @@ Route::group(['prefix' => 'panitia'], function(){
                     'as' => 'panitia.pmb.nilai_lulus.data'
                 ]);
             });
-            Route::group(['prefix' => 'hasil-ujian'], function(){
-                Route::get('/', [
-                    'uses' => 'Panitia\PMB\HasilController@index',
+            Route::group(['prefix' => 'jawaban-ujian'], function(){
+                Route::get('{kode_jadwal_ujian}/', [
+                    'uses' => 'Panitia\PMB\JawabanController@index',
                     'as' => 'panitia.pmb.hasil_ujian'
                 ]);
-                Route::get('/form-tambah', [
-                    'uses' => 'Panitia\PMB\HasilController@create',
-                    'as' => 'panitia.pmb.hasil_ujian.form_tambah'
+                Route::get('{kode_jadwal_ujian}/detail/{kode_pendaftaran}', [
+                    'uses' => 'Panitia\PMB\JawabanController@show',
+                    'as' => 'panitia.pmb.hasil_ujian.detail'
+                ]);
+                Route::get('{kode_jadwal_ujian}/data', [
+                    'uses' => 'Panitia\PMB\JawabanController@data',
+                    'as' => 'panitia.pmb.hasil_ujian.data'
+                ]);
+                Route::get('{kode_jadwal_ujian}/data/cari/{kode_jurusan}/{kode_gelombang}/{kode_kelas}/{tahun}', [
+                    'uses' => 'Panitia\PMB\JawabanController@dataFilter',
+                    'as' => 'panitia.pmb.hasil_ujian.data_filter'
+                ]);
+            });
+            Route::group(['prefix' => 'hasil-ujian'], function(){
+                Route::get('{kode_jadwal_ujian}/', [
+                    'uses' => 'Panitia\PMB\HasilController@index',
+                    'as' => 'panitia.pmb.hasil_ujian'
                 ]);
                 Route::get('/form-ubah/{id}', [
                     'uses' => 'Panitia\PMB\HasilController@edit',
                     'as' => 'panitia.pmb.hasil_ujian.form_edit'
                 ]);
-                Route::post('/simpan', [
-                    'uses' => 'Panitia\PMB\HasilController@store',
-                    'as' => 'panitia.pmb.hasil_ujian.simpan'
-                ]);
                 Route::put('/ubah/{id}', [
                     'uses' => 'Panitia\PMB\HasilController@update',
                     'as' => 'panitia.pmb.hasil_ujian.ubah'
                 ]);
-                Route::delete('/hapus/{id}', [
-                    'uses'  => 'Panitia\PMB\HasilController@destroy',
-                    'as' => 'panitia.pmb.hasil_ujian.hapus'
-                ]);
-                Route::get('/data', [
+                Route::get('{jadwalUjian}/data', [
                     'uses' => 'Panitia\PMB\HasilController@data',
                     'as' => 'panitia.pmb.hasil_ujian.data'
                 ]);
-                Route::get('/data/cari/{kode_jurusan}/{kode_gelombang}/{kode_kelas}/{tahun}', [
+                Route::get('{jadwalUjian}/data/cari/{kode_jurusan}/{kode_gelombang}/{kode_kelas}/{tahun}', [
                     'uses' => 'Panitia\PMB\HasilController@dataFilter',
                     'as' => 'panitia.pmb.hasil_ujian.data_filter'
+                ]);
+            });
+            Route::group(['prefix' => 'formulir'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\FormulirController@index',
+                    'as' => 'panitia.pmb.formulir'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\FormulirController@create',
+                    'as' => 'panitia.pmb.formulir.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\FormulirController@edit',
+                    'as' => 'panitia.pmb.formulir.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\FormulirController@store',
+                    'as' => 'panitia.pmb.formulir.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\FormulirController@update',
+                    'as' => 'panitia.pmb.formulir.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\FormulirController@destroy',
+                    'as' => 'panitia.pmb.formulir.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\FormulirController@data',
+                    'as' => 'panitia.pmb.formulir.data'
+                ]);
+                Route::get('/detail/{id}', [
+                    'uses' => 'Panitia\PMB\FormulirController@show',
+                    'as' => 'panitia.pmb.formulir.detail'
+                ]);
+                Route::get('/unduh-formulir/{id}', [
+                    'uses' => 'Panitia\PMB\FormulirController@downloadFormulir',
+                    'as' => 'panitia.pmb.formulir.download'
+                ]);
+                Route::get('/unduh-kelengkapan/{id}', [
+                    'uses' => 'Panitia\PMB\FormulirController@downloadKelengkapan',
+                    'as' => 'panitia.pmb.formulir.download'
+                ]);
+            });
+            Route::group(['prefix' => 'konfirmasi-pembayaran'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\KonfirmasiPembayaranController@index',
+                    'as' => 'panitia.pmb.formulir'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\KonfirmasiPembayaranController@data',
+                    'as' => 'panitia.pmb.formulir.data'
+                ]);
+                Route::get('/unduh-formulir/{id}', [
+                    'uses' => 'Panitia\PMB\KonfirmasiPembayaranController@downloadFormulir',
+                    'as' => 'panitia.pmb.formulir.download'
+                ]);
+            });
+            Route::group(['prefix' => 'jawaban-ujian'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\JawabanController@index',
+                    'as' => 'panitia.pmb.formulir'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\JawabanController@data',
+                    'as' => 'panitia.pmb.formulir.data'
+                ]);
+                Route::get('/unduh-formulir/{id}', [
+                    'uses' => 'Panitia\PMB\JawabanController@downloadFormulir',
+                    'as' => 'panitia.pmb.formulir.download'
                 ]);
             });
         });

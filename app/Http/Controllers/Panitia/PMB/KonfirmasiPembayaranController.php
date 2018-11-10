@@ -40,7 +40,10 @@ class KonfirmasiPembayaranController extends Controller
             ->editCOlumn('tanggal_pembayaran', function($konfirmasiPendaftaran){
                 return $konfirmasiPendaftaran->tanggal_pembayaran->formatLocalized('%d %B %Y');
             })
-            ->rawColumns(['action', 'status'])
+            ->editCOlumn('bukti_transaksi', function($konfirmasiPendaftaran){
+                return '<img src="/uploads/pmb/pembayaran/'.$konfirmasiPendaftaran->bukti_transaksi.'" class="img-thumbnail img-responsive" />';
+            })
+            ->rawColumns(['action', 'status', 'bukti_transaksi'])
             ->make(true);
     }
 

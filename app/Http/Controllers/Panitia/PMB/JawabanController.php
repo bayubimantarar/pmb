@@ -5,16 +5,15 @@ namespace App\Http\Controllers\Panitia\PMB;
 use DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\PMB\KonfirmasiPendaftaranRepository;
+use App\Repositories\Prodi\PMB\JawabanRepository;
 
-class KonfirmasiPendaftaranController extends Controller
+class JawabanController extends Controller
 {
-    protected $konfirmasiPendaftaranRepo;
+    private $jawabanRepo;
 
-    public function __construct(
-        KonfirmasiPendaftaranRepository $konfirmasiPendaftaranRepository
-    ) {
-        $this->konfirmasiPendaftaranRepo = $konfirmasiPendaftaranRepository;
+    public function __construct(JawabanRepository $jawabanRepository)
+    {
+        $this->jawabanRepo = $jawabanRepository;
     }
 
     /**
@@ -22,21 +21,17 @@ class KonfirmasiPendaftaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function data()
+    public function data($kodeJadwalUjian)
     {
-        $konfirmasiPendaftaran = $this
-            ->konfirmasiPendaftaranRepo
-            ->getAllData();
+        $jawaban = $this
+            ->jawabanRepo
+            ->getSingleDataByPanitiaForNilai($kodeJadwalUjian);
 
-        return DataTables::of($konfirmasiPendaftaran)
-            ->editCOlumn('status', function($konfirmasiPendaftaran){
-                if($konfirmasiPendaftaran->status == 1){
-                    return '<center><span class="label label-success">Pembayaran sudah dikonfirmasi</span></center>';
-                }else{
-                    return '<center><span class="label label-danger">Pembayaran belum dikonfirmasi</span></center>';
-                }
+        return DataTables::of($jawaban)
+            ->addColumn('action', function($jawaban) use ($kodeJadwalUjian){
+                return '<center><a href="/panitia/pmb/jawaban-ujian/'.$kodeJadwalUjian.'/detail/'.$jawaban->kode_pendaftaran.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle"></i></a></center>';
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -45,9 +40,11 @@ class KonfirmasiPendaftaranController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($kodeJadwalUjian)
     {
-        //
+        return view('panitia.pmb.jawaban.jawaban', compact(
+            'kodeJadwalUjian'
+        ));
     }
 
     /**
@@ -77,9 +74,9 @@ class KonfirmasiPendaftaranController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($kodeJadwalUjian, $kodePendaftaran)
     {
-        //
+        dd($kodePendaftaran);
     }
 
     /**

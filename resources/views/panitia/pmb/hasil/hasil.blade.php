@@ -24,7 +24,7 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <h2>Filter data hasil ujian</h2>
+        {{-- <h2>Filter data hasil ujian</h2>
         <div class="form-group">
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-xs-12">
@@ -70,7 +70,7 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
                     <a href="#cari-data" class="btn btn-primary form-control" id="filter">
                         <i class="fa fa-search"></i> Cari Data
                     </a>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="panel panel-default">
@@ -84,11 +84,10 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
                         <thead>
                             <tr>
                                 <th>Kode Pendaftaran</th>
-                                <th>Kode Gelombang</th>
-                                <th>Kode Jurusan</th>
-                                <th>Kode Soal</th>
+                                <th>Nama</th>
                                 <th>Nilai</th>
                                 <th>Status</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                     </table>
@@ -117,17 +116,17 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
     <script src="/assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="/assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
     <script>
+        var kode_jadwal_ujian = "{{ $kodeJadwalUjian }}";
       var hasil_ujian_table = $("#hasil-ujian-table").DataTable({
         serverSide: true,
         processing: true,
-        ajax: '/panitia/pmb/hasil-ujian/data',
+        ajax: '/panitia/pmb/hasil-ujian/'+kode_jadwal_ujian+'/data',
         columns: [
             {data: 'kode_pendaftaran'},
-            {data: 'kode_gelombang'},
-            {data: 'kode_jurusan'},
-            {data: 'kode_soal'},
+            {data: 'nama'},
             {data: 'nilai_angka'},
-            {data: 'status'}
+            {data: 'status'},
+            {data: 'action'},
         ]
       });
 

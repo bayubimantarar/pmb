@@ -183,7 +183,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-lg-12">
                                         <label for="">Kecamatan</label>
-                                        <input type="text" name="Kecamatan" value="{{ old('kecamatan') }}" class="form-control" />
+                                        <input type="text" name="kecamatan" value="{{ old('kecamatan') }}" class="form-control" />
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-lg-12">
                                         <label for="">Kode Pos</label>
@@ -516,7 +516,7 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-lg-12">
                                         <label for="">Kecamatan</label>
-                                        <input type="text" name="Kecamatan_orang_tua" class="form-control" value="{{ old('Kecamatan_orang_tua') }}" />
+                                        <input type="text" name="kecamatan_orang_tua" class="form-control" value="{{ old('kecamatan_orang_tua') }}" />
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-lg-12">
                                         <label for="">Kode Pos</label>

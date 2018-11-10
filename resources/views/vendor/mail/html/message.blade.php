@@ -2,7 +2,7 @@
     {{-- Header --}}
     @slot('header')
         @component('mail::header', ['url' => 'https://dev.ujian.bimantara.web.id'])
-            STMIK Bandung
+            <img src="https://dev.ujian.bimantara.web.id/assets/img/logo-stmik-bandung.png" alt="Logo STMIK Bandung" height="55" />
         @endcomponent
     @endslot
 

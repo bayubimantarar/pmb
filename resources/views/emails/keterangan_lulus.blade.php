@@ -1,7 +1,9 @@
 @component('mail::message')
-# PANITIA PENERIMAAN MAHASISWA BARU
-# STMIK BANDUNG
-# TAHUN AKADEMIK 2018 / 2019
+<center>
+<h1>PANITIA PENERIMAAN MAHASISWA BARU<br />
+STMIK BANDUNG<br />
+TAHUN AKADEMIK 2018 / 2019</h1>
+</center>
 
 Yang bertanda tangan di bawah ini, Ketua pelaksana panitia Penerimaan Mahasiswa Baru STMIK Bandung, tahun akademik 2018/2019 pengelengara Tes Potensi Akademik (TPA) / Test Program Studi bagi calon mahasiswa baru menerangkan bahwa :
 
@@ -11,8 +13,14 @@ Yang bertanda tangan di bawah ini, Ketua pelaksana panitia Penerimaan Mahasiswa 
 - Sekolah Asal : {{ $sekolahAsal }}
 - Program Studi Pilihan : {{ $jurusanPilihan }}  - S1
 
-Dinyatakan :
-# {{ $KeteranganLulus }}
+<center>
+<h1>
+    Dinyatakan :
+</h1>
+<h1>
+    {{ $KeteranganLulus }}
+</h1>
+</center>
 
 @if($KeteranganLulus == "Lulus")
 Kepada calon mahasiswa diwajibkan untuk segera melengkapi persyaratan dan administrasi serta mengikuti serangkaian kegiatan sebagaimana tercantum dalam Agenda akademik

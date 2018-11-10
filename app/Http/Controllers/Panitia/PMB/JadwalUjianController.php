@@ -55,9 +55,9 @@ class JadwalUjianController extends Controller
         return DataTables::of($jadwalUjian)
             ->addColumn('action', function($jadwalUjian){
                 if($jadwalUjian->status == 0){
-                    return '<center><a href="/panitia/pmb/jadwal-ujian/kirim-jadwal-ujian/'.$jadwalUjian->id.'/'.$jadwalUjian->kode_soal.'/'.$jadwalUjian->kode_gelombang.'/'.$jadwalUjian->kode_jurusan.'/'.$jadwalUjian->status_pendaftaran.'" class="btn btn-xs btn-info"><i class="fa fa-envelope"></i></a> <a href="/prodi/pmb/soal/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                    return '<center><a href="/panitia/pmb/jadwal-ujian/kirim-jadwal-ujian/'.$jadwalUjian->id.'/'.$jadwalUjian->kode_soal.'/'.$jadwalUjian->kode_gelombang.'/'.$jadwalUjian->kode_jurusan.'/'.$jadwalUjian->status_pendaftaran.'" class="btn btn-xs btn-info"><i class="fa fa-envelope"></i></a> <a href="/panitia/pmb/jadwal-ujian/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
                 }else{
-                    return '<center><a href="/panitia/pmb/jadwal-ujian/kirim-jadwal-ujian/'.$jadwalUjian->id.'/'.$jadwalUjian->kode_soal.'/'.$jadwalUjian->kode_gelombang.'/'.$jadwalUjian->kode_jurusan.'" class="btn btn-xs btn-info" class="disabled"><i class="fa fa-envelope"></i></a> <a href="/prodi/pmb/soal/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
+                    return '<center><a href="/panitia/pmb/jadwal-ujian/kirim-jadwal-ujian/'.$jadwalUjian->id.'/'.$jadwalUjian->kode_soal.'/'.$jadwalUjian->kode_gelombang.'/'.$jadwalUjian->kode_jurusan.'" class="btn btn-xs btn-info" class="disabled"><i class="fa fa-envelope"></i></a> <a href="/panitia/pmb/jadwal-ujian/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
                 }
             })
             ->editColumn('tanggal_mulai_ujian', function($jadwalUjian){
@@ -176,7 +176,43 @@ class JadwalUjianController extends Controller
      */
     public function edit($id)
     {
-        //
+        $jadwalUjian = $this
+            ->jadwalUjianRepo
+            ->getSingleData($id);
+
+        $tahunAjaran = $this
+            ->tahunAjaranRepo
+            ->getAllData();
+
+        $gelombang = $this
+            ->gelombangRepo
+            ->getAllData();
+
+        $prodi = $this
+            ->prodiRepo
+            ->getAllData();
+
+        $soal = $this
+            ->soalRepo
+            ->getAllDataByJadwalUjian();
+
+        $tanggalMulaiUjian = $jadwalUjian
+            ->tanggal_mulai_ujian
+            ->format('d-m-Y H:i:s');
+
+        $tanggalSelesaiUjian = $jadwalUjian
+            ->tanggal_selesai_ujian
+            ->format('d-m-Y H:i:s');
+
+        return view('panitia.pmb.jadwal_ujian.form_ubah', compact(
+            'jadwalUjian',
+            'tahunAjaran',
+            'gelombang',
+            'prodi',
+            'soal',
+            'tanggalMulaiUjian',
+            'tanggalSelesaiUjian'
+        ));
     }
 
     /**
@@ -186,9 +222,37 @@ class JadwalUjianController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(JadwalUjianRequest $jadwalUjianReq, $id)
     {
-        //
+        $kodeJurusan = $jadwalUjianReq->kode_jurusan;
+        $kodeSoal = $jadwalUjianReq->kode_soal;
+        $kodeGelombang = $jadwalUjianReq->kode_gelombang;
+        $statusPendaftaran = $jadwalUjianReq->status_pendaftaran;
+        $tahun = $jadwalUjianReq->tahun;
+        $tanggalMulaiUjian = Carbon::parse($jadwalUjianReq->tanggal_mulai_ujian);
+        $tanggalSelesaiUjian = Carbon::parse($jadwalUjianReq->tanggal_selesai_ujian);
+        $kode = $jadwalUjianReq->kode;
+
+        $data = [
+            'kode' => $kode,
+            'kode_soal' => $kodeSoal,
+            'kode_gelombang' => $kodeGelombang,
+            'kode_jurusan' => $kodeJurusan,
+            'status_pendaftaran' => $statusPendaftaran,
+            'tahun' => $tahun,
+            'tanggal_mulai_ujian' => $tanggalMulaiUjian,
+            'tanggal_selesai_ujian' => $tanggalSelesaiUjian,
+            'status' => 0
+        ];
+
+        $update = $this
+            ->jadwalUjianRepo
+            ->updateJadwalUjianData($data, $id);
+
+        return redirect('/panitia/pmb/jadwal-ujian')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
     }
 
     /**

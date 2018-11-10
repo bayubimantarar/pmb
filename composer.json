@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "barryvdh/laravel-dompdf": "^0.8.3",
         "fideloper/proxy": "^4.0",
         "freshbitsweb/laratables": "^1.0",
         "gladcodes/keygen": "^1.1",
@@ -13,7 +14,7 @@
         "laravel/tinker": "^1.0",
         "maatwebsite/excel": "^3.1",
         "yajra/laravel-datatables-oracle": "~8.0",
-        "yogirzlsinatrya/terbilang": "dev-master"
+        "chumper/zipper": "1.0.x"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

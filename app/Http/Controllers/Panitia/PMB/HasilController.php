@@ -38,11 +38,11 @@ class HasilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function data()
+    public function data($kodeJadwalUjian)
     {
         $hasil = $this
             ->hasilRepo
-            ->getAllHasilData();
+            ->getAllHasilDataByCalonMahasiswa();
 
         $nilaiLulus = $this
             ->nilaiLulusRepo
@@ -50,6 +50,9 @@ class HasilController extends Controller
             ->first();
 
         return DataTables::of($hasil)
+            ->addColumn('action', function($hasil) use ($kodeJadwalUjian){
+                return '<center><a href="/panitia/pmb/hasil-ujian/'.$kodeJadwalUjian.'/form-ubah/'.$hasil->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a></center>';
+            })
             ->editColumn('status', function($hasil) use($nilaiLulus){
                 if($hasil->nilai_angka >= $nilaiLulus->nilai){
                     return '<center><span class="label label-success">Lulus</span></center>';
@@ -57,7 +60,7 @@ class HasilController extends Controller
                     return '<center><span class="label label-danger">Tidak Lulus</span></center>';
                 }
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 
@@ -94,7 +97,7 @@ class HasilController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($kodeJadwalUjian)
     {
         $prodi = $this
             ->prodiRepo
@@ -109,7 +112,7 @@ class HasilController extends Controller
             ->getAllData();
 
         return view('panitia.pmb.hasil.hasil', compact(
-            'prodi', 'gelombang', 'biaya'
+            'prodi', 'gelombang', 'biaya', 'kodeJadwalUjian'
         ));
     }
 

@@ -16,63 +16,72 @@
                 <a href="/panitia"><i class="fa fa-dashboard fa-fw"></i> Dasbor</a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> PMB<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-book fa-fw"></i> PMB Pendaftaran<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/panitia/pmb/gelombang"><i class="fa fa-book"></i> Data Gelombang</a>
+                        <a href="/panitia/pmb/gelombang">
+                            <i class="fa fa-book"></i> Data Gelombang
+                        </a>
                     </li>
                     <li>
-                        <a href="/panitia/pmb/biaya"><i class="fa fa-book"></i> Data Biaya</a>
+                        <a href="/panitia/pmb/biaya">
+                            <i class="fa fa-book"></i> Data Biaya
+                        </a>
                     </li>
                     <li>
-                        <a href="/panitia/pmb/pendaftaran"><i class="fa fa-book fa-fw"></i> Data Pendaftaran</a>
-                    </li>
-                     <li>
-                        <a href="/panitia/pmb/nilai-kelulusan"><i class="fa fa-book fa-fw"></i> Data Nilai Kelulusan</a>
-                    </li>
-                    <li>
-                        <a href="/panitia/pmb/jadwal-ujian"><i class="fa fa-book fa-fw"></i> Data Jadwal Ujian</a>
+                        <a href="/panitia/pmb/pendaftaran">
+                            <i class="fa fa-book fa-fw"></i> Data Pendaftaran
+                        </a>
                     </li>
                     <li>
-                        <a href="/panitia/pmb/hasil-ujian"><i class="fa fa-book fa-fw"></i> Data Hasil Ujian</a>
+                        <a href="/panitia/pmb/konfirmasi-pembayaran">
+                            <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
+                        </a>
                     </li>
-                </ul>
-                <!-- /.nav-second-level -->
-            </li>
-            {{-- <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Periksa Jawaban<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Soal<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                @foreach($soal as $item)
-                                    <li>
-                                        <a href="/dosen/periksa/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <!-- /.nav-second-level -->
+                        <a href="/panitia/pmb/formulir">
+                            <i class="fa fa-book fa-fw"></i> Data Formulir
+                        </a>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
             <li>
-                <a href="#"><i class="fa fa-book fa-fw"></i> Nilai<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-book fa-fw"></i> PMB Ujian<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Soal<span class="fa arrow"></span></a>
+                        <a href="/panitia/pmb/nilai-kelulusan">
+                            <i class="fa fa-book fa-fw"></i> Data Nilai Kelulusan
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/panitia/pmb/jadwal-ujian">
+                            <i class="fa fa-book fa-fw"></i> Data Jadwal Ujian
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Jawaban Ujian<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
-                                @foreach($soal as $item)
+                                @foreach($jadwalUjian as $item)
                                     <li>
-                                        <a href="/dosen/nilai/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode_jenis_ujian }} - {{ $item->nama_mata_kuliah }}</a>
+                                        <a href="/panitia/pmb/jawaban-ujian/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode }}</a>
                                     </li>
                                 @endforeach
                             </ul>
-                            <!-- /.nav-second-level -->
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Hasil Ujian<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @foreach($jadwalUjian as $item)
+                                    <li>
+                                        <a href="/panitia/pmb/hasil-ujian/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->
-            </li> --}}
+            </li>
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

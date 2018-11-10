@@ -200,7 +200,7 @@ class PendaftaranController extends Controller
 
         if($fotoCopyRaportKelasXII != null){
             $tempNamaFileFotoCopyRaportKelasXII = $fotoCopyRaportKelasXII->getClientOriginalName();
-            $namaFileFotocopyRaportKelasXII = $kodePendaftaran.$tempNamaFileFotoCopyRaportKelasXII;
+            $namaFileFotocopyRaportKelasXII = 'Fotocopy Raport Kelas XII '.$kodePendaftaran.$tempNamaFileFotoCopyRaportKelasXII;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($fotoCopyRaportKelasXII, $namaFileFotocopyRaportKelasXII);
@@ -210,7 +210,7 @@ class PendaftaranController extends Controller
 
         if($fotoCopyIjazahSMA != null){
             $tempNamaFotoCopyIjazahSMA = $fotoCopyIjazahSMA->getClientOriginalName();
-            $namaFileFotoCopyIjazahSMA = $kodePendaftaran.$tempNamaFotoCopyIjazahSMA;
+            $namaFileFotoCopyIjazahSMA = 'Fotocopy Ijazah '.$kodePendaftaran.$tempNamaFotoCopyIjazahSMA;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($fotoCopyIjazahSMA, $namaFileFotoCopyIjazahSMA);
@@ -220,7 +220,7 @@ class PendaftaranController extends Controller
 
         if($foto3x4 != null){
             $tempNamaFoto3x4 = $foto3x4->getClientOriginalName();
-            $namaFileFoto3x4 = $kodePendaftaran.$tempNamaFoto3x4;
+            $namaFileFoto3x4 = 'Foto 3x4 '.$kodePendaftaran.$tempNamaFoto3x4;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($foto3x4, $namaFileFoto3x4);
@@ -230,7 +230,7 @@ class PendaftaranController extends Controller
 
         if($foto4x6 != null){
             $tempNamaFoto4x6 = $foto4x6->getClientOriginalName();
-            $namaFileFoto4x6 = $kodePendaftaran.$tempNamaFoto4x6;
+            $namaFileFoto4x6 = 'Foto 4x6 '.$kodePendaftaran.$tempNamaFoto4x6;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($foto4x6, $namaFileFoto4x6);
@@ -240,7 +240,7 @@ class PendaftaranController extends Controller
 
         if($suratKeteranganPindah != null){
             $tempSuratKeteranganPindah = $suratKeteranganPindah->getClientOriginalName();
-            $namaFileSuratKeteranganPindah = $kodePendaftaran.$tempSuratKeteranganPindah;
+            $namaFileSuratKeteranganPindah = 'Surat Keterangan Pindah '.$kodePendaftaran.$tempSuratKeteranganPindah;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($suratKeteranganPindah, $namaFileSuratKeteranganPindah);
@@ -250,7 +250,7 @@ class PendaftaranController extends Controller
 
         if($fotoCopyTranskripNilai != null){
             $tempFotocopyTranskripNilai = $fotoCopyTranskripNilai->getClientOriginalName();
-            $namaFileFotocopyTranskripNilai = $kodePendaftaran.$tempFotocopyTranskripNilai;
+            $namaFileFotocopyTranskripNilai = 'Fotocopy Transkrip Nilai '.$kodePendaftaran.$tempFotocopyTranskripNilai;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($fotoCopyTranskripNilai, $namaFileFotocopyTranskripNilai);
@@ -260,7 +260,7 @@ class PendaftaranController extends Controller
 
         if($fotoCopyIjazahPerguruanTinggiAsal != null){
             $tempFotocopyIjazahPerguruanTinggiAsal = $fotoCopyIjazahPerguruanTinggiAsal->getClientOriginalName();
-            $namaFileFotocopyIjazahPerguruanTinggiAsal = $kodePendaftaran.$tempFotocopyIjazahPerguruanTinggiAsal;
+            $namaFileFotocopyIjazahPerguruanTinggiAsal = 'Fotocopy Ijazah Perguruan Tinggi '.$kodePendaftaran.$tempFotocopyIjazahPerguruanTinggiAsal;
             $upload = $this
                 ->calonMahasiswaKelengkapanServe
                 ->handleUploadGambar($fotoCopyIjazahPerguruanTinggiAsal, $namaFileFotocopyIjazahPerguruanTinggiAsal);
