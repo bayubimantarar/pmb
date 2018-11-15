@@ -25,23 +25,27 @@ class KonfirmasiPembayaranController extends Controller
      */
     public function data()
     {
-        $konfirmasiPendaftaran = $this
+        $konfirmasiPembayaran = $this
             ->konfirmasiPembayaranRepo
             ->getAllData();
 
-        return DataTables::of($konfirmasiPendaftaran)
-            ->editCOlumn('status', function($konfirmasiPendaftaran){
-                if($konfirmasiPendaftaran->status == 1){
+        return DataTables::of($konfirmasiPembayaran)
+            ->editCOlumn('status', function($konfirmasiPembayaran){
+                if($konfirmasiPembayaran->status == 1){
                     return '<center><span class="label label-success">Pembayaran sudah dikonfirmasi</span></center>';
                 }else{
                     return '<center><span class="label label-danger">Pembayaran belum dikonfirmasi</span></center>';
                 }
             })
-            ->editCOlumn('tanggal_pembayaran', function($konfirmasiPendaftaran){
-                return $konfirmasiPendaftaran->tanggal_pembayaran->formatLocalized('%d %B %Y');
+            ->editCOlumn('tanggal_pembayaran', function($konfirmasiPembayaran){
+                return $konfirmasiPembayaran->tanggal_pembayaran->formatLocalized('%d %B %Y');
             })
-            ->editCOlumn('bukti_transaksi', function($konfirmasiPendaftaran){
-                return '<img src="/uploads/pmb/pembayaran/'.$konfirmasiPendaftaran->bukti_transaksi.'" class="img-thumbnail img-responsive" />';
+            ->editCOlumn('bukti_transaksi', function($konfirmasiPembayaran){
+                if($konfirmasiPembayaran->bukti_transaksi == NULL){
+                    return '<center><span class="label label-danger">Bukti pembayaran tidak disisipkan</span></center>';
+                }else{
+                    return '<center><a href="/panitia/pmb/konfirmasi-pembayaran/unduh/'.$konfirmasiPembayaran->id.'" class="btn btn-xs btn-primary" title="Unduh bukti pembayaran"><i class="fa fa-download"></i></a></center>';
+                }
             })
             ->rawColumns(['action', 'status', 'bukti_transaksi'])
             ->make(true);
@@ -121,5 +125,24 @@ class KonfirmasiPembayaranController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function download($id)
+    {
+        $konfirmasiPembayaran = $this
+            ->konfirmasiPembayaranRepo
+            ->getSingleData($id);
+
+        $fileBuktiTransaksi = public_path('uploads/pmb/pembayaran/'.$konfirmasiPembayaran->bukti_transaksi);
+        $fileName = "Bukti transaksi - ".$konfirmasiPembayaran->nama.' - '.$konfirmasiPembayaran->bukti_transaksi;
+
+        return response()
+            ->download($fileBuktiTransaksi, $fileName);
     }
 }

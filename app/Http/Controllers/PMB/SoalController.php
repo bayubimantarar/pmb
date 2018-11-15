@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\PMB;
 
+use PDF;
 use Mail;
 use Auth;
 use Carbon\Carbon;
@@ -10,20 +11,24 @@ use App\Mail\PMB\KeteranganLulus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PMB\UjianRequest;
 use App\Repositories\PMB\HasilRepository;
+use App\Repositories\PMB\BiayaRepository;
+use App\Repositories\PMB\GelombangRepository;
 use App\Repositories\PMB\NilaiLulusRepository;
 use App\Repositories\Prodi\PMB\SoalRepository;
 use App\Repositories\Prodi\PMB\TokenRepository;
 use App\Repositories\PMB\JadwalUjianRepository;
 use App\Repositories\Prodi\PMB\JawabanRepository;
-use App\Repositories\Prodi\PMB\PertanyaanRepository;
 use App\Repositories\PMB\CalonMahasiswaRepository;
+use App\Repositories\Prodi\PMB\PertanyaanRepository;
 
 class SoalController extends Controller
 {
     private $soalRepo;
     private $tokenRepo;
     private $hasilRepo;
+    private $biayaRepo;
     private $jawabanRepo;
+    private $gelombangRepo;
     private $nilaiLulusRepo;
     private $pertanyaanRepo;
     private $jadwalUjianRepo;
@@ -34,19 +39,23 @@ class SoalController extends Controller
         TokenRepository $tokenRepo,
         SoalRepository $soalRepository,
         HasilRepository $hasilRepository,
+        BiayaRepository $biayaRepository,
         PertanyaanRepository $pertanyaanRepo,
         JawabanRepository $jawabanRepository,
+        GelombangRepository $gelombangRepository,
         NilaiLulusRepository $nilaiLulusRepository,
         JadwalUjianRepository $jadwalUjianRepository,
         CalonMahasiswaRepository $calonMahasiswaRepository
     ) {
-        $this->tokenRepo        = $tokenRepo;
-        $this->soalRepo         = $soalRepository;
-        $this->pertanyaanRepo   = $pertanyaanRepo;
-        $this->hasilRepo        = $hasilRepository;
-        $this->jawabanRepo      = $jawabanRepository;
-        $this->nilaiLulusRepo   = $nilaiLulusRepository;
-        $this->jadwalUjianRepo  = $jadwalUjianRepository;
+        $this->tokenRepo            = $tokenRepo;
+        $this->soalRepo             = $soalRepository;
+        $this->pertanyaanRepo       = $pertanyaanRepo;
+        $this->hasilRepo            = $hasilRepository;
+        $this->jawabanRepo          = $jawabanRepository;
+        $this->nilaiLulusRepo       = $nilaiLulusRepository;
+        $this->jadwalUjianRepo      = $jadwalUjianRepository;
+        $this->biayaRepo            = $biayaRepository;
+        $this->gelombangRepo        = $gelombangRepository;
         $this->calonMahasiswaRepo   = $calonMahasiswaRepository;
     }
     /**
@@ -232,11 +241,14 @@ class SoalController extends Controller
         }else if($tanggalBulan == '11'){
             $bulan = "November";
         }else if($tanggalBulan == '12'){
-            $bulan = "Dsember";
+            $bulan = "Desember";
         }
 
         $tahun = $calonMahasiswa->tahun;
         $sekolahAsal = $calonMahasiswa->asal_sekolah;
+        $kodeGelombang = Auth::guard('calon_mahasiswa')->User()->kode_gelombang;
+        $kodeKelas = Auth::guard('calon_mahasiswa')->User()->kode_kelas;
+
         if($calonMahasiswa->kode_jurusan == "IF"){
             $jurusanPilihan = "Teknik Informatika";
         }else{
@@ -244,42 +256,84 @@ class SoalController extends Controller
         }
 
         if($totalNilai >= $nilaiAngka){
-            $keteranganLulus = "Lulus";
-            $sendEmail = Mail::to($email)->send(new KeteranganLulus(
-                $nama,
-                $kodePendaftaran,
-                $keteranganLulus,
-                $kotaLahir,
-                $tanggal,
-                $bulan,
-                $tahun,
-                $sekolahAsal,
-                $jurusanPilihan
-            ));
+            $gelombang = $this
+                ->gelombangRepo
+                ->getSingleDataForBiaya($kodeGelombang);
+
+            $biaya = $this
+                ->biayaRepo
+                ->getSingleDataForBiaya($kodeKelas);
+
+            
+            // $keteranganLulus = "Lulus";
+            // $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
+            //     'nama',
+            //     'kodePendaftaran',
+            //     'keteranganLulus',
+            //     'kotaLahir',
+            //     'tanggal',
+            //     'bulan',
+            //     'tahun',
+            //     'sekolahAsal',
+            //     'jurusanPilihan'
+            // ));
+
+            // $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf');
+
+            // $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+
+            // $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
+
+            // $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+
+            // $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
+
+            // $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
+            // $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
+
+            // $sendEmail = Mail::to($email)
+            //     ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
         }else{
-            $keteranganLulus = "Tidak Lulus";
-            $sendEmail = Mail::to($email)->send(new KeteranganLulus(
-                $nama,
-                $kodePendaftaran,
-                $keteranganLulus,
-                $kotaLahir,
-                $tanggal,
-                $bulan,
-                $tahun,
-                $sekolahAsal,
-                $jurusanPilihan
-            ));
+            // $keteranganLulus = "Tidak Lulus";
+
+            // $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
+            //     'nama',
+            //     'kodePendaftaran',
+            //     'keteranganLulus',
+            //     'kotaLahir',
+            //     'tanggal',
+            //     'bulan',
+            //     'tahun',
+            //     'sekolahAsal',
+            //     'jurusanPilihan'
+            // ));
+
+            // $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf');
+
+            // $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+
+            // $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
+
+            // $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+
+            // $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
+
+            // $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
+            // $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
+
+            // $sendEmail = Mail::to($email)
+            //     ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
         }
 
-        $store = $this
-            ->jawabanRepo
-            ->storeJawabanData($data);
+        // $store = $this
+        //     ->jawabanRepo
+        //     ->storeJawabanData($data);
         
-        $storeHasil = $this
-            ->hasilRepo
-            ->storeHasilData($dataHasil);
+        // $storeHasil = $this
+        //     ->hasilRepo
+        //     ->storeHasilData($dataHasil);
 
-        return redirect('/pmb');
+        // return redirect('/pmb');
     }
 
     /**

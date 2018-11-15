@@ -202,15 +202,15 @@ class SoalController extends Controller
             'status'    => 0
         ];
         
-        $store = $this
-            ->jawabanRepo
-            ->storeJawabanData($data);
+        // $store = $this
+        //     ->jawabanRepo
+        //     ->storeJawabanData($data);
         
-        $storeHasil = $this
-            ->hasilRepo
-            ->storeHasilData($dataHasil);
+        // $storeHasil = $this
+        //     ->hasilRepo
+        //     ->storeHasilData($dataHasil);
 
-        return redirect('/mahasiswa');
+        // return redirect('/mahasiswa');
     }
 
     /**

@@ -57,7 +57,7 @@
                             <h1>Status dan pilihan</h1>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-3 col-lg-12 {{$errors->has('status_pendaftaran') ? ' has-error' : ''}}">
+                                    <div class="col-lg-12 col-md-12 col-lg-12 {{$errors->has('status_pendaftaran') ? ' has-error' : ''}}">
                                         <label>Pendaftaran *</label>
                                         <div class="radio">
                                             <label>
@@ -742,7 +742,7 @@
                                                 @foreach($gelombangTable as $item)
                                                 <tr>
                                                     <td>
-                                                        {{ $item->nama }} ({{ $item->dari_tanggal->formatLocalized('%B') }} - {{ $item->sampai_tanggal->formatLocalized('%B %Y') }}
+                                                        {{ $item->nama }} ({{ $item->dari_tanggal->formatLocalized('%B') }} - {{ $item->sampai_tanggal->formatLocalized('%B %Y') }})
                                                     </td>
                                                     <td>
                                                         Rp {{ number_format($item->jumlah_potongan,0,',','.') }}
@@ -813,37 +813,37 @@
                                                 <tr>
                                                     <td>Biaya jaket & kemeja</td>
                                                     <td>
-                                                        Rp {{ number_format(350000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[0]['biaya_jaket_kemeja'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya PSPT</td>
                                                     <td>
-                                                        Rp {{ number_format(500000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[0]['biaya_pspt'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya Kuliah Cicilan 1 (40%)</td>
                                                     <td>
-                                                        Rp {{ number_format(1140000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[0]['biaya_kuliah'] * 40 / 100,0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya pengembangan (1/12)</td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[0]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[0]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                            Rp {{ number_format(round((5000000 - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya kemahasiswaan</td>
                                                     <td>
-                                                        Rp {{ number_format(300000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[0]['biaya_kemahasiswaan'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -854,11 +854,11 @@
                                                     </td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round(350000 + 500000 + 1140000 + 300000 + ((5000000 - $gelombang[0]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                            Rp {{ number_format(round($biaya[0]['biaya_jaket_kemeja'] + $biaya[0]['biaya_pspt'] + ($biaya[0]['biaya_kuliah'] * 40 / 100) + $biaya[0]['biaya_kemahasiswaan'] + (($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[0]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                        Rp {{ number_format(round(350000 + 500000 + 1140000 + 300000 + ((5000000 - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[0]['biaya_jaket_kemeja'] + $biaya[0]['biaya_pspt'] + ($biaya[0]['biaya_kuliah'] * 40 / 100) + $biaya[0]['biaya_kemahasiswaan'] + (($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                        Rp {{ number_format(round(350000 + 500000 + 1140000 + 300000 + ((5000000 - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[0]['biaya_jaket_kemeja'] + $biaya[0]['biaya_pspt'] + ($biaya[0]['biaya_kuliah'] * 40 / 100) + $biaya[0]['biaya_kemahasiswaan'] + (($biaya[0]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -882,37 +882,37 @@
                                                 <tr>
                                                     <td>Biaya jaket & kemeja</td>
                                                     <td>
-                                                        Rp {{ number_format(350000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[1]['biaya_jaket_kemeja'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya PSPT</td>
                                                     <td>
-                                                        Rp {{ number_format(500000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[1]['biaya_pspt'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya Kuliah Cicilan 1 (40%)</td>
                                                     <td>
-                                                        Rp {{ number_format(1280000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[1]['biaya_kuliah'] * 40 / 100,0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya pengembangan (1/12)</td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[0]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                            Rp {{ number_format(round((5000000 - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya kemahasiswaan</td>
                                                     <td>
-                                                        Rp {{ number_format(300000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[1]['biaya_kemahasiswaan'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -923,11 +923,11 @@
                                                     </td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round(350000 + 500000 + 1280000 + 300000 + ((5000000 - $gelombang[0]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                            Rp {{ number_format(round($biaya[1]['biaya_jaket_kemeja'] + $biaya[1]['biaya_pspt'] + ($biaya[1]['biaya_kuliah'] * 40 / 100) + $biaya[1]['biaya_kemahasiswaan'] + (($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                            Rp {{ number_format(round(350000 + 500000 + 1280000 + 300000 + ((5000000 - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[1]['biaya_jaket_kemeja'] + $biaya[1]['biaya_pspt'] + ($biaya[1]['biaya_kuliah'] * 40 / 100) + $biaya[0]['biaya_kemahasiswaan'] + (($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                            Rp {{ number_format(round(350000 + 500000 + 1280000 + 300000 + ((5000000 - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[1]['biaya_jaket_kemeja'] + $biaya[1]['biaya_pspt'] + ($biaya[1]['biaya_kuliah'] * 40 / 100) + $biaya[1]['biaya_kemahasiswaan'] + (($biaya[1]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -951,37 +951,37 @@
                                                 <tr>
                                                     <td>Biaya jaket & kemeja</td>
                                                     <td>
-                                                        Rp {{ number_format(350000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[2]['biaya_jaket_kemeja'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya PSPT</td>
                                                     <td>
-                                                        Rp {{ number_format(500000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[2]['biaya_pspt'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya Kuliah Cicilan 1 (40%)</td>
                                                     <td>
-                                                        Rp {{ number_format(1280000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[2]['biaya_kuliah'] * 40 / 100,0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya pengembangan (1/12)</td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[0]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[0]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                            Rp {{ number_format(round((5000000 - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                            Rp {{ number_format(round((5000000 - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
+                                                            Rp {{ number_format(round(($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan'])) / 12,0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Biaya kemahasiswaan</td>
                                                     <td>
-                                                        Rp {{ number_format(300000,0,',','.') }}
+                                                        Rp {{ number_format($biaya[2]['biaya_kemahasiswaan'],0,',','.') }}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -992,11 +992,11 @@
                                                     </td>
                                                     <td>
                                                         @if($tanggalSekarang <= $gelombang[0]['dari_tanggal'] && $tanggalSekarang >= $gelombang[0]['sampai_tanggal'])
-                                                            Rp {{ number_format(round(350000 + 500000 + 1540000 + 300000 + ((5000000 - $gelombang[0]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                            Rp {{ number_format(round($biaya[2]['biaya_jaket_kemeja'] + $biaya[2]['biaya_pspt'] + ($biaya[2]['biaya_kuliah'] * 40 / 100) + $biaya[2]['biaya_kemahasiswaan'] + (($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[0]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif($tanggalSekarang <= $gelombang[1]['dari_tanggal'] && $tanggalSekarang  >= $gelombang[1]['sampai_tanggal'])
-                                                            Rp {{ number_format(round(350000 + 500000 + 1540000 + 300000 + ((5000000 - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[2]['biaya_jaket_kemeja'] + $biaya[2]['biaya_pspt'] + ($biaya[2]['biaya_kuliah'] * 40 / 100) + $biaya[2]['biaya_kemahasiswaan'] + (($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[1]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @elseif(($tanggalSekarang >= $gelombang[2]['dari_tanggal'] && $tanggalSekarang <= $gelombang[2]['sampai_tanggal']))
-                                                            Rp {{ number_format(round(350000 + 500000 + 1540000 + 300000 + ((5000000 - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
+                                                        Rp {{ number_format(round($biaya[2]['biaya_jaket_kemeja'] + $biaya[2]['biaya_pspt'] + ($biaya[2]['biaya_kuliah'] * 40 / 100) + $biaya[2]['biaya_kemahasiswaan'] + (($biaya[2]['biaya_pengembangan_institusi'] - $gelombang[2]['jumlah_potongan']) / 12)),0,',','.') }}
                                                         @endif
                                                     </td>
                                                 </tr>

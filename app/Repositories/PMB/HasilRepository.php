@@ -25,6 +25,24 @@ class HasilRepository
         return $getHasil;
     }
 
+    public function getSingleHasilData($id)
+    {
+        $getHasil = Hasil::findOrFail($id);
+
+        return $getHasil;
+    }
+
+    public function getSingleHasilDataForKeteranganLulus($id)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa_status', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_hasil.kode_pendaftaran')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.kota_lahir', 'pmb_calon_mahasiswa_biodata.tanggal', 'pmb_calon_mahasiswa_biodata.bulan', 'pmb_calon_mahasiswa_biodata.tahun', 'pmb_calon_mahasiswa_status.asal_sekolah', 'pmb_calon_mahasiswa_status.jurusan_pilihan')
+            ->where('pmb_hasil.id', $id)
+            ->get();
+
+        return $getHasil;
+    }
+
     public function getAllHasilDataByCalonMahasiswa()
     {
         $getHasil = Hasil::join(
@@ -58,11 +76,10 @@ class HasilRepository
         return $storeHasil;
     }
 
-    public function updateHasilData($nim, $kodesoal, $data)
+    public function updateHasilData($id, $data)
     {
-        $updateHasil = Hasil::where('nim', '=', $nim)
-        ->where('kode_soal', '=', $kodesoal)
-        ->update($data);
+        $updateHasil = Hasil::where('id', '=', $id)
+            ->update($data);
         
         return $updateHasil;
     }    

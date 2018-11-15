@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers\Panitia\PMB;
 
+use PDF;
 use DataTables;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Prodi\PMB\JawabanRepository;
+use App\Repositories\Prodi\PMB\PertanyaanRepository;
 
 class JawabanController extends Controller
 {
     private $jawabanRepo;
+    private $pertanyaanRepo;
 
-    public function __construct(JawabanRepository $jawabanRepository)
-    {
+    public function __construct(
+        JawabanRepository $jawabanRepository,
+        PertanyaanRepository $pertanyaanRepository
+    ) {
         $this->jawabanRepo = $jawabanRepository;
+        $this->pertanyaanRepo = $pertanyaanRepository;
     }
 
     /**
@@ -29,7 +35,7 @@ class JawabanController extends Controller
 
         return DataTables::of($jawaban)
             ->addColumn('action', function($jawaban) use ($kodeJadwalUjian){
-                return '<center><a href="/panitia/pmb/jawaban-ujian/'.$kodeJadwalUjian.'/detail/'.$jawaban->kode_pendaftaran.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle"></i></a></center>';
+                return '<center><a href="/panitia/pmb/jawaban-ujian/'.$kodeJadwalUjian.'/detail/'.$jawaban->kode_pendaftaran.'/'.$jawaban->kode_soal.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle"></i></a> <a href="/panitia/pmb/jawaban-ujian/'.$kodeJadwalUjian.'/unduh/'.$jawaban->kode_pendaftaran.'" class="btn btn-success btn-xs" title="Unduh formulir"><i class="fa fa-file-text-o"></i></a></center>';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -74,9 +80,26 @@ class JawabanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($kodeJadwalUjian, $kodePendaftaran)
+    public function show($kodeJadwalUjian, $kodePendaftaran, $kodeSoal)
     {
-        dd($kodePendaftaran);
+        $jawaban = $this
+            ->jawabanRepo
+            ->getSingleDataByPanitiaForCheck($kodePendaftaran, $kodeSoal);
+
+        $pertanyaan = $this
+            ->pertanyaanRepo
+            ->getAllDataBySoal($kodeSoal);
+
+        $nomorSoal  = 1;
+        $nomorSoalPertanyaan = 1;
+        
+        return view('panitia.pmb.jawaban.detail', compact(
+            'jawaban',
+            'pertanyaan',
+            'kodeSoal',
+            'nomorSoal',
+            'nomorSoalPertanyaan'
+        ));
     }
 
     /**
@@ -111,5 +134,25 @@ class JawabanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function downloadJawaban($kodeJadwalUjian, $kodePendaftaran)
+    {
+        $jawaban = $this
+            ->jawabanRepo
+            ->checkJawabanDataByCalonMahasiswa($kodePendaftaran);
+
+        $nama = $jawaban->first()->nama;
+
+        $nomorSoal  = 1;
+
+        $pdf = PDF::loadView('panitia.pmb.jawaban.jawaban_pdf', compact(
+            'jawaban',
+            'nomorSoal'
+        ));
+
+        $fileName = 'Jawaban '.$nama.' '.$kodePendaftaran.'.pdf';
+
+        return $pdf->download($fileName);
     }
 }

@@ -24,6 +24,17 @@ class JawabanRepository
         return $getJawaban;
     }
 
+    public function checkJawabanDataByCalonMahasiswa($kodePendaftaran)
+    {
+        $getJawaban = Jawaban::join('pmb_calon_mahasiswa_biodata', 'pmb_jawaban.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('pmb_pertanyaan', 'pmb_jawaban.nomor_pertanyaan', '=', 'pmb_pertanyaan.id')
+            ->select('pmb_calon_mahasiswa_biodata.nama', 'pmb_jawaban.jawaban_benar_salah', 'pmb_jawaban.jawaban_pilihan', 'pmb_jawaban.jenis_pertanyaan', 'pmb_pertanyaan.pertanyaan', 'pmb_pertanyaan.pilihan_a', 'pmb_pertanyaan.pilihan_b', 'pmb_pertanyaan.pilihan_c', 'pmb_pertanyaan.pilihan_d', 'pmb_pertanyaan.pilihan_e', 'pmb_pertanyaan.gambar')
+            ->where('pmb_jawaban.kode_pendaftaran', '=', $kodePendaftaran)
+            ->get();
+
+        return $getJawaban;
+    }
+
     public function checkMahasiswaHasExam($kodePendaftaran, $kodeSoal)
     {
         $getJawaban = Jawaban::where([
@@ -65,10 +76,21 @@ class JawabanRepository
     public function getSingleDataByPanitiaForNilai($kodeJadwalUjian)
     {
         $getJawaban = Jawaban::join('pmb_calon_mahasiswa_biodata', 'pmb_jawaban.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
-        ->select('pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+        ->select('pmb_jawaban.id', 'pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran', 'pmb_jawaban.kode_soal')
         ->where('pmb_jawaban.kode_jadwal_ujian', '=', $kodeJadwalUjian)
         ->groupBy('pmb_jawaban.kode_pendaftaran')
         ->get();
+
+        return $getJawaban;
+    }
+
+    public function getSingleDataByPanitiaForCheck($kodePendaftaran, $kodeSoal)
+    {
+        $getJawaban = Jawaban::join('pmb_pertanyaan', 'pmb_jawaban.nomor_pertanyaan', '=', 'pmb_pertanyaan.id')
+            ->select('pmb_jawaban.jawaban_benar_salah', 'pmb_jawaban.jawaban_pilihan', 'pmb_jawaban.jenis_pertanyaan', 'pmb_pertanyaan.pertanyaan', 'pmb_pertanyaan.pilihan_a', 'pmb_pertanyaan.pilihan_b', 'pmb_pertanyaan.pilihan_c', 'pmb_pertanyaan.pilihan_d', 'pmb_pertanyaan.pilihan_e', 'pmb_pertanyaan.gambar')
+            ->where('pmb_jawaban.kode_pendaftaran', '=', $kodePendaftaran)
+            ->where('pmb_jawaban.kode_soal', '=', $kodeSoal)
+            ->get();
 
         return $getJawaban;
     }

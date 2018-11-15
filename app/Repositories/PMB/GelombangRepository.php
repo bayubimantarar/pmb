@@ -20,6 +20,15 @@ class GelombangRepository
         return $getGelombangData;
     }
 
+    public function getSingleDataForBiaya($kodeGelombang)
+    {
+        $getGelombangData = Gelombang::where('kode', '=', $kodeGelombang)
+            ->get()
+            ->first();
+
+        return $getGelombangData;
+    }
+
     public function storeGelombangData($data)
     {
         $storeGelombangData = Gelombang::create($data);

@@ -407,6 +407,10 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\KonfirmasiPembayaranController@data',
                     'as' => 'panitia.pmb.konfirmasi_pembayaran.data'
                 ]);
+                Route::get('/unduh/{id}', [
+                    'uses' => 'Panitia\PMB\KonfirmasiPembayaranController@download',
+                    'as' => 'panitia.pmb.konfirmasi_pembayaran.unduh'
+                ]);
             });
             Route::group(['prefix' => 'gelombang'], function(){
                 Route::get('/', [
@@ -537,9 +541,13 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\JawabanController@index',
                     'as' => 'panitia.pmb.hasil_ujian'
                 ]);
-                Route::get('{kode_jadwal_ujian}/detail/{kode_pendaftaran}', [
+                Route::get('{kode_jadwal_ujian}/detail/{kode_pendaftaran}/{kode_soal}', [
                     'uses' => 'Panitia\PMB\JawabanController@show',
                     'as' => 'panitia.pmb.hasil_ujian.detail'
+                ]);
+                Route::get('{kode_jadwal_ujian}/unduh/{kode_pendaftaran}', [
+                    'uses' => 'Panitia\PMB\JawabanController@downloadJawaban',
+                    'as' => 'panitia.pmb.hasil_ujian.unduh'
                 ]);
                 Route::get('{kode_jadwal_ujian}/data', [
                     'uses' => 'Panitia\PMB\JawabanController@data',
@@ -555,11 +563,11 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\HasilController@index',
                     'as' => 'panitia.pmb.hasil_ujian'
                 ]);
-                Route::get('/form-ubah/{id}', [
+                Route::get('{JadwalUjian}/form-ubah/{id}', [
                     'uses' => 'Panitia\PMB\HasilController@edit',
                     'as' => 'panitia.pmb.hasil_ujian.form_edit'
                 ]);
-                Route::put('/ubah/{id}', [
+                Route::put('{JadwalUjian}/ubah/{id}', [
                     'uses' => 'Panitia\PMB\HasilController@update',
                     'as' => 'panitia.pmb.hasil_ujian.ubah'
                 ]);
@@ -570,6 +578,10 @@ Route::group(['prefix' => 'panitia'], function(){
                 Route::get('{jadwalUjian}/data/cari/{kode_jurusan}/{kode_gelombang}/{kode_kelas}/{tahun}', [
                     'uses' => 'Panitia\PMB\HasilController@dataFilter',
                     'as' => 'panitia.pmb.hasil_ujian.data_filter'
+                ]);
+                Route::get('{JadwalUjian}/unduh/{id}', [
+                    'uses' => 'Panitia\PMB\HasilController@downloadKelulusan',
+                    'as' => 'panitia.pmb.hasil_ujian.unduh'
                 ]);
             });
             Route::group(['prefix' => 'formulir'], function(){

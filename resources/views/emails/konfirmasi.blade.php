@@ -19,7 +19,7 @@ Terima kasih telah mendaftar sebagai calon mahasiswa di STMIK Bandung.
                 <img src="https://dev.ujian.bimantara.web.id/assets/img/mandiri.png" alt="Logo STMIK Bandung" height="45" />
             </td>
             <td>
-                1370012937001 a/n STMIK Bandung
+                1310007899415 a/n STMIK Bandung
             </td>
         </tr>
     </table>

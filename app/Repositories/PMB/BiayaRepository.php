@@ -20,6 +20,15 @@ class BiayaRepository
         return $getBiayaData;
     }
 
+    public function getSingleDataForBiaya($kodeKelas)
+    {
+        $getBiayaData = Biaya::where('id', '=', $kodeKelas)
+            ->get()
+            ->first();
+
+        return $getBiayaData;
+    }
+
     public function storeBiayaData($data)
     {
         $storeBiayaData = Biaya::create($data);

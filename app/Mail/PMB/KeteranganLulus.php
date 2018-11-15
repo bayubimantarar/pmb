@@ -11,15 +11,7 @@ class KeteranganLulus extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private $nama;
-    private $kodePendaftaran;
-    private $KeteranganLulus;
-    private $kotaLahir;
-    private $tanggal;
-    private $bulan;
-    private $tahun;
-    private $sekolahAsal;
-    private $jurusanPilihan;
+    private $file, $namaFile, $filePdfBiaya, $namaFilePdfBiaya, $keteranganLulus;
 
     /**
      * Create a new message instance.
@@ -27,25 +19,17 @@ class KeteranganLulus extends Mailable
      * @return void
      */
     public function __construct(
-        $nama, 
-        $kodePendaftaran, 
-        $KeteranganLulus,
-        $kotaLahir,
-        $tanggal,
-        $bulan,
-        $tahun,
-        $sekolahAsal,
-        $jurusanPilihan
+        $realFile,
+        $namaFile,
+        $realFilePdfBiaya,
+        $fileNamePdfBiaya, 
+        $keteranganLulus
     ) {
-        $this->nama = $nama;
-        $this->kodePendaftaran = $kodePendaftaran;
-        $this->KeteranganLulus = $KeteranganLulus;
-        $this->kotaLahir = $kotaLahir;
-        $this->tanggal = $tanggal;
-        $this->bulan = $bulan;
-        $this->tahun = $tahun;
-        $this->sekolahAsal = $sekolahAsal;
-        $this->jurusanPilihan = $jurusanPilihan;
+        $this->file = $realFile;
+        $this->namaFile = $namaFile;
+        $this->filePdfBiaya = $realFilePdfBiaya;
+        $this->fileNamePdfBiaya = $fileNamePdfBiaya;
+        $this->keteranganLulus = $keteranganLulus;
     }
 
     /**
@@ -55,18 +39,22 @@ class KeteranganLulus extends Mailable
      */
     public function build()
     {
-        return $this
-            ->markdown('emails.keterangan_lulus')
-            ->with([
-                    'nama' => $this->nama,
-                    'kodePendaftaran' => $this->kodePendaftaran,
-                    'KeteranganLulus' => $this->KeteranganLulus,
-                    'kotaLahir' => $this->kotaLahir,
-                    'tanggal' => $this->tanggal,
-                    'bulan' => $this->bulan,
-                    'tahun' => $this->tahun,
-                    'sekolahAsal' => $this->sekolahAsal,
-                    'jurusanPilihan' => $this->jurusanPilihan
+        if($this->keteranganLulus == "Lulus")
+            return $this->markdown('emails.keterangan_lulus')
+                ->attach($this->file, [
+                    'as' => $this->namaFile,
+                    'mime' => 'application/pdf',
+                ])
+                ->attach($this->filePdfBiaya, [
+                    'as' => $this->fileNamePdfBiaya,
+                    'mime' => 'application/pdf',
                 ]);
+        else{
+            return $this->markdown('emails.keterangan_lulus')
+                ->attach($this->file, [
+                    'as' => $this->namaFile,
+                    'mime' => 'application/pdf',
+                ]);
+        }
     }
 }
