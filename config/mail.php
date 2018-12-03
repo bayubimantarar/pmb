@@ -56,7 +56,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'pmb@bimantara.web.id'),
+        'address' => env('MAIL_FROM_ADDRESS', 'pmb@stmik-bandung.online'),
         'name' => env('MAIL_FROM_NAME', 'PMB STMIK Bandung'),
     ],
 

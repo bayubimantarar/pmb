@@ -264,76 +264,107 @@ class SoalController extends Controller
                 ->biayaRepo
                 ->getSingleDataForBiaya($kodeKelas);
 
+            $gelombang = $this
+                ->gelombangRepo
+                ->getSingleDataForBiaya($kodeGelombang);
+
+            $gelombangData = $this
+                ->gelombangRepo
+                ->getAllData();
+
+            foreach ($gelombangData as $item) {
+                if ($kodeGelombang == $item->kode) {
+                    $tempTanggalGelombang = $item->sampai_tanggal;
+                }
+            }
+
+            $biayaPendaftaran = $biaya->biaya_pendaftaran;
+            $biayaJaketKemeja = $biaya->biaya_jaket_kemeja;
+            $biayaPSPT = $biaya->biaya_pspt;
+            $biayaPengembanganInstitusi = $biaya->biaya_pengembangan_institusi;
+            $biayaKuliah = $biaya->biaya_kuliah;
+            $biayaKemahasiswaan = $biaya->biaya_kemahasiswaan;
+            $potonganPengembanganInstitusi = $gelombang->jumlah_potongan;
+            $tanggalGelombang = $tempTanggalGelombang->formatLocalized('%d %B %Y');
+            $tanggalSekarang = Carbon::now()->formatLocalized('%d %B %Y');
             
-            // $keteranganLulus = "Lulus";
-            // $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
-            //     'nama',
-            //     'kodePendaftaran',
-            //     'keteranganLulus',
-            //     'kotaLahir',
-            //     'tanggal',
-            //     'bulan',
-            //     'tahun',
-            //     'sekolahAsal',
-            //     'jurusanPilihan'
-            // ));
+            $keteranganLulus = "Lulus";
+            $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
+                'nama',
+                'kodePendaftaran',
+                'keteranganLulus',
+                'kotaLahir',
+                'tanggal',
+                'bulan',
+                'tahun',
+                'sekolahAsal',
+                'jurusanPilihan'
+            ));
 
-            // $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf');
+            $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf', compact(
+                'nama',
+                'sekolahAsal',
+                'jurusanPilihan',
+                'kodeKelas',
+                'biayaPendaftaran',
+                'biayaJaketKemeja',
+                'biayaPSPT',
+                'biayaPengembanganInstitusi',
+                'biayaKuliah',
+                'biayaKemahasiswaan',
+                'potonganPengembanganInstitusi',
+                'tanggalGelombang',
+                'tanggalSekarang'
+            ));
 
-            // $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+            $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
 
-            // $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
+            $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
 
-            // $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+            $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
 
-            // $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
+            $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
 
-            // $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
-            // $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
+            $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
+            $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
 
-            // $sendEmail = Mail::to($email)
-            //     ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
+            $sendEmail = Mail::to($email)
+                ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
         }else{
-            // $keteranganLulus = "Tidak Lulus";
+            $keteranganLulus = "Tidak Lulus";
 
-            // $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
-            //     'nama',
-            //     'kodePendaftaran',
-            //     'keteranganLulus',
-            //     'kotaLahir',
-            //     'tanggal',
-            //     'bulan',
-            //     'tahun',
-            //     'sekolahAsal',
-            //     'jurusanPilihan'
-            // ));
+            $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
+                'nama',
+                'kodePendaftaran',
+                'keteranganLulus',
+                'kotaLahir',
+                'tanggal',
+                'bulan',
+                'tahun',
+                'sekolahAsal',
+                'jurusanPilihan'
+            ));
 
-            // $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf');
+            $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
+            $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
+            $filePdfBiaya = NULL;
+            $realFilePdfBiaya = NULL;
+            $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
+            $fileNamePdfBiaya = NULL;
 
-            // $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
-
-            // $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
-
-            // $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
-
-            // $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
-
-            // $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
-            // $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
-
-            // $sendEmail = Mail::to($email)
-            //     ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
+            $sendEmail = Mail::to($email)
+                ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
         }
 
-        // $store = $this
-        //     ->jawabanRepo
-        //     ->storeJawabanData($data);
+        $store = $this
+            ->jawabanRepo
+            ->storeJawabanData($data);
         
-        // $storeHasil = $this
-        //     ->hasilRepo
-        //     ->storeHasilData($dataHasil);
+        $storeHasil = $this
+            ->hasilRepo
+            ->storeHasilData($dataHasil);
 
-        // return redirect('/pmb');
+        return redirect('/pmb');
     }
 
     /**

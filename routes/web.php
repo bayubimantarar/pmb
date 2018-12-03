@@ -168,7 +168,7 @@ Route::group(['prefix' => 'dasbor'], function() {
                     'as'    => 'dasbor.pengguna.panitia.hapus'
                 ]);
             });
-            
+
         Route::group(['prefix' => 'prodi'], function(){
             Route::get('/', [
                 'uses'  => 'Dasbor\Pengguna\ProdiController@index',
@@ -472,6 +472,36 @@ Route::group(['prefix' => 'panitia'], function(){
                     'as' => 'panitia.pmb.biaya.data'
                 ]);
             });
+            Route::group(['prefix' => 'potongan'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\PotonganController@index',
+                    'as' => 'panitia.pmb.potongan'
+                ]);
+                Route::get('/form-tambah', [
+                    'uses' => 'Panitia\PMB\PotonganController@create',
+                    'as' => 'panitia.pmb.potongan.form_tambah'
+                ]);
+                Route::get('/form-ubah/{id}', [
+                    'uses' => 'Panitia\PMB\PotonganController@edit',
+                    'as' => 'panitia.pmb.potongan.form_edit'
+                ]);
+                Route::post('/simpan', [
+                    'uses' => 'Panitia\PMB\PotonganController@store',
+                    'as' => 'panitia.pmb.potongan.simpan'
+                ]);
+                Route::put('/ubah/{id}', [
+                    'uses' => 'Panitia\PMB\PotonganController@update',
+                    'as' => 'panitia.pmb.potongan.ubah'
+                ]);
+                Route::delete('/hapus/{id}', [
+                    'uses'  => 'Panitia\PMB\PotonganController@destroy',
+                    'as' => 'panitia.pmb.potongan.hapus'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\PotonganController@data',
+                    'as' => 'panitia.pmb.potongan.data'
+                ]);
+            });
             Route::group(['prefix' => 'jadwal-ujian'], function(){
                 Route::get('/', [
                     'uses' => 'Panitia\PMB\JadwalUjianController@index',
@@ -501,7 +531,7 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\JadwalUjianController@data',
                     'as' => 'panitia.pmb.jadwal.data'
                 ]);
-                Route::get('/kirim-jadwal-ujian/{id}/{kode_soal}/{kode_gelombang}/{kode_jurusan}/{status_pendaftaran}', [
+                Route::get('/kirim-jadwal-ujian/{kode}', [
                     'uses' => 'Panitia\PMB\JadwalUjianController@sendEmail',
                     'as' => 'panitia.pmb.jadwal.kirim_email'
                 ]);
@@ -709,7 +739,7 @@ Route::group(['prefix' => 'pmb'], function(){
             ]);
             Route::get('/data', [
                 'uses' => 'Mahasiswa\HasilController@data',
-                'as' => 'mahasiswa.hasil.data' 
+                'as' => 'mahasiswa.hasil.data'
             ]);
         });
     });

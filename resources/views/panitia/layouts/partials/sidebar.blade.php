@@ -19,29 +19,44 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> PMB Pendaftaran<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a href="/panitia/pmb/gelombang">
-                            <i class="fa fa-book"></i> Data Gelombang
-                        </a>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Biaya<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/panitia/pmb/gelombang">
+                                        <i class="fa fa-book"></i> Data Gelombang
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/panitia/pmb/biaya">
+                                        <i class="fa fa-book"></i> Data Biaya Kuliah
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/panitia/pmb/potongan">
+                                        <i class="fa fa-book"></i> Data Potongan
+                                    </a>
+                                </li>
+                            </ul>
                     </li>
                     <li>
-                        <a href="/panitia/pmb/biaya">
-                            <i class="fa fa-book"></i> Data Biaya
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/panitia/pmb/pendaftaran">
-                            <i class="fa fa-book fa-fw"></i> Data Pendaftaran
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/panitia/pmb/konfirmasi-pembayaran">
-                            <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/panitia/pmb/formulir">
-                            <i class="fa fa-book fa-fw"></i> Data Formulir
-                        </a>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Pendaftaran<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                {{-- <li>
+                                    <a href="/panitia/pmb/pendaftaran">
+                                        <i class="fa fa-book fa-fw"></i> Data Pendaftaran
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/panitia/pmb/konfirmasi-pembayaran">
+                                        <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
+                                    </a>
+                                </li> --}}
+                                <li>
+                                    <a href="/panitia/pmb/formulir">
+                                        <i class="fa fa-book fa-fw"></i> Data Formulir
+                                    </a>
+                                </li>
+                            </ul>
                     </li>
                 </ul>
                 <!-- /.nav-second-level -->

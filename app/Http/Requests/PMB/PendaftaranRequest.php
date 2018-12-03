@@ -40,6 +40,8 @@ class PendaftaranRequest extends FormRequest
             'nomor_telepon_orang_tua' => 'required',
             'fotocopy_raport_kelas_xii' => 'mimes:jpg,png,jpeg,pdf',
             'fotocopy_ijazah_sma' => 'mimes:jpg,png,jpeg,pdf',
+            'foto_3x4' => 'mimes:jpg,png,jpeg',
+            'foto_4x6' => 'mimes:jpg,png,jpeg',
             'surat_keterangan_pindah' => 'mimes:jpg,png,jpeg,pdf',
             'fotocopy_transkrip_nilai' => 'mimes:jpg,png,jpeg,pdf',
             'fotocopy_ijazah_perguruan_tinggi' => 'mimes:jpg,png,jpeg,pdf',
@@ -69,5 +71,5 @@ class PendaftaranRequest extends FormRequest
             'nomor_telepon_orang_tua.required' => 'Nomor telepon orang tua perlu diisi',
             'kota_lahir.required' => 'Kota lahir perlu diisi'
         ];
-    }    
+    }
 }

@@ -23,6 +23,11 @@ Panitia &raquo; PMB &raquo; Data Formulir
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
+        <p>
+            <a href="/panitia/pmb/formulir/form-tambah" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Tambah data formulir
+            </a>
+        </p>
         <div class="panel panel-default">
             <div class="panel-heading">
                 Tabel Data Formulir
@@ -80,7 +85,7 @@ Panitia &raquo; PMB &raquo; Data Formulir
             {data: 'action', orderable: false, searchable: false}
         ]
       });
-      
+
     function destroy(id)
     {
         var confirmation = confirm("Yakin akan menghapus data ini?");

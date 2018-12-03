@@ -30,11 +30,17 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
+                        @if(session('notification'))
+                            <div class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                {{ session('notification') }}
+                            </div>
+                        @endif
                         <form action="/panitia/pmb/jadwal-ujian/simpan" method="post">
                             @csrf
-                            <div class="row">
-                                <div class="col-lg-2 col-md-2 col-xs-12">
-                                    <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
+                            <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label">Kode</label>
                                         <input type="text" name="kode" class="form-control" id="kode" value="{{ old('kode') }}" readonly />
                                         @if($errors->has('kode'))
@@ -44,7 +50,10 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-xs-12">
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('kode_jurusan') ? ' has-error' : ''}}">
                                         <label class="control-label">Jurusan</label>
                                         <select name="kode_jurusan" class="form-control" id="kode-jurusan">
@@ -62,7 +71,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('kode_soal') ? ' has-error' : ''}}">
                                         <label class="control-label">Soal</label>
                                         <select name="kode_soal" class="form-control" id="kode-soal">
@@ -80,11 +89,9 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-2 col-md-2 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('status_pendaftaran') ? ' has-error' : ''}}">
-                                        <label class="control-label">Status Pendaftaran</label>
+                                        <label class="control-label">Status Pendaftaran *</label>
                                         <select name="status_pendaftaran" class="form-control" id="status-pendaftaran">
                                             <option value="">-- Pilih Status Pendaftaran --</option>
                                             <option value="Baru">Ujian Baru</option>
@@ -97,7 +104,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('kode_gelombang') ? ' has-error' : ''}}">
                                         <label class="control-label">Gelombang</label>
                                         <select name="kode_gelombang" class="form-control" id="kode-gelombang">
@@ -115,7 +122,9 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-xs-12">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-xs-12">
                                     <div class="form-group {{$errors->has('tahun') ? ' has-error' : ''}}">
                                         <label class="control-label">Tahun</label>
                                         <select name="tahun" class="form-control">
@@ -132,7 +141,34 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                <div class="col-lg-4 col-md-4 col-xs-12">
+                                    <div class="form-group {{$errors->has('total_sesi') ? ' has-error' : ''}}">
+                                        <label class="control-label">Jumlah Peserta Per Sesi *</label>
+                                        <input type="number" name="total_sesi" class="form-control" />
+                                        @if($errors->has('total_sesi'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('total_sesi') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-xs-12">
+                                    <div class="form-group {{$errors->has('durasi_jeda') ? ' has-error' : ''}}">
+                                        <label class="control-label">Durasi Jeda*</label>
+                                        <input type="number" name="durasi_jeda" class="form-control" />
+                                        <code>
+                                            Dalam satuan menit
+                                        </code>
+                                        @if($errors->has('durasi_jeda'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('durasi_jeda') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_mulai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Mulai Ujian</label>
                                         <div class="input-group date" id="tanggal-mulai-ujian">
@@ -148,7 +184,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                <div class="col-lg-6 col-md-6 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_selesai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Selesai Ujian</label>
                                         <div class="input-group date" id="tanggal-selesai-ujian">

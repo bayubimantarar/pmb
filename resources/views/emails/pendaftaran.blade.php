@@ -2,7 +2,7 @@
 Terima kasih telah mendaftar sebagai calon mahasiswa di STMIK Bandung.
 
 Selanjutnya silahkan isi formulir yang ada pada link di bawah ini.
-@component('mail::button', ['url' => 'https://dev.ujian.bimantara.web.id/pendaftaran/formulir/'.$encryptID])
+@component('mail::button', ['url' => 'http://pmb.stmik-bandung.online/pendaftaran/formulir/'.$encryptID])
 Isi formulir
 @endcomponent
 

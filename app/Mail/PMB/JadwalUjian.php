@@ -15,7 +15,8 @@ class JadwalUjian extends Mailable
     private $kode;
     private $password;
     private $kodeSoal;
-    private $token;
+    private $fileNameKartuUjian;
+    private $realFileKartuUjian;
     private $tanggalMulaiUjian;
     private $tanggalSelesaiUjian;
 
@@ -25,13 +26,13 @@ class JadwalUjian extends Mailable
      * @return void
      */
     public function __construct(
-        $nama, $kode, $password, $kodeSoal, $token, $tanggalMulaiUjian, $tanggalSelesaiUjian
+        $nama, $kode, $password, $tanggalMulaiUjian, $tanggalSelesaiUjian, $realFileKartuUjian, $fileNameKartuUjian
     ) {
         $this->nama = $nama;
         $this->kode = $kode;
         $this->password = $password;
-        $this->kodeSoal = $kodeSoal;
-        $this->token = $token;
+        $this->realFileKartuUjian = $realFileKartuUjian;
+        $this->fileNameKartuUjian = $fileNameKartuUjian;
         $this->tanggalMulaiUjian = $tanggalMulaiUjian;
         $this->tanggalSelesaiUjian = $tanggalSelesaiUjian;
     }
@@ -42,17 +43,19 @@ class JadwalUjian extends Mailable
      * @return $this
      */
     public function build()
-    {   
+    {
         return $this
             ->markdown('emails.jadwal_ujian')
             ->with([
                 'nama' => $this->nama,
                 'kode' => $this->kode,
                 'password' => $this->password,
-                'kodeSoal' => $this->kodeSoal,
-                'token' => $this->token,
                 'tanggalMulaiUjian' => $this->tanggalMulaiUjian,
                 'tanggalSelesaiUjian' => $this->tanggalSelesaiUjian
+            ])
+            ->attach($this->realFileKartuUjian, [
+                'as' => $this->fileNameKartuUjian,
+                'mime' => 'application/pdf'
             ]);
     }
 }

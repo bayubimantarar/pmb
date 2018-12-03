@@ -15,6 +15,7 @@ class CalonMahasiswa extends Authenticatable
         'kode_jurusan',
         'kode_kelas',
         'kode_gelombang',
+        'kode_potongan',
         'status_pendaftaran',
         'password'
     ];

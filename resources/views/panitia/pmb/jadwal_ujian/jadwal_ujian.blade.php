@@ -56,6 +56,27 @@ Panitia &raquo; PMB &raquo; Data Jadwal Ujian
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+
+<!-- Modal -->
+<div id="daftar-peserta-ujian" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 @endsection
 
 @push('css')
@@ -83,7 +104,7 @@ Panitia &raquo; PMB &raquo; Data Jadwal Ujian
             {data: 'action', orderable: false, searchable: false}
         ]
       });
-      
+
     function destroy(id)
     {
         var confirmation = confirm("Yakin akan menghapus data ini?");

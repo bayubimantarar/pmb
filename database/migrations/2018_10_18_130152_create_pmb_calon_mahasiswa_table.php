@@ -19,6 +19,7 @@ class CreatePmbCalonMahasiswaTable extends Migration
             $table->string('kode_jurusan');
             $table->string('kode_kelas');
             $table->string('kode_gelombang');
+            $table->string('kode_potongan');
             $table->string('status_pendaftaran');
             $table->string('password')->nullable();
             $table->timestamps();

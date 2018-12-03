@@ -13,7 +13,7 @@ class JadwalUjianRepository
             ->join('master_prodi', 'pmb_jadwal_ujian.kode_jurusan', '=', 'master_prodi.kode')
             ->select('pmb_jadwal_ujian.*', 'pmb_soal.kode AS kode_soal', 'pmb_gelombang.kode AS kode_gelombang', 'pmb_gelombang.nama AS nama_gelombang', 'master_prodi.nama AS nama_jurusan', 'master_prodi.kode AS kode_jurusan', 'pmb_jadwal_ujian.tahun', 'pmb_jadwal_ujian.tanggal_mulai_ujian', 'pmb_jadwal_ujian.tanggal_selesai_ujian')
             ->get();
-        
+
         return $getJadwalUjian;
     }
 
@@ -34,8 +34,8 @@ class JadwalUjianRepository
 
     public function storeJadwalUjianData($data)
     {
-        $storeJadwalUjianData = JadwalUjian::create($data);
-        
+        $storeJadwalUjianData = JadwalUjian::insert($data);
+
         return $storeJadwalUjianData;
     }
 

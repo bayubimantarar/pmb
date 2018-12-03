@@ -39,7 +39,16 @@ class JadwalUjianRequest extends FormRequest
                     'kode_soal' => [
                         'required'
                     ],
+                    'status_pendaftaran' => [
+                        'required'
+                    ],
                     'tahun' => [
+                        'required'
+                    ],
+                    'total_sesi' => [
+                        'required'
+                    ],
+                    'durasi_jeda' => [
                         'required'
                     ],
                     'tanggal_mulai_ujian' => [
@@ -64,7 +73,16 @@ class JadwalUjianRequest extends FormRequest
                     'kode_gelombang' => [
                         'required'
                     ],
+                    'status_pendaftaran' => [
+                        'required'
+                    ],
                     'tahun' => [
+                        'required'
+                    ],
+                    'total_sesi' => [
+                        'required'
+                    ],
+                    'durasi_jeda' => [
                         'required'
                     ],
                     'tanggal_mulai_ujian' => [
@@ -86,6 +104,9 @@ class JadwalUjianRequest extends FormRequest
             'kode_jurusan.required'             => 'Pilih salah satu jurusan',
             'kode_soal.required'                => 'Pilih salah satu soal',
             'kode_gelombang.required'           => 'Pilih salah satu gelombang',
+            'status_pendaftaran.required'       => 'Pilih salah satu status pendaftaran',
+            'total_sesi.required'               => 'Jumlah peserta perlu diisi',
+            'durasi_jeda.required'              => 'Durasi jeda perlu diisi',
             'tanggal_mulai_ujian.required'      => 'Tanggal Mulai ujian perlu diisi',
             'tanggal_selesai_ujian.required'    => 'Tanggal Selesai ujian perlu diisi'
         ];

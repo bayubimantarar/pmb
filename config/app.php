@@ -171,6 +171,9 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
 
         Chumper\Zipper\ZipperServiceProvider::class,
+
+        // LaravelQRCode\Providers\QRCodeServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
     ],
 
     /*
@@ -224,6 +227,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Zipper' => Chumper\Zipper\Zipper::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        // 'QRCode' => LaravelQRCode\Facades\QRCode::class,
 
     ],
 
