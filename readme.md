@@ -1,7 +1,7 @@
-# Ujian Online STMIK Bandung
-Aplikasi ujian online (UAS, UTS) STMIK Bandung
+# PMB STMIK Bandung
+Salah satu aplikasi dari TA STMIK Bandung, PMB STMIK Bandung.
 
-## Installation
+## Instalasi
 1. clone repository
 2. install dependencies composer
 
