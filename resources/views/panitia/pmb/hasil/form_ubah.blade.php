@@ -30,15 +30,18 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="/panitia/pmb/hasil-ujian/{{ $hasil->kode_jadwal_ujian}}/ubah/{{ $hasil->id }}" method="post">
+                        <form action="/panitia/pmb/hasil-ujian-update/{{ $hasil->kode_jadwal_ujian}}/simpan" method="post">
                             @csrf
-                            <input type="hidden" name="_method" value="put" />
                             <input type="hidden" name="kode_jadwal_ujian" value="{{ $hasil->kode_jadwal_ujian }}" />
+                            <input type="hidden" name="kode_gelombang" value="{{ $hasil->kode_gelombang }}" />
+                            <input type="hidden" name="kode_jurusan" value="{{ $hasil->kode_jurusan }}" />
+                            <input type="hidden" name="kode_soal" value="{{ $hasil->kode_soal }}" />
+                            <input type="hidden" name="kode_kelas" value="{{ $hasil->kode_kelas }}" />
                             <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
                                     <div class="col-lg-5 col-md-5 col-xs-12">
                                         <label class="control-label">Kode Pendaftaran</label>
-                                        <input type="text" name="kode" class="form-control" id="kode" value="{{ $hasil->kode_pendaftaran }}" readonly />
+                                        <input type="text" name="kode_pendaftaran" class="form-control" id="kode" value="{{ $hasil->kode_pendaftaran }}" readonly />
                                     </div>
                                 </div>
                             </div>

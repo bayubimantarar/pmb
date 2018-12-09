@@ -121,6 +121,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-lg-5 col-md-5 col-lg-12">
+                                        <label>Daftar Melalui *</label>
+                                        <select name="kode_potongan" class="form-control">
+                                            @foreach($potongan as $item)
+                                                <option value="{{ $item->id }}">{{ $item->deskripsi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <hr />
                             <h1>Biodata calon mahasiswa</h1>
                             <div class="form-group {{$errors->has('nama') ? ' has-error' : ''}}">
@@ -165,11 +177,11 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <label class="control-label">RT</label>
-                                                <input type="number" name="rt" value="{{ old('rt') }}" class="form-control" />  
+                                                <input type="number" name="rt" value="{{ old('rt') }}" class="form-control" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <label for="">RW</label>
-                                                <input type="number" name="rw" value="{{ old('rw') }}" class="form-control" />  
+                                                <input type="number" name="rw" value="{{ old('rw') }}" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -498,11 +510,11 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <label for="">RT</label>
-                                                <input type="number" name="rt_orang_tua" class="form-control" value="{{ old('rt_orang_tua') }}" />  
+                                                <input type="number" name="rt_orang_tua" class="form-control" value="{{ old('rt_orang_tua') }}" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <label for="">RW</label>
-                                                <input type="number" name="rw_orang_tua" class="form-control" value="{{ old('rw_orang_tua') }}" />  
+                                                <input type="number" name="rw_orang_tua" class="form-control" value="{{ old('rw_orang_tua') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -1017,7 +1029,7 @@
                             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Selesai</button>
                             <button type="reser" class="btn btn-danger"><i class="fa fa-times"></i> Hapus</button>
                         </form>
-                        @endif            
+                        @endif
                     </div>
                 </div>
             </div>

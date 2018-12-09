@@ -8,8 +8,6 @@ class TahunAjaran extends Model
 {
     protected $table = 'tahun_ajaran';
     protected $fillable = [
-        'kode',
-        'tahun',
-        'semester'
+        'tahun'
     ];
 }

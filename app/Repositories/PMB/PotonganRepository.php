@@ -20,9 +20,9 @@ class PotonganRepository
         return $getPotonganData;
     }
 
-    public function getSingleDataForPotongan($kodeKelas)
+    public function getSingleDataForPotongan($kodePotongan)
     {
-        $getPotonganData = Potongan::where('id', '=', $kodeKelas)
+        $getPotonganData = Potongan::where('id', '=', $kodePotongan)
             ->get()
             ->first();
 

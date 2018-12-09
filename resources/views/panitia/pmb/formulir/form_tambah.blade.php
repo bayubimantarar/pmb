@@ -611,7 +611,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Gelombang
                                         <input type="file" name="foto_3x4" />
                                         <p>
                                             <code>
-                                                File harus bertipe [PNG/ JPG/ PDF]
+                                                File harus bertipe [PNG/ JPG/ JPEG]
                                             </code>
                                         </p>
                                     </div>
@@ -619,12 +619,17 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Gelombang
                             </div>
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-lg-12">
+                                    <div class="col-lg-12 col-md-12 col-lg-12 {{$errors->has('foto_4x6') ? ' has-error' : ''}}">
                                         <label for="">Foto 4x6</label>
                                         <input type="file" name="foto_4x6" />
+                                        @if($errors->has('foto_4x6'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('foto_4x6') }}</i>
+                                            </p>
+                                        @endif
                                         <p>
                                             <code>
-                                                File harus bertipe [PNG/ JPG/ PDF]
+                                                File harus bertipe [PNG/ JPG/ JPEG]
                                             </code>
                                         </p>
                                     </div>

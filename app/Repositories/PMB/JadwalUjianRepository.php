@@ -17,6 +17,27 @@ class JadwalUjianRepository
         return $getJadwalUjian;
     }
 
+    public function getSingleDataForCount($kodeGelombang, $statusPendaftaran, $kodeSoal)
+    {
+        $getJadwalUjian = JadwalUjian::where('kode_gelombang', '=', $kodeGelombang)
+            ->where('status_pendaftaran', '=', $statusPendaftaran)
+            ->where('kode_soal', '=', $kodeSoal)
+            ->count();
+
+        return $getJadwalUjian;
+    }
+
+    public function getSingleDataForPeserta($kodeJadwalUjian)
+    {
+        $getJadwalUjian = JadwalUjian::join('pmb_gelombang', 'pmb_jadwal_ujian.kode_gelombang', '=', 'pmb_gelombang.kode')
+            ->join('master_prodi', 'pmb_jadwal_ujian.kode_jurusan', '=', 'master_prodi.kode')
+            ->where('pmb_jadwal_ujian.kode', '=', $kodeJadwalUjian)
+            ->select('pmb_jadwal_ujian.*', 'pmb_gelombang.nama AS nama_gelombang', 'master_prodi.nama AS nama_jurusan')
+            ->get();
+
+        return $getJadwalUjian;
+    }
+
     public function getSingleData($id)
     {
         $getJadwalUjianData = JadwalUjian::findOrFail($id);
@@ -34,7 +55,7 @@ class JadwalUjianRepository
 
     public function storeJadwalUjianData($data)
     {
-        $storeJadwalUjianData = JadwalUjian::insert($data);
+        $storeJadwalUjianData = JadwalUjian::create($data);
 
         return $storeJadwalUjianData;
     }

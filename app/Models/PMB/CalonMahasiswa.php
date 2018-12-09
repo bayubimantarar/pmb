@@ -17,6 +17,7 @@ class CalonMahasiswa extends Authenticatable
         'kode_gelombang',
         'kode_potongan',
         'status_pendaftaran',
+        'status_jadwal_ujian',
         'password'
     ];
 }

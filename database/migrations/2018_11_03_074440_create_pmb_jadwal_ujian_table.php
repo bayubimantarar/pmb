@@ -21,8 +21,9 @@ class CreatePmbJadwalUjianTable extends Migration
             $table->string('kode_jurusan');
             $table->string('status_pendaftaran');
             $table->string('tahun');
-            $table->timestamp('tanggal_mulai_ujian');
-            $table->timestamp('tanggal_selesai_ujian');
+            $table->datetime('tanggal_mulai_ujian');
+            $table->datetime('tanggal_selesai_ujian');
+            $table->string('ruangan');
             $table->string('status');
             $table->timestamps();
         });

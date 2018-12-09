@@ -41,7 +41,6 @@ Panitia &raquo; PMB &raquo; Data Jadwal Ujian
                                 <th>Kode</th>
                                 <th>Tanggal Mulai Ujian</th>
                                 <th>Tanggal Selesai Ujian</th>
-                                <th>Status</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -100,7 +99,6 @@ Panitia &raquo; PMB &raquo; Data Jadwal Ujian
             {data: 'kode'},
             {data: 'tanggal_mulai_ujian'},
             {data: 'tanggal_selesai_ujian'},
-            {data: 'status'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });

@@ -15,8 +15,9 @@ class CreatePmbSesiTable extends Migration
     {
         Schema::create('pmb_sesi', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode_jadwal_ujian', 75);
-            $table->string('kode_pendaftaran', 75);
+            $table->string('kode_jadwal_ujian');
+            $table->string('kode_pendaftaran');
+            $table->string('status');
             $table->timestamps();
         });
     }

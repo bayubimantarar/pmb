@@ -16,6 +16,7 @@ class JadwalUjian extends Model
         'tahun',
         'tanggal_mulai_ujian',
         'tanggal_selesai_ujian',
+        'ruangan',
         'status'
     ];
     protected $dates = [

@@ -9,6 +9,10 @@
     top: 20px;
     text-align: center;
 }
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
 </style>
 @endpush
 
@@ -67,7 +71,12 @@
                             <div class="sticky">
                                 Sisa waktu <input id="minutes" type="text" style="width: 27px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly> menit <input id="seconds" type="text" style="width: 20px; border: none; background-color:rgba(255, 0, 0, 0); font-size: 16px; font-weight: bold;" readonly>detik
                             </div>
+                            <br>
+                            @for($a; $a<=$totalPertanyaan; $a++)
+                                <span class="label label-default" id="nomor-{{$a}}">{{$a}}</span>
+                            @endfor
                             @foreach($dataPertanyaan as $item)
+                              <div class="tab">
                                 @if($item->jenis_pertanyaan == 'benar-salah' || $item->jenis_pertanyaan == 'Benar-Salah')
                                     <div class="form-group">
                                         <div class="row">
@@ -83,10 +92,10 @@
                                                 {!! $item->pertanyaan !!}
                                                 <div class="radio">
                                                     <label>
-                                                        <input type="radio" name="jawaban_benar_salah[{{$i}}]" value="Benar"/> Benar
+                                                        <input type="radio" name="jawaban_benar_salah[{{$i}}]" value="Benar" id="jawaban-{{$b}}" data-id="{{$b}}" /> Benar
                                                     </label>
                                                     <label>
-                                                        <input type="radio" name="jawaban_benar_salah[{{$i}}]" value="Salah"/> Salah
+                                                        <input type="radio" name="jawaban_benar_salah[{{$i}}]" value="Salah" id="jawaban-{{$b}}" data-id="{{$b}}" /> Salah
                                                     </label>
                                                 </div>
                                             </div>
@@ -112,7 +121,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        A) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="A" />
+                                                        A) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="A" id="jawaban-{{$b}}" data-id="{{$b}}" />
                                                     </label>
                                                     {!! $item->pilihan_a !!}
                                                 </div>
@@ -120,7 +129,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        B) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="B" />
+                                                        B) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="B" id="jawaban-{{$b}}" data-id="{{$b}}" />
                                                     </label>
                                                     {!! $item->pilihan_b !!}
                                                 </div>
@@ -128,7 +137,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="C" readonly />
+                                                        C) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="C" readonly id="jawaban-{{$b}}" data-id="{{$b}}" />
                                                     </label>
                                                     {!! $item->pilihan_c !!}
                                                 </div>
@@ -136,7 +145,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        D) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="D" />
+                                                        D) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="D" id="jawaban-{{$b}}" data-id="{{$b}}" />
                                                     </label>
                                                     {!! $item->pilihan_d !!}
                                                 </div>
@@ -144,7 +153,7 @@
                                             <div class="col-lg-6 col-md-6 col-xs-12">
                                                 <div class="form-group">
                                                     <label class="control-label">
-                                                        E) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="E" />
+                                                        E) <input type="radio" name="jawaban_pilihan[{{$i}}]" value="E" id="jawaban-{{$b}}" data-id="{{$b}}" />
                                                     </label>
                                                     {!! $item->pilihan_e !!}
                                                 </div>
@@ -153,9 +162,17 @@
                                     </div>
                                     <hr />
                                 @endif
-                                <div class="hidden">{{$nomorsoal++}}</div>
-                                <div class="hidden">{{$i++}}</div>
+                              </div>
+                              <div class="hidden">{{$nomorsoal++}}</div>
+                              <div class="hidden">{{$i++}}</div>
+                              <div class="hidden">{{$b++}}</div>
                             @endforeach
+                            <div style="overflow:auto;">
+                              <div style="float:right;">
+                                <button type="button" class="btn btn-primary" id="prevBtn" onclick="nextPrev(-1)">&laquo; Sebelumnya</button>
+                                <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">&raquo; Selanjutnya</button>
+                              </div>
+                            </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Selesai</button>
                         </form>
                     </div>
@@ -175,6 +192,57 @@
 @push('js')
 <script src="/assets/vendor/tinymce/js/jquery.tinymce.min.js"></script>
 <script src="/assets/vendor/tinymce/js/tinymce.min.js"></script>
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form ...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  // ... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+    $("#nextBtn").hide();
+  } else {
+    document.getElementById("nextBtn").innerHTML = "&raquo; Berikutnya";
+    $("#nextBtn").show();
+  }
+  // ... and run a function that displays the correct step indicator:
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form... :
+  if (currentTab >= x.length) {
+    //...the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+</script>
+<script>
+    for (var i = 1; i <= {{$totalPertanyaan}}; i++) {
+        console.log(i);
+        $('[id="jawaban-'+i+'"]').change(function(){
+            var id = $(this).attr("data-id");
+            $('[id="nomor-'+id+'"]').removeClass("label-default");
+            $('[id="nomor-'+id+'"]').addClass("label-success");
+        });
+    }
+</script>
 <script type="text/javascript">
 $(document).ready(function(){
     // window.onbeforeunload = function () {
@@ -191,11 +259,11 @@ $(document).ready(function(){
             $("#show-image-"+$(this).attr("data")).attr('src', url).show();
         });
     }
-    
+
 });
 // set minutes
 var mins = {{ \Carbon\Carbon::now()->diffInMinutes($tanggalselesaiujian) }};
- 
+
 // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
 var secs = mins * 60;
 function countdown() {

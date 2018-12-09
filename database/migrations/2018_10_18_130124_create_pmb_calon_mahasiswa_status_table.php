@@ -20,7 +20,6 @@ class CreatePmbCalonMahasiswaStatusTable extends Migration
             $table->string('asal_sekolah')->nullable();
             $table->string('asal_jurusan')->nullable();
             $table->string('jurusan_pilihan');
-            $table->string('semester');
             $table->timestamps();
         });
     }

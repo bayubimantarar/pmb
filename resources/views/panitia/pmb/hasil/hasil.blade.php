@@ -23,56 +23,7 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
 </div>
 <!-- /.row -->
 <div class="row">
-    <div class="col-lg-12">
-        {{-- <h2>Filter data hasil ujian</h2>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-lg-2 col-md-2 col-xs-12">
-                    <label for="">Jurusan</label>
-                    <select name="" class="form-control" id="kode-jurusan">
-                        <option value="">-- Pilih Jurusan --</option>
-                        @foreach($prodi as $item)
-                            <option value="{{ $item->kode }}">{{ $item->nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-2 col-xs-12">
-                    <label for="">Gelombang</label>
-                    <select name="" class="form-control" id="kode-gelombang">
-                        <option value="">-- Pilih Gelombang --</option>
-                        @foreach($gelombang as $item)
-                            <option value="{{ $item->kode }}">{{ $item->nama }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-2 col-xs-12">
-                    <label for="">Kelas</label>
-                    <select name="" class="form-control" id="kode-kelas">
-                        <option value="">-- Pilih Kelas --</option>
-                        @foreach($biaya as $item)
-                            <option value="{{ $item->id }}">{{ $item->kelas }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-2 col-xs-12">
-                    <label for="">Tahun</label>
-                    <select name="tahun" class="form-control" id="tahun">
-                        <option value="">-- Pilih Tahun --</option>
-                        @for($i=date('Y'); $i>=1950; $i--)
-                            <option value="{{ $i }}">
-                                {{ $i }}
-                            </option>
-                        @endfor
-                    </select>
-                </div>
-                <div class="col-lg-2 col-md-2 col-xs-12">
-                    <label for="">Opsi</label>
-                    <a href="#cari-data" class="btn btn-primary form-control" id="filter">
-                        <i class="fa fa-search"></i> Cari Data
-                    </a>
-                </div> --}}
-            </div>
-        </div>
+    <div class="col-lg-6 col-md-6 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Tabel Data Hasil Ujian
@@ -81,6 +32,32 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
             <div class="panel-body">
                 <div class="table-responsive">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="hasil-ujian-table">
+                        <thead>
+                            <tr>
+                                <th>Kode Pendaftaran</th>
+                                <th>Nama</th>
+                                <th>Nilai</th>
+                                <th>Status</th>
+                                <th>Opsi</th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <!-- /.table-responsive -->
+                </div>
+            </div>
+            <!-- /.panel-body -->
+        </div>
+        <!-- /.panel -->
+    </div>
+    <div class="col-lg-6 col-md-6 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Tabel Data Hasil Ujian UPDATE
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="hasil-ujian-update-table">
                         <thead>
                             <tr>
                                 <th>Kode Pendaftaran</th>
@@ -121,6 +98,19 @@ Panitia &raquo; PMB &raquo; Data Hasil Ujian
         serverSide: true,
         processing: true,
         ajax: '/panitia/pmb/hasil-ujian/'+kode_jadwal_ujian+'/data',
+        columns: [
+            {data: 'kode_pendaftaran'},
+            {data: 'nama'},
+            {data: 'nilai_angka'},
+            {data: 'status'},
+            {data: 'action'},
+        ]
+      });
+
+      var hasil_ujian_update_table = $("#hasil-ujian-update-table").DataTable({
+        serverSide: true,
+        processing: true,
+        ajax: '/panitia/pmb/hasil-ujian-update/'+kode_jadwal_ujian+'/data',
         columns: [
             {data: 'kode_pendaftaran'},
             {data: 'nama'},

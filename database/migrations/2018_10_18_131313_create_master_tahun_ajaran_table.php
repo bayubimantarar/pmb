@@ -15,9 +15,7 @@ class CreateMasterTahunAjaranTable extends Migration
     {
         Schema::create('master_tahun_ajaran', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kode')->unique();
             $table->string('tahun');
-            $table->string('semester');
             $table->timestamps();
         });
     }

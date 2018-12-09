@@ -17,8 +17,8 @@ class CreatePmbGelombangTable extends Migration
             $table->increments('id');
             $table->string('kode')->unique();
             $table->string('nama');
-            $table->timestamp('dari_tanggal');
-            $table->timestamp('sampai_tanggal');
+            $table->datetime('dari_tanggal');
+            $table->datetime('sampai_tanggal');
             $table->integer('jumlah_potongan')->nullable();
             $table->timestamps();
         });

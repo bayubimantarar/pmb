@@ -13,7 +13,7 @@ class CalonMahasiswaRepository
     public function getAllData()
     {
         $getCalonMahasiswa = CalonMahasiswa::All();
-        
+
         return $getCalonMahasiswa;
     }
 
@@ -62,11 +62,36 @@ class CalonMahasiswaRepository
         return $getCalonMahasiswaData;
     }
 
+    public function getAllDayaForJadwalUjian($kodeJurusan, $kodeGelombang, $statusPendaftaran)
+    {
+        $getCalonMahasiswa = CalonMahasiswa::join('pmb_calon_mahasiswa_biodata', 'pmb_calon_mahasiswa.kode', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->select('pmb_calon_mahasiswa.*', 'pmb_calon_mahasiswa_biodata.nama')
+            ->where('pmb_calon_mahasiswa.kode_jurusan', '=', $kodeJurusan)
+            ->where('pmb_calon_mahasiswa.kode_gelombang', '=', $kodeGelombang)
+            ->where('pmb_calon_mahasiswa.status_pendaftaran', '=', $statusPendaftaran)
+            ->where('pmb_calon_mahasiswa.status_jadwal_ujian', '=', 0)
+            ->get();
+
+        return $getCalonMahasiswa;
+    }
+
+    public function getAllDayaForJadwalUjianForEdit($kodeJurusan, $kodeGelombang, $statusPendaftaran)
+    {
+        $getCalonMahasiswa = CalonMahasiswa::join('pmb_calon_mahasiswa_biodata', 'pmb_calon_mahasiswa.kode', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->select('pmb_calon_mahasiswa.*', 'pmb_calon_mahasiswa_biodata.nama')
+            ->where('pmb_calon_mahasiswa.kode_jurusan', '=', $kodeJurusan)
+            ->where('pmb_calon_mahasiswa.kode_gelombang', '=', $kodeGelombang)
+            ->where('pmb_calon_mahasiswa.status_pendaftaran', '=', $statusPendaftaran)
+            ->get();
+
+        return $getCalonMahasiswa;
+    }
+
     public function getAllDataByJadwalUjian(
         $kodeJurusan, $kodeGelombang, $statusPendaftaran
     ) {
         $getCalonMahasiswaData = CalonMahasiswa::join(
-            'pmb_calon_mahasiswa_biodata', 
+            'pmb_calon_mahasiswa_biodata',
             'pmb_calon_mahasiswa_biodata.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode'
         )
         ->where(
@@ -96,7 +121,21 @@ class CalonMahasiswaRepository
         $storeCalonMahasiswaBiodata = CalonMahasiswaBiodata::create($dataCalonMahasiswaBiodata);
         $storeCalonMahasiswaBiodataOrangTuaWali = CalonMahasiswaBiodataOrangTuaWali::create($dataCalonMahasiswaBiodataOrangTuaWali);
         $storeCalonMahasiswaKelengkapan = CalonMahasiswaKelengkapan::create($dataCalonMahasiswaKelengkapan);
-        
+
+        return $storeCalonMahasiswa;
+    }
+
+    public function storeCalonMahasiswaDataForJadwalUjian(
+        $dataCalonMahasiswa,
+        $dataCalonMahasiswaStatus,
+        $dataCalonMahasiswaBiodata,
+        $dataCalonMahasiswaKelengkapan
+    ) {
+        $storeCalonMahasiswa = CalonMahasiswa::insert($dataCalonMahasiswa);
+        $storeCalonMahasiswaStatus = CalonMahasiswaStatus::insert($dataCalonMahasiswaStatus);
+        $storeCalonMahasiswaBiodata = CalonMahasiswaBiodata::insert($dataCalonMahasiswaBiodata);
+        $storeCalonMahasiswaKelengkapan = CalonMahasiswaKelengkapan::insert($dataCalonMahasiswaKelengkapan);
+
         return $storeCalonMahasiswa;
     }
 
@@ -107,6 +146,22 @@ class CalonMahasiswaRepository
 
         return $updateCalonMahasiswaData;
     }
+
+    public function updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiwa, $item)
+    {
+        $updateCalonMahasiswaData = CalonMahasiswa::where('kode', '=', $item)
+            ->update($dataCalonMahasiwa);
+
+        return $updateCalonMahasiswaData;
+    }
+
+    // public function updateCalonMahasiswaDataByJadwalUjianForDestroy($dataCalonMahasiwa, $kodePendaftaran)
+    // {
+    //     $updateCalonMahasiswaData = CalonMahasiswa::where('kode', '=', $item)
+    //         ->update($dataCalonMahasiwa);
+
+    //     return $updateCalonMahasiswaData;
+    // }
 
     public function destroyCalonMahasiswaPMBData($id)
     {

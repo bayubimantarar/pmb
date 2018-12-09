@@ -9,7 +9,8 @@ class Sesi extends Model
     protected $table = 'pmb_sesi';
     protected $fillable = [
         'kode_jadwal_ujian',
-        'kode_pendaftaran'
+        'kode_pendaftaran',
+        'status'
     ];
     protected $dates = [
         'tanggal_mulai_ujian',

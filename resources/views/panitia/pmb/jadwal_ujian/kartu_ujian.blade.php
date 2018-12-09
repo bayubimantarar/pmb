@@ -60,6 +60,9 @@
     <p>NAMA : {{$nama}}</p>
     <p>TEMPAT LAHIR : {{$kotaLahir}}</p>
     <p>TANGGAL LAHIR : {{$bulan}}, {{$tanggal}} {{$tahun}}</p>
+    <p>TANGGAL MULAI UJIAN : {{$tanggalMulaiUjian}}</p>
+    <p>TANGGAL SELESAI UJIAN : {{$tanggalSelesaiUjian}}</p>
+    <p>RUANGAN : {{$ruangan}}</p>
     <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate('http://bimantara.web.id')) }} " />
     </div>
 </div>

@@ -34,17 +34,8 @@ class PendaftaranRequest extends FormRequest
             'email' => 'required',
             'kota_lahir' => 'required',
             'kelas' => 'required',
-            'nama_ayah' => 'required',
-            'nama_ibu' => 'required',
-            'alamat_orang_tua' => 'required',
-            'nomor_telepon_orang_tua' => 'required',
-            'fotocopy_raport_kelas_xii' => 'mimes:jpg,png,jpeg,pdf',
-            'fotocopy_ijazah_sma' => 'mimes:jpg,png,jpeg,pdf',
             'foto_3x4' => 'mimes:jpg,png,jpeg',
-            'foto_4x6' => 'mimes:jpg,png,jpeg',
-            'surat_keterangan_pindah' => 'mimes:jpg,png,jpeg,pdf',
-            'fotocopy_transkrip_nilai' => 'mimes:jpg,png,jpeg,pdf',
-            'fotocopy_ijazah_perguruan_tinggi' => 'mimes:jpg,png,jpeg,pdf',
+            'foto_4x6' => 'mimes:jpg,png,jpeg'
         ];
     }
 
@@ -65,11 +56,8 @@ class PendaftaranRequest extends FormRequest
             'nomor_telepon.required' => 'Nomor telepon perlu diisi',
             'email.required' => 'Email perlu diisi',
             'kelas.required' => 'Kelas perlu dipilih',
-            'nama_ayah.required' => 'Nama ayah perlu diisi',
-            'nama_ibu.required' => 'Nama ibu perlu diisi',
-            'alamat_orang_tua.required' => 'Alamat orang tua perlu diisi',
-            'nomor_telepon_orang_tua.required' => 'Nomor telepon orang tua perlu diisi',
-            'kota_lahir.required' => 'Kota lahir perlu diisi'
+            'foto_3x4.mimes' => 'File harus bertipe [PNG/ JPG/ JPEG]',
+            'foto_4x6.mimes' => 'File harus bertipe [PNG/ JPG/ JPEG]'
         ];
     }
 }

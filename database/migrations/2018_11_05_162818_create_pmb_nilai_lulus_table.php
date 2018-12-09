@@ -15,7 +15,7 @@ class CreatePmbNilaiLulusTable extends Migration
     {
         Schema::create('pmb_nilai_lulus', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nilai');
+            $table->integer('nilai');
             $table->timestamps();
         });
     }

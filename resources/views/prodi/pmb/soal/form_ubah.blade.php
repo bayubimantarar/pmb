@@ -54,12 +54,8 @@ Dasbor &raquo; Soal &raquo; Form Ubah Data Soal
                                         <select name="kode_tahun_ajaran" class="form-control" class="kode-tahun-ajaran" id="kode-tahun-ajaran">
                                             <option value="">-- Pilih tahun ajaran --</option>
                                             @foreach($tahunAjaran as $item)
-                                                <option value="{{ $item->kode }}" {{ ($item->kode == $soal->kode_tahun_ajaran) ? 'selected' : '' }}>
-                                                    @if($item->semester == 1)
-                                                        {{ $item->tahun }} - Ganjil
-                                                    @else
-                                                        {{ $item->tahun }} - Genap
-                                                    @endif
+                                                <option value="{{ $item->tahun }}" {{ ($item->tahun == $soal->kode_tahun_ajaran) ? 'selected' : '' }}>
+                                                        {{ $item->tahun }}
                                                 </option>
                                             @endforeach
                                         </select>

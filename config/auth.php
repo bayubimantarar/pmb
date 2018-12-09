@@ -61,6 +61,11 @@ return [
             'provider' => 'panitia',
         ],
 
+        'keuangan' => [
+            'driver' => 'session',
+            'provider' => 'keuangan',
+        ],
+
         'calon_mahasiswa' => [
             'driver' => 'session',
             'provider' => 'calon_mahasiswa',
@@ -116,6 +121,11 @@ return [
         ],
 
         'panitia' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Dasbor\Pengguna\Panitia::class,
+        ],
+
+        'keuangan' => [
             'driver' => 'eloquent',
             'model' => App\Models\Dasbor\Pengguna\Panitia::class,
         ],

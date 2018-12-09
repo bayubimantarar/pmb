@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Panitia\PMB;
 
 use PDF;
 use Mail;
+use QrCode;
 use DataTables;
 use Carbon\Carbon;
 use App\Mail\PMB\JadwalUjian;
 use App\Jobs\KirimJadwalUjianJob;
 use App\Http\Controllers\Controller;
 use App\Repositories\PMB\SesiRepository;
-// use CodeItNow\BarcodeBundle\Utils\QrCode;
-use QrCode;
 use App\Repositories\PMB\GelombangRepository;
 use App\Repositories\Prodi\PMB\SoalRepository;
 use App\Repositories\PMB\JadwalUjianRepository;
@@ -61,11 +60,7 @@ class JadwalUjianController extends Controller
 
         return DataTables::of($jadwalUjian)
             ->addColumn('action', function($jadwalUjian){
-                if($jadwalUjian->status == 0){
-                    return '<center><a href="/panitia/pmb/jadwal-ujian/kirim-jadwal-ujian/'.$jadwalUjian->kode.'" class="btn btn-xs btn-info"><i class="fa fa-envelope"></i></a> <a href="/panitia/pmb/jadwal-ujian/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
-                }else{
-                    return '<center><a href="/panitia/pmb/jadwal-ujian/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
-                }
+                return '<center><a href="/panitia/pmb/jadwal-ujian/form-ubah/'.$jadwalUjian->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$jadwalUjian->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
             })
             ->editColumn('tanggal_mulai_ujian', function($jadwalUjian){
                 return $jadwalUjian->tanggal_mulai_ujian->formatLocalized('%c');
@@ -73,14 +68,7 @@ class JadwalUjianController extends Controller
             ->editColumn('tanggal_selesai_ujian', function($jadwalUjian){
                 return $jadwalUjian->tanggal_selesai_ujian->formatLocalized('%c');
             })
-            ->editColumn('status', function($soal){
-                if($soal->status == 1){
-                    return '<center><span class="label label-success">Sudah terbroadcast</span></center>';
-                }else{
-                    return '<center><span class="label label-danger">Belum terbroadcast</span></center>';
-                }
-            })
-            ->rawColumns(['action', 'tanggal_mulai_ujian', 'tanggal_selesai_ujian', 'status'])
+            ->rawColumns(['action', 'tanggal_mulai_ujian', 'tanggal_selesai_ujian'])
             ->make(true);
     }
 
@@ -140,96 +128,131 @@ class JadwalUjianController extends Controller
         $tahun = $jadwalUjianReq->tahun;
         $tanggalMulaiUjian = Carbon::parse($jadwalUjianReq->tanggal_mulai_ujian);
         $tanggalSelesaiUjian = Carbon::parse($jadwalUjianReq->tanggal_selesai_ujian);
-        $kode = $jadwalUjianReq->kode."SESI";
+        $kode = $jadwalUjianReq->kode;
+        $jeda = $jadwalUjianReq->durasi_jeda;
+        $jumlahSesi = $jadwalUjianReq->total_sesi;
+        $kodePendaftaran = $jadwalUjianReq->kode_pendaftaran;
+        $ruangan = $jadwalUjianReq->ruangan;
 
-        $calonMahasiswa = $this
-            ->calonMahasiswaRepo
-            ->getAllDataByJadwalUjian($kodeJurusan, $kodeGelombang, $statusPendaftaran);
+        foreach ($kodePendaftaran as $item) {
+            $dataSesi[] = [
+                'kode_jadwal_ujian' => $kode,
+                'kode_pendaftaran' => $item,
+                'status' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
 
-        $totalCalonMahasiswa = $calonMahasiswa->count();
+            $dataCalonMahasiswa = [
+                'status_jadwal_ujian' => 1
+            ];
 
-        if($totalCalonMahasiswa == 0){
-            return redirect('/panitia/pmb/jadwal-ujian/form-tambah')
-                ->with([
-                    'notification' => 'Tidak ada calon mahasiswa yang terdaftar'
-                ]);
-        }else{
-
-            $selisihDurasi = $tanggalMulaiUjian->diffInMinutes($tanggalSelesaiUjian);
-            $totalSesi = $jadwalUjianReq->total_sesi;
-            $tempTotalSesi = $totalSesi;
-            $sesiPertama = TRUE;
-            $i = 0;
-            $a = 1;
-            $jeda = $jadwalUjianReq->durasi_jeda;
-            $temp = ceil(round($totalCalonMahasiswa / $totalSesi));
-
-            while($i < $totalCalonMahasiswa){
-                while($i < $tempTotalSesi){
-                        $dataSesi[] = [
-                            'kode_jadwal_ujian' => $kode.$a,
-                            'kode_pendaftaran' => $calonMahasiswa[$i]['kode'],
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ];
-                    $i++;
-                }
-                $a++;
-                $tempTotalSesi++;
-            }
-
-            $sesiKe = 1;
-
-            for ($i=0; $i<$temp; $i++) {
-                if($sesiPertama == TRUE){
-                    $data[] = [
-                            'kode' => $kode.$sesiKe++,
-                            'kode_soal' => $kodeSoal,
-                            'kode_gelombang' => $kodeGelombang,
-                            'kode_jurusan' => $kodeJurusan,
-                            'status_pendaftaran' => $statusPendaftaran,
-                            'tahun' => $tahun,
-                            'tanggal_mulai_ujian' => $tanggalMulaiUjian,
-                            'tanggal_selesai_ujian' => $tanggalSelesaiUjian,
-                            'status' => 0,
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ];
-                    $sesiPertama = FALSE;
-                }else{
-                    $tempTanggalMulaiUjian = $tanggalSelesaiUjian->copy()->addMinutes($jeda);
-                    $tempTanggalSelesaiUjian = $tempTanggalMulaiUjian->copy()->addMinutes($selisihDurasi);
-                    $tanggalSelesaiUjian = $tempTanggalSelesaiUjian;
-
-                    $data[] = [
-                        'kode' => $kode.$sesiKe++,
-                        'kode_soal' => $kodeSoal,
-                        'kode_gelombang' => $kodeGelombang,
-                        'kode_jurusan' => $kodeJurusan,
-                        'status_pendaftaran' => $statusPendaftaran,
-                        'tahun' => $tahun,
-                        'tanggal_mulai_ujian' => $tempTanggalMulaiUjian,
-                        'tanggal_selesai_ujian' => $tempTanggalSelesaiUjian,
-                        'status' => 0,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now()
-                    ];
-                }
-            }
-
-            $store = $this
-                ->jadwalUjianRepo
-                ->storeJadwalUjianData($data);
-
-            $storeSesi = $this
-                ->sesiRepo
-                ->storeSesiData($dataSesi);
-
-            return redirect('/panitia/pmb/jadwal-ujian')
-                ->with([
-                    'notification' => 'Data berhasil disimpan'
-                ]);
+            $updateCalonMahasiswaData = $this
+                ->calonMahasiswaRepo
+                ->updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiswa, $item);
         }
+
+        $data = [
+            'kode' => $kode,
+            'kode_soal' => $kodeSoal,
+            'kode_gelombang' => $kodeGelombang,
+            'kode_jurusan' => $kodeJurusan,
+            'status_pendaftaran' => $statusPendaftaran,
+            'tahun' => $tahun,
+            'tanggal_mulai_ujian' => $tanggalMulaiUjian,
+            'tanggal_selesai_ujian' => $tanggalSelesaiUjian,
+            'ruangan' => $ruangan,
+            'status' => 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ];
+
+        $store = $this
+            ->jadwalUjianRepo
+            ->storeJadwalUjianData($data);
+
+        $storeSesi = $this
+            ->sesiRepo
+            ->storeSesiData($dataSesi);
+
+        return redirect('/panitia/pmb/jadwal-ujian')
+            ->with([
+                'notification' => 'Data berhasil disimpan'
+            ]);
+
+        // if($totalCalonMahasiswa == 0){
+        //     return redirect('/panitia/pmb/jadwal-ujian/form-tambah')
+        //         ->with([
+        //             'notification' => 'Tidak ada calon mahasiswa yang terdaftar'
+        //         ]);
+        // }else{
+
+        //     $selisihDurasi = $tanggalMulaiUjian->diffInMinutes($tanggalSelesaiUjian);
+        //     $totalSesi = $jadwalUjianReq->total_sesi;
+        //     $tempTotalSesi = $totalSesi;
+        //     $sesiPertama = TRUE;
+        //     $i = 0;
+        //     $a = 1;
+        //     $jeda = $jadwalUjianReq->durasi_jeda;
+        //     $temp = ceil(round($totalCalonMahasiswa / $totalSesi));
+
+        //     while($i < $totalCalonMahasiswa){
+        //         while($i < $tempTotalSesi){
+        //                 $dataSesi[] = [
+        //                     'kode_jadwal_ujian' => $kode.$a,
+        //                     'kode_pendaftaran' => $calonMahasiswa[$i]['kode'],
+        //                     'created_at' => Carbon::now(),
+        //                     'updated_at' => Carbon::now()
+        //                 ];
+        //             $i++;
+        //         }
+        //         $a++;
+        //         $tempTotalSesi++;
+        //     }
+
+        //     $sesiKe = 1;
+
+        //     for ($i=0; $i<$temp; $i++) {
+        //         if($sesiPertama == TRUE){
+        //             $data[] = [
+        //                     'kode' => $kode.$sesiKe++,
+        //                     'kode_soal' => $kodeSoal,
+        //                     'kode_gelombang' => $kodeGelombang,
+        //                     'kode_jurusan' => $kodeJurusan,
+        //                     'status_pendaftaran' => $statusPendaftaran,
+        //                     'tahun' => $tahun,
+        //                     'tanggal_mulai_ujian' => $tanggalMulaiUjian,
+        //                     'tanggal_selesai_ujian' => $tanggalSelesaiUjian,
+        //                     'status' => 0,
+        //                     'created_at' => Carbon::now(),
+        //                     'updated_at' => Carbon::now()
+        //                 ];
+        //             $sesiPertama = FALSE;
+        //         }else{
+        //             $tempTanggalMulaiUjian = $tanggalSelesaiUjian->copy()->addMinutes($jeda);
+        //             $tempTanggalSelesaiUjian = $tempTanggalMulaiUjian->copy()->addMinutes($selisihDurasi);
+        //             $tanggalSelesaiUjian = $tempTanggalSelesaiUjian;
+
+        //             $data[] = [
+        //                 'kode' => $kode.$sesiKe++,
+        //                 'kode_soal' => $kodeSoal,
+        //                 'kode_gelombang' => $kodeGelombang,
+        //                 'kode_jurusan' => $kodeJurusan,
+        //                 'status_pendaftaran' => $statusPendaftaran,
+        //                 'tahun' => $tahun,
+        //                 'tanggal_mulai_ujian' => $tempTanggalMulaiUjian,
+        //                 'tanggal_selesai_ujian' => $tempTanggalSelesaiUjian,
+        //                 'status' => 0,
+        //                 'created_at' => Carbon::now(),
+        //                 'updated_at' => Carbon::now()
+        //             ];
+        //         }
+        //     }
+
+
+        //     $storeSesi = $this
+        //         ->sesiRepo
+        //         ->storeSesiData($dataSesi);
     }
 
     /**
@@ -307,6 +330,47 @@ class JadwalUjianController extends Controller
         $tanggalMulaiUjian = Carbon::parse($jadwalUjianReq->tanggal_mulai_ujian);
         $tanggalSelesaiUjian = Carbon::parse($jadwalUjianReq->tanggal_selesai_ujian);
         $kode = $jadwalUjianReq->kode;
+        $jeda = $jadwalUjianReq->durasi_jeda;
+        $jumlahSesi = $jadwalUjianReq->total_sesi;
+        $kodePendaftaran = $jadwalUjianReq->kode_pendaftaran;
+        $ruangan = $jadwalUjianReq->ruangan;
+        $kodeJadwalUjian = $jadwalUjianReq->kode_jadwal_ujian;
+
+        $sesi = $this
+            ->sesiRepo
+            ->getAllDataByJadwalUjianForDestroy($kodeJadwalUjian);
+
+        foreach($sesi as $item ){
+            $dataCalonMahasiswa = [
+                'status_jadwal_ujian' => 0
+            ];
+
+            $updateCalonMahasiswaData = $this
+                ->calonMahasiswaRepo
+                ->updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiswa, $item->kode_pendaftaran);
+        }
+
+        $destroySesi = $this
+            ->sesiRepo
+            ->destroySesiDataByJadwalUjian($kodeJadwalUjian);
+
+        foreach ($kodePendaftaran as $item) {
+            $dataSesi[] = [
+                'kode_jadwal_ujian' => $kode,
+                'kode_pendaftaran' => $item,
+                'status' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
+
+            $dataCalonMahasiswa = [
+                'status_jadwal_ujian' => 1
+            ];
+
+            $updateCalonMahasiswaData = $this
+                ->calonMahasiswaRepo
+                ->updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiswa, $item);
+        }
 
         $data = [
             'kode' => $kode,
@@ -317,10 +381,17 @@ class JadwalUjianController extends Controller
             'tahun' => $tahun,
             'tanggal_mulai_ujian' => $tanggalMulaiUjian,
             'tanggal_selesai_ujian' => $tanggalSelesaiUjian,
-            'status' => 0
+            'ruangan' => $ruangan,
+            'status' => 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ];
 
-        $update = $this
+        $storeSesi = $this
+            ->sesiRepo
+            ->storeSesiData($dataSesi);
+
+        $store = $this
             ->jadwalUjianRepo
             ->updateJadwalUjianData($data, $id);
 
@@ -338,18 +409,57 @@ class JadwalUjianController extends Controller
      */
     public function destroy($id)
     {
+        $jadwalUjian = $this
+            ->jadwalUjianRepo
+            ->getSingleData($id);
+
+        $kodeJadwalUjian = $jadwalUjian->kode;
+
+        $sesi = $this
+            ->sesiRepo
+            ->getAllDataByJadwalUjianForDestroy($kodeJadwalUjian);
+
+        foreach($sesi as $item ){
+            $dataCalonMahasiswa = [
+                'status_jadwal_ujian' => 0
+            ];
+
+            $updateCalonMahasiswaData = $this
+                ->calonMahasiswaRepo
+                ->updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiswa, $item->kode_pendaftaran);
+        }
+
         $destroy = $this
             ->jadwalUjianRepo
             ->destroyJadwalUjianData($id);
 
+        $destroySesi = $this
+            ->sesiRepo
+            ->destroySesiDataByJadwalUjian($kodeJadwalUjian);
+
         return response()
             ->json([
-                'destroyed' => TRUE
+                'destroyed' => $sesi
+            ]);
+    }
+
+    public function checkData($kodeGelombang, $statusPendaftaran, $kodeSoal)
+    {
+        $totalJadwalUjian = $this
+            ->jadwalUjianRepo
+            ->getSingleDataForCount($kodeGelombang, $statusPendaftaran, $kodeSoal);
+
+        $total = $totalJadwalUjian + 1;
+
+        return response()
+            ->json([
+                'status' => TRUE,
+                'total' => $total
             ]);
     }
 
     public function sendEmail(
-        $kode
+        $id, $kode
     ) {
         $sesi = $this
             ->sesiRepo
@@ -377,6 +487,7 @@ class JadwalUjianController extends Controller
             $foto4x6 = $item->foto_4x6;
             $tanggalMulaiUjian = $item->tanggal_mulai_ujian->formatLocalized('%c');
             $tanggalSelesaiUjian = $item->tanggal_selesai_ujian->formatLocalized('%c');
+            $durasi = $item->tanggal_mulai_ujian->diffInMinutes($item->tanggal_selesai_ujian);
 
             if($tanggalBulan == '1'){
                 $bulan = "Januari";
@@ -429,36 +540,56 @@ class JadwalUjianController extends Controller
                 $tanggalMulaiUjian,
                 $tanggalSelesaiUjian,
                 $realFileKartuUjian,
-                $fileNameKartuUjian
+                $fileNameKartuUjian,
+                $durasi
             ));
         }
 
-        // $jadwalUjian = $this
-        //     ->jadwalUjianRepo
-        //     ->getSingleData($id);
+        $dataJadwalUjian = [
+            'status' => 1
+        ];
 
-        // $soal = $this
-        //     ->soalRepo
-        //     ->getSingleDataByJadwalUjian($kodeSoal)
-        //     ->first();
+        $updateJadwalUjian = $this
+            ->jadwalUjianRepo
+            ->updateJadwalUjianData($dataJadwalUjian, $id);
 
-        // $kodeSoal = $jadwalUjian->kode;
-        // $token = $soal->token;
-        // $tanggalMulaiUjian = $jadwalUjian->tanggal_mulai_ujian->formatLocalized('%c');
-        // $tanggalSelesaiUjian = $jadwalUjian->tanggal_selesai_ujian->formatLocalized('%c');
+        return redirect('/panitia/pmb/jadwal-ujian')
+            ->with([
+                'notification' => 'Email berhasil dibroadcast'
+            ]);
+    }
 
-        // $data = [
-        //     'status' => 1
-        // ];
+    public function checkPeserta($kodeJurusan, $kodeGelombang, $statusPendaftaran)
+    {
+        $calonMahasiswa = $this
+            ->calonMahasiswaRepo
+            ->getAllDayaForJadwalUjian($kodeJurusan, $kodeGelombang, $statusPendaftaran);
 
-        // $update = $this
-        //     ->jadwalUjianRepo
-        //     ->updateJadwalUjianData($data, $id);
+        $total = $calonMahasiswa->count();
 
+        return response()
+            ->json([
+                'total' => $total,
+                'data' => $calonMahasiswa
+            ]);
+    }
 
-        // return redirect('/panitia/pmb/jadwal-ujian')
-        //     ->with([
-        //         'notification' => 'Email berhasil dibroadcast'
-        //     ]);
+    public function checkUbahPeserta($kodeJurusan, $kodeGelombang, $statusPendaftaran)
+    {
+        $calonMahasiswa = $this
+            ->calonMahasiswaRepo
+            ->getAllDayaForJadwalUjianForEdit(
+                $kodeJurusan,
+                $kodeGelombang,
+                $statusPendaftaran
+            );
+
+        $total = $calonMahasiswa->count();
+
+        return response()
+            ->json([
+                'total' => $total,
+                'data' => $calonMahasiswa
+            ]);
     }
 }

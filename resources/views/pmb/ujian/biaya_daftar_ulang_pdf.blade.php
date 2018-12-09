@@ -20,12 +20,12 @@
             <tr>
                 <td>Jenis Kelas</td>
                 <td>
-                    : @if($kodeKelas == "1") 
-                        Reguler Pagi 
-                    @elseif($kodeKelas == "2") 
-                        Reguler Sore 
-                    @else 
-                        Eksekutif 
+                    : @if($kodeKelas == "1")
+                        Reguler Pagi
+                    @elseif($kodeKelas == "2")
+                        Reguler Sore
+                    @else
+                        Eksekutif
                     @endif
                 </td>
             </tr>
@@ -92,6 +92,10 @@
                     <td></td>
                 </tr>
                 <tr>
+                    <td colspan="3"></td>
+                    <td align="right">{{$deskripsi}} {{$jumlahPotongan}}</td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <center>
                             Jumlah
@@ -101,7 +105,7 @@
                         {{$biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan }}
                     </td>
                     <td align="right">
-                        {{$biayaPendaftaran + $potonganPengembanganInstitusi}}
+                        {{$biayaPendaftaran + $potonganPengembanganInstitusi + $jumlahPotongan }}
                     </td>
                 </tr>
                 <tr>
@@ -111,7 +115,7 @@
                         </center>
                     </td>
                     <td colspan="2" align="right">
-                        {{($biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan) -  ($biayaPendaftaran + $potonganPengembanganInstitusi) }}
+                        {{($biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan) -  ($biayaPendaftaran + $potonganPengembanganInstitusi + $jumlahPotongan) }}
                     </td>
                 </tr>
             </table>

@@ -16,9 +16,7 @@ class MasterTahunAjaranTableSeeder extends Seeder
 
         $seeds = DB::table('master_tahun_ajaran')->insert([
             [
-                'kode'  => '1819GANJIL',
-                'tahun' => '2018 - 2019',
-                'semester' => '1',
+                'tahun' => '2018',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

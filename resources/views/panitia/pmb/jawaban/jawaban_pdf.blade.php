@@ -24,9 +24,11 @@
         <div class="jawaban">
             @foreach($jawaban as $item)
                 <h3 class="status">Nomor pertanyaan {{ $nomorSoal++ }}</h3>
+                @if(!empty($item->gambar))
                 <p>
                     <img src="<?php echo $_SERVER["DOCUMENT_ROOT"].'/uploads/pertanyaan/gambar/'.$item->gambar.''; ?>" />
                 </p>
+                @endif
                 <p>{!! $item->pertanyaan !!}</p>
                 <p>Jawaban</p>
                 @if($item->jenis_pertanyaan == "Benar-Salah")

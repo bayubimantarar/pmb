@@ -24,35 +24,9 @@ class TahunAjaranRequest extends FormRequest
      */
     public function rules()
     {
-        switch($this->method()){
-            case 'POST': {
-                return [
-                    'kode' => [
-                        'unique:master_tahun_ajaran'
-                    ],
-                    'tahun_awal' => [
-                        'required'
-                    ],
-                    'tahun_akhir' => [
-                        'required'
-                    ]
-                ];
-            }
-            case 'PUT' : {
-                return [
-                    'kode' => [
-                        Rule::unique('master_tahun_ajaran')->ignore($this->id)
-                    ],
-                    'tahun_awal' => [
-                        'required'
-                    ],
-                    'tahun_akhir' => [
-                        'required'
-                    ]
-                ];
-            }
-            default:break;
-        }
+        return [
+            'tahun' => 'required'
+        ];
     }
 
     /**
@@ -63,9 +37,7 @@ class TahunAjaranRequest extends FormRequest
     public function messages()
     {
         return [
-            'kode.unique'           => 'Kode tahun ajaran sudah ada',
-            'tahun_awal.required'   => 'Tahun ajaran perlu diisi.',
-            'tahun_akhir.required'  => 'Tahun ajaran perlu diisi.'
+            'tahun.required' => 'Tahun ajaran perlu diisi',
         ];
     }
 }

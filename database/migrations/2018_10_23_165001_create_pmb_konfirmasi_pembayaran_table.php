@@ -19,7 +19,7 @@ class CreatePmbKonfirmasiPembayaranTable extends Migration
             $table->string('nomor_telepon');
             $table->string('email');
             $table->text('alamat');
-            $table->timestamp('tanggal_pembayaran');
+            $table->datetime('tanggal_pembayaran');
             $table->integer('jumlah_pembayaran');
             $table->string('bank_tujuan');
             $table->string('nama_rekening_pengirim');

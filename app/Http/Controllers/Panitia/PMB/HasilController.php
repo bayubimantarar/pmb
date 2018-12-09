@@ -53,7 +53,7 @@ class HasilController extends Controller
 
         return DataTables::of($hasil)
             ->addColumn('action', function($hasil) use ($kodeJadwalUjian){
-                return '<center><a href="/panitia/pmb/hasil-ujian/'.$kodeJadwalUjian.'/form-ubah/'.$hasil->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="/panitia/pmb/hasil-ujian/'.$kodeJadwalUjian.'/unduh/'.$hasil->id.'" class="btn btn-primary btn-xs"><i class="fa fa-download"></i></a></center>';
+                return '<center><a href="/panitia/pmb/hasil-ujian/'.$kodeJadwalUjian.'/form-ubah/'.$hasil->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a></center>';
             })
             ->editColumn('status', function($hasil) use($nilaiLulus){
                 if($hasil->nilai_angka >= $nilaiLulus->nilai){
@@ -304,7 +304,7 @@ class HasilController extends Controller
             }else if($bulanLahir == '12'){
                 $bulan = "Desember";
             }
-            
+
             $sekolahAsal = $hasil->asal_sekolah;
 
             if($hasil->kode_jurusan == "IF"){

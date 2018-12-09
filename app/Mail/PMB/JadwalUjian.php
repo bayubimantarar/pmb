@@ -19,6 +19,8 @@ class JadwalUjian extends Mailable
     private $realFileKartuUjian;
     private $tanggalMulaiUjian;
     private $tanggalSelesaiUjian;
+    private $durasi;
+    private $kodeJadwalUjian;
 
     /**
      * Create a new message instance.
@@ -26,10 +28,12 @@ class JadwalUjian extends Mailable
      * @return void
      */
     public function __construct(
-        $nama, $kode, $password, $tanggalMulaiUjian, $tanggalSelesaiUjian, $realFileKartuUjian, $fileNameKartuUjian
+        $nama, $kode, $password, $tanggalMulaiUjian, $tanggalSelesaiUjian, $realFileKartuUjian, $fileNameKartuUjian, $durasi, $kodeJadwalUjian
     ) {
         $this->nama = $nama;
         $this->kode = $kode;
+        $this->kodeJadwalUjian = $kodeJadwalUjian;
+        $this->durasi = $durasi;
         $this->password = $password;
         $this->realFileKartuUjian = $realFileKartuUjian;
         $this->fileNameKartuUjian = $fileNameKartuUjian;
@@ -51,7 +55,9 @@ class JadwalUjian extends Mailable
                 'kode' => $this->kode,
                 'password' => $this->password,
                 'tanggalMulaiUjian' => $this->tanggalMulaiUjian,
-                'tanggalSelesaiUjian' => $this->tanggalSelesaiUjian
+                'tanggalSelesaiUjian' => $this->tanggalSelesaiUjian,
+                'durasi' => $this->durasi,
+                'kodeJadwalUjian' => $this->kodeJadwalUjian
             ])
             ->attach($this->realFileKartuUjian, [
                 'as' => $this->fileNameKartuUjian,

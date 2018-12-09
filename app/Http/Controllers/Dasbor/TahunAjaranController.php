@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Dasbor;
 
 use DataTables;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TahunAjaranRequest;
 use App\Repositories\TahunAjaranRepository;
+use App\Http\Requests\Master\TahunAjaranRequest;
 
 class TahunAjaranController extends Controller
 {
@@ -31,14 +31,7 @@ class TahunAjaranController extends Controller
             ->addColumn('action', function($tahunajaran){
                 return '<center><a href="/dasbor/tahun-ajaran/form-ubah/'.$tahunajaran->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$tahunajaran->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';
             })
-            ->editColumn('semester', function($tahunajaran){
-                if($tahunajaran->semester == 1){
-                    return 'Ganjil';
-                }else{
-                    return 'Genap';
-                }
-            })
-            ->rawColumns(['action', 'semester'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -70,16 +63,10 @@ class TahunAjaranController extends Controller
      */
     public function store(TahunAjaranRequest $tahunajaranReq)
     {
-        $tahunAwal  = $tahunajaranReq->tahun_awal;
-        $tahunAkhir = $tahunajaranReq->tahun_akhir;
-        $semester   = $tahunajaranReq->semester;
-        $tahun      = $tahunAwal.' - '.$tahunAkhir;
-        $kode       = $tahunajaranReq->kode;
+        $tahun = $tahunAjaranReq->tahun;
 
         $data = [
-            'kode'      => $kode,
-            'tahun'     => $tahun,
-            'semester'  => $semester
+            'tahun' => $tahun
         ];
 
         $store = $this
@@ -115,16 +102,8 @@ class TahunAjaranController extends Controller
             ->tahunajaranRepo
             ->getSingleData($id);
 
-        $temptahun_awal     = substr($tahunajaran->tahun, 0, 4);
-        $temptahun_akhir    = substr($tahunajaran->tahun, 7, 4);
-
-        $tahun_awal     = (int)$temptahun_awal;
-        $tahun_akhir    = (int)$temptahun_akhir;
-
         return view('dasbor.tahun_ajaran.form_ubah', compact(
-            'tahunajaran',
-            'tahun_awal',
-            'tahun_akhir'
+            'tahunajaran'
         ));
     }
 
@@ -137,16 +116,10 @@ class TahunAjaranController extends Controller
      */
     public function update(TahunAjaranRequest $tahunajaranReq, $id)
     {
-        $kode           = $tahunajaranReq->kode;
-        $tahunAwal      = $tahunajaranReq->tahun_awal;
-        $tahunAkhir     = $tahunajaranReq->tahun_akhir;
-        $semester       = $tahunajaranReq->semester;
-        $tahun          = $tahunAwal.' - '.$tahunAkhir;
+        $tahun = $tahunAjaranReq->tahun;
 
         $data = [
-            'kode' => $kode,
-            'tahun' => $tahun,
-            'semester' => $semester
+            'tahun'     => $tahun
         ];
 
         $store = $this

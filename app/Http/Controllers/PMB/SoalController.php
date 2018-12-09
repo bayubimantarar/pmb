@@ -98,7 +98,7 @@ class SoalController extends Controller
             $jawabanpilihan     = $ujianReq->jawaban_pilihan;
             $jawabanBenarSalah  = $ujianReq->jawaban_benar_salah;
             $createdAt          = Carbon::now();
-                    
+
             if($jenispertanyaan == 'benar-salah' || $jenispertanyaan == 'Benar-Salah'){
                 if(!empty($jawabanBenarSalah[$i])){
                     $data[] = [
@@ -207,159 +207,10 @@ class SoalController extends Controller
             'nilai_angka' => $totalNilai
         ];
 
-        $calonMahasiswa = $this
-            ->calonMahasiswaRepo
-            ->getSingleDataByEmail($kodePendaftaran)
-            ->first();
-
-        $nama = $calonMahasiswa->nama;
-        $email = $calonMahasiswa->email;
-        $kotaLahir = $calonMahasiswa->kota_lahir;
-        $tanggal = $calonMahasiswa->tanggal;
-        $tanggalBulan = $calonMahasiswa->bulan;
-
-        if($tanggalBulan == '1'){
-            $bulan = "Januari";
-        }else if($tanggalBulan == '2'){
-            $bulan = "Februari";
-        }else if($tanggalBulan == '3'){
-            $bulan = "Maret";
-        }else if($tanggalBulan == '4'){
-            $bulan = "April";
-        }else if($tanggalBulan == '5'){
-            $bulan = "Mei";
-        }else if($tanggalBulan == '6'){
-            $bulan = "Juni";
-        }else if($tanggalBulan == '7'){
-            $bulan = "Juli";
-        }else if($tanggalBulan == '8'){
-            $bulan = "Agustus";
-        }else if($tanggalBulan == '9'){
-            $bulan = "September";
-        }else if($tanggalBulan == '10'){
-            $bulan = "Oktober";
-        }else if($tanggalBulan == '11'){
-            $bulan = "November";
-        }else if($tanggalBulan == '12'){
-            $bulan = "Desember";
-        }
-
-        $tahun = $calonMahasiswa->tahun;
-        $sekolahAsal = $calonMahasiswa->asal_sekolah;
-        $kodeGelombang = Auth::guard('calon_mahasiswa')->User()->kode_gelombang;
-        $kodeKelas = Auth::guard('calon_mahasiswa')->User()->kode_kelas;
-
-        if($calonMahasiswa->kode_jurusan == "IF"){
-            $jurusanPilihan = "Teknik Informatika";
-        }else{
-            $jurusanPilihan = "Sistem Informasi";
-        }
-
-        if($totalNilai >= $nilaiAngka){
-            $gelombang = $this
-                ->gelombangRepo
-                ->getSingleDataForBiaya($kodeGelombang);
-
-            $biaya = $this
-                ->biayaRepo
-                ->getSingleDataForBiaya($kodeKelas);
-
-            $gelombang = $this
-                ->gelombangRepo
-                ->getSingleDataForBiaya($kodeGelombang);
-
-            $gelombangData = $this
-                ->gelombangRepo
-                ->getAllData();
-
-            foreach ($gelombangData as $item) {
-                if ($kodeGelombang == $item->kode) {
-                    $tempTanggalGelombang = $item->sampai_tanggal;
-                }
-            }
-
-            $biayaPendaftaran = $biaya->biaya_pendaftaran;
-            $biayaJaketKemeja = $biaya->biaya_jaket_kemeja;
-            $biayaPSPT = $biaya->biaya_pspt;
-            $biayaPengembanganInstitusi = $biaya->biaya_pengembangan_institusi;
-            $biayaKuliah = $biaya->biaya_kuliah;
-            $biayaKemahasiswaan = $biaya->biaya_kemahasiswaan;
-            $potonganPengembanganInstitusi = $gelombang->jumlah_potongan;
-            $tanggalGelombang = $tempTanggalGelombang->formatLocalized('%d %B %Y');
-            $tanggalSekarang = Carbon::now()->formatLocalized('%d %B %Y');
-            
-            $keteranganLulus = "Lulus";
-            $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
-                'nama',
-                'kodePendaftaran',
-                'keteranganLulus',
-                'kotaLahir',
-                'tanggal',
-                'bulan',
-                'tahun',
-                'sekolahAsal',
-                'jurusanPilihan'
-            ));
-
-            $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf', compact(
-                'nama',
-                'sekolahAsal',
-                'jurusanPilihan',
-                'kodeKelas',
-                'biayaPendaftaran',
-                'biayaJaketKemeja',
-                'biayaPSPT',
-                'biayaPengembanganInstitusi',
-                'biayaKuliah',
-                'biayaKemahasiswaan',
-                'potonganPengembanganInstitusi',
-                'tanggalGelombang',
-                'tanggalSekarang'
-            ));
-
-            $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
-
-            $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
-
-            $filePdfBiaya = $biayaPdf->save(public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf'));
-
-            $realFilePdfBiaya = public_path("/files/Rincian Biaya Kuliah - ".$kodePendaftaran.' - '.$nama.'.pdf');
-
-            $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
-            $fileNamePdfBiaya = 'Rincian Biaya Kuliah - '.$kodePendaftaran.' - '.$nama.'.pdf';
-
-            $sendEmail = Mail::to($email)
-                ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
-        }else{
-            $keteranganLulus = "Tidak Lulus";
-
-            $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
-                'nama',
-                'kodePendaftaran',
-                'keteranganLulus',
-                'kotaLahir',
-                'tanggal',
-                'bulan',
-                'tahun',
-                'sekolahAsal',
-                'jurusanPilihan'
-            ));
-
-            $file = $pdf->save(public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf'));
-            $realFile = public_path("/files/Surat Kelulusan Ujian Penerimaan Siswa Baru - ".$kodePendaftaran.' - '.$nama.'.pdf');
-            $filePdfBiaya = NULL;
-            $realFilePdfBiaya = NULL;
-            $fileName = 'Surat Keterangan Kelulusan - '.$kodePendaftaran.' - '.$nama.'.pdf';
-            $fileNamePdfBiaya = NULL;
-
-            $sendEmail = Mail::to($email)
-                ->send(new KeteranganLulus($realFile, $fileName, $realFilePdfBiaya, $fileNamePdfBiaya, $keteranganLulus));
-        }
-
         $store = $this
             ->jawabanRepo
             ->storeJawabanData($data);
-        
+
         $storeHasil = $this
             ->hasilRepo
             ->storeHasilData($dataHasil);
@@ -432,12 +283,12 @@ class SoalController extends Controller
         $tanggalSelesaiUjian = $jadwalUjian->tanggal_selesai_ujian;
 
         if(
-            $tanggalSekarang >= $tanggalMulaiUjian && 
+            $tanggalSekarang >= $tanggalMulaiUjian &&
             $tanggalSekarang <= $tanggalSelesaiUjian
         ) {
             $hasExam    = 1;
             $examDate   = 1;
-                
+
             return view('pmb.ujian.soal', compact(
                 'hasExam',
                 'examDate',
@@ -510,7 +361,7 @@ class SoalController extends Controller
             ->first();
 
         $kodeJadwalUjian        = $jadwalUjian->kode;
-        $kodesoal               = $detailSoal->kode_soal; 
+        $kodesoal               = $detailSoal->kode_soal;
         $jenispertanyaan        = $detailSoal->jenis_pertanyaan;
         $nip                    = $detailSoal->nip;
         $kelas                  = $detailSoal->nama_kelas;
@@ -540,12 +391,16 @@ class SoalController extends Controller
                 $nomorsoal = 1;
                 $i = 0;
                 $hasExam = true;
+                $a = 1;
+                $b = 1;
 
                 return view('pmb.ujian.form_soal', compact(
                     'dataPertanyaan',
-                    'totalPertanyaan', 
+                    'totalPertanyaan',
                     'jenispertanyaan',
-                    'i', 
+                    'i',
+                    'a',
+                    'b',
                     'hasExam',
                     'nomorsoal',
                     'nip',

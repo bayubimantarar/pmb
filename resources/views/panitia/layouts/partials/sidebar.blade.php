@@ -37,11 +37,7 @@
                                     </a>
                                 </li>
                             </ul>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Pendaftaran<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                {{-- <li>
+                            <li>
                                     <a href="/panitia/pmb/pendaftaran">
                                         <i class="fa fa-book fa-fw"></i> Data Pendaftaran
                                     </a>
@@ -50,14 +46,23 @@
                                     <a href="/panitia/pmb/konfirmasi-pembayaran">
                                         <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
                                     </a>
-                                </li> --}}
+                                </li>
+                                <li>
+                                    <a href="/panitia/pmb/formulir">
+                                        <i class="fa fa-book fa-fw"></i> Data Formulir
+                                    </a>
+                                </li>
+                    </li>
+                    {{-- <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Pendaftaran<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
                                 <li>
                                     <a href="/panitia/pmb/formulir">
                                         <i class="fa fa-book fa-fw"></i> Data Formulir
                                     </a>
                                 </li>
                             </ul>
-                    </li>
+                    </li> --}}
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
@@ -70,9 +75,27 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/panitia/pmb/jadwal-ujian">
-                            <i class="fa fa-book fa-fw"></i> Data Jadwal Ujian
-                        </a>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Jadwal Ujian<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="/panitia/pmb/jadwal-ujian">
+                                        <i class="fa fa-book fa-fw"></i> Data Jadwal Ujian
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-book fa-fw"></i> Data Peserta <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-third-level">
+                                        @foreach($jadwalUjian as $item)
+                                            <li>
+                                                <a href="/panitia/pmb/peserta-ujian/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
+                            </ul>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Jawaban Ujian<span class="fa arrow"></span></a>

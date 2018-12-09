@@ -60,7 +60,7 @@
                     Dinyatakan
                 </h6>
                 <h3>
-                   {{$keteranganLulus}} 
+                   {{$keteranganLulus}}
                 </h3>
             </center>
             @if($keteranganLulus == "LULUS")
@@ -75,10 +75,10 @@
         </div>
         <div class="tanggal">
             <p>
-                Bandung, 14 November 2018
+                Bandung, {{$tanggalSekarang}}
             </p>
             <p>
-                Hormat kami, 
+                Hormat kami,
                 Panitia Penerimaan Mahasiswa Baru STMIK Bandung<br />
                 Tahun Akademik 2018 / 2019
             </p>

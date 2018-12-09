@@ -41,9 +41,7 @@ Dasbor &raquo; Master &raquo; Tahun Ajaran &raquo; Form Ubah Data Tahun Ajaran
                 <table width="100%" class="table table-striped table-bordered table-hover" id="tahunajaran-table">
                     <thead>
                         <tr>
-                            <th>Kode Tahun Ajaran</th>
-                            <th>Tahun Ajaran</th>
-                            <th>Semester</th>
+                            <th>Tahun</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -77,13 +75,11 @@ Dasbor &raquo; Master &raquo; Tahun Ajaran &raquo; Form Ubah Data Tahun Ajaran
         processing: true,
         ajax: '/dasbor/master/tahun-ajaran/data',
         columns: [
-            {data: 'kode'},
             {data: 'tahun'},
-            {data: 'semester'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });
-      
+
       function destroy(id)
       {
         var confirmation = confirm("Yakin akan menghapus data ini?");

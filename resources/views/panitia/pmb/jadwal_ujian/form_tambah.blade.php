@@ -41,8 +41,11 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                             <div class="form-group {{$errors->has('kode') ? ' has-error' : ''}}">
                                 <div class="row">
                                     <div class="col-lg-5 col-md-5 col-xs-12">
-                                        <label class="control-label">Kode</label>
+                                        <label class="control-label">Kode Jadwal Ujian</label>
                                         <input type="text" name="kode" class="form-control" id="kode" value="{{ old('kode') }}" readonly />
+                                        <code>
+                                            Terisi otomatis sesuai apa yang dipilih
+                                        </code>
                                         @if($errors->has('kode'))
                                             <p class="text-danger">
                                                 <i>{{ $errors->first('kode') }}</i>
@@ -72,39 +75,6 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-xs-12">
-                                    <div class="form-group {{$errors->has('kode_soal') ? ' has-error' : ''}}">
-                                        <label class="control-label">Soal</label>
-                                        <select name="kode_soal" class="form-control" id="kode-soal">
-                                            <option value="">-- Pilih Soal --</option>
-                                            @foreach($soal as $item)
-                                                <option value="{{ $item->kode }}" {{ ($item->kode == old('kode_soal')) ? 'selected' : '' }}>
-                                                    {{ $item->kode }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if($errors->has('kode_soal'))
-                                            <p class="text-danger">
-                                                <i>{{ $errors->first('kode_soal') }}</i>
-                                            </p>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
-                                    <div class="form-group {{$errors->has('status_pendaftaran') ? ' has-error' : ''}}">
-                                        <label class="control-label">Status Pendaftaran *</label>
-                                        <select name="status_pendaftaran" class="form-control" id="status-pendaftaran">
-                                            <option value="">-- Pilih Status Pendaftaran --</option>
-                                            <option value="Baru">Ujian Baru</option>
-                                            <option value="Mengulang">Ujian Mengulang</option>
-                                        </select>
-                                        @if($errors->has('status_pendaftaran'))
-                                            <p class="text-danger">
-                                                <i>{{ $errors->first('status_pendaftaran') }}</i>
-                                            </p>
-                                        @endif
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('kode_gelombang') ? ' has-error' : ''}}">
                                         <label class="control-label">Gelombang</label>
                                         <select name="kode_gelombang" class="form-control" id="kode-gelombang">
@@ -122,9 +92,42 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                    <div class="form-group {{$errors->has('status_pendaftaran') ? ' has-error' : ''}}">
+                                        <label class="control-label">Status Pendaftaran *</label>
+                                        <select name="status_pendaftaran" class="form-control" id="status-pendaftaran">
+                                            <option value="">-- Pilih Status Pendaftaran --</option>
+                                            <option value="Baru" {{ (old('status_pendaftaran') == "Baru") ? 'selected' : '' }}>Ujian Baru</option>
+                                            <option value="Mengulang" {{ (old('status_pendaftaran') == "Mengulang") ? 'selected' : '' }}>Ujian Mengulang</option>
+                                        </select>
+                                        @if($errors->has('status_pendaftaran'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('status_pendaftaran') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                    <div class="form-group {{$errors->has('kode_soal') ? ' has-error' : ''}}">
+                                        <label class="control-label">Soal</label>
+                                        <select name="kode_soal" class="form-control" id="kode-soal">
+                                            <option value="">-- Pilih Soal --</option>
+                                            @foreach($soal as $item)
+                                                <option value="{{ $item->kode }}" {{ ($item->kode == old('kode_soal')) ? 'selected' : '' }}>
+                                                    {{ $item->kode }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if($errors->has('kode_soal'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('kode_soal') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('tahun') ? ' has-error' : ''}}">
                                         <label class="control-label">Tahun</label>
                                         <select name="tahun" class="form-control">
@@ -141,34 +144,18 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-xs-12">
-                                    <div class="form-group {{$errors->has('total_sesi') ? ' has-error' : ''}}">
-                                        <label class="control-label">Jumlah Peserta Per Sesi *</label>
-                                        <input type="number" name="total_sesi" class="form-control" />
-                                        @if($errors->has('total_sesi'))
+                                <div class="col-lg-3 col-md-3 col-xs-12">
+                                    <div class="form-group {{$errors->has('ruangan') ? ' has-error' : ''}}">
+                                        <label class="control-label">Ruangan *</label>
+                                        <input type="text" name="ruangan" class="form-control" />
+                                        @if($errors->has('ruangan'))
                                             <p class="text-danger">
-                                                <i>{{ $errors->first('total_sesi') }}</i>
+                                                <i>{{ $errors->first('ruangan') }}</i>
                                             </p>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-xs-12">
-                                    <div class="form-group {{$errors->has('durasi_jeda') ? ' has-error' : ''}}">
-                                        <label class="control-label">Durasi Jeda*</label>
-                                        <input type="number" name="durasi_jeda" class="form-control" />
-                                        <code>
-                                            Dalam satuan menit
-                                        </code>
-                                        @if($errors->has('durasi_jeda'))
-                                            <p class="text-danger">
-                                                <i>{{ $errors->first('durasi_jeda') }}</i>
-                                            </p>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_mulai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Mulai Ujian</label>
                                         <div class="input-group date" id="tanggal-mulai-ujian">
@@ -184,7 +171,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-xs-12">
+                                <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_selesai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Selesai Ujian</label>
                                         <div class="input-group date" id="tanggal-selesai-ujian">
@@ -200,6 +187,13 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
+                            </div>
+                            <hr />
+                            <h2>Calon mahasiswa yang terdaftar</h2>
+                            <div class="form-group">
+                                <label>Daftar Calon Mahasiswa</label>
+                                <div id="notifikasi"></div>
+                                <div id="daftar-calon-peserta"></div>
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
                             <a href="/dosen/soal" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
@@ -224,6 +218,10 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script>
 $(document).ready(function(){
+    var kode_soal = $("#kode-soal").val();
+    var kode_jurusan = $("#kode-jurusan").val();
+    var kode_gelombang = $("#kode-gelombang").val();
+    var status_pendaftaran = $("#status-pendaftaran").val();
     $('#tanggal-mulai-ujian').datetimepicker({
         locale: 'id',
         format:'DD-MM-YYYY HH:mm:ss',
@@ -232,39 +230,277 @@ $(document).ready(function(){
         locale: 'id',
         format:'DD-MM-YYYY HH:mm:ss',
     });
+    if(kode_jurusan != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek-peserta/"+kode_jurusan+"/"+kode_gelombang+"/"+status_pendaftaran,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var results = result.data;
+                    var totals = result.total;
+                    if(totals == 0){
+                        var div = "<code>Belum ada yang terdaftar</code>";
+                        $('#notifikasi').show();
+                        $('#notifikasi').empty();
+                        $('#notifikasi').append(div);
+                        $('#daftar-calon-peserta').hide();
+                        $('#daftar-calon-peserta').empty();
+                    }else{
+                        $('#daftar-calon-peserta').empty();
+                        $('#daftar-calon-peserta').show();
+                        $('#notifikasi').hide();
+                        var i = 0;
+                        $.each(results, function () {
+                            var div = $(
+                                        '<div class="checkbox">'+
+                                            '<label>'+
+                                                '<input type="checkbox" value="'+this.kode+'" name="kode_pendaftaran[]" id="calon-peserta">'+this.nama+' '+this.kode+
+                                            '</label>'+
+                                        '</div>'
+                                    );
+                            $('#daftar-calon-peserta').append(div);
+                        });
+                    }
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
     $("#kode-soal").change(function(){
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
+        var status_pendaftaran = $("#status-pendaftaran").val();
+
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
-        }else{
+        }else if($("#status-pendaftaran").val() == "Mengulang"){
             status_pendaftaran = "MENGULANG";
+        }else{
+            status_pendaftaran = "";
         }
-        var kode = kode_soal+kode_gelombang+status_pendaftaran;
-        $("#kode").val(kode);
+
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var total = result.total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    $("#kode").val(kode);
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
     });
     $("#status-pendaftaran").change(function(){
+        var kode_jurusan = $("#kode-jurusan").val();
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
+        var status_pendaftaran = $("#status-pendaftaran").val();
+
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
-        }else{
+        }else if($("#status-pendaftaran").val() == "Mengulang"){
             status_pendaftaran = "MENGULANG";
+        }else{
+            status_pendaftaran = "";
         }
-        var kode = kode_soal+kode_gelombang+status_pendaftaran;
-        $("#kode").val(kode);
+
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var total = result.total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    $("#kode").val(kode);
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
+
+        if(kode_jurusan != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek-peserta/"+kode_jurusan+"/"+kode_gelombang+"/"+status_pendaftaran,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var results = result.data;
+                    var totals = result.total;
+                    if(totals == 0){
+                        var div = "<code>Belum ada yang terdaftar</code>";
+                        $('#notifikasi').show();
+                        $('#notifikasi').empty();
+                        $('#notifikasi').append(div);
+                        $('#daftar-calon-peserta').hide();
+                        $('#daftar-calon-peserta').empty();
+                    }else{
+                        $('#daftar-calon-peserta').empty();
+                        $('#daftar-calon-peserta').show();
+                        $('#notifikasi').hide();
+                        var i = 0;
+                        $.each(results, function () {
+                            var div = $(
+                                        '<div class="checkbox">'+
+                                            '<label>'+
+                                                '<input type="checkbox" value="'+this.kode+'" name="kode_pendaftaran[]" id="calon-peserta">'+this.nama+' '+this.kode+
+                                            '</label>'+
+                                        '</div>'
+                                    );
+                            $('#daftar-calon-peserta').append(div);
+                        });
+                    }
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
     });
     $("#kode-gelombang").change(function(){
+        var kode_jurusan = $("#kode-jurusan").val();
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
+        var status_pendaftaran = $("#status-pendaftaran").val();
+
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
-        }else{
+        }else if($("#status-pendaftaran").val() == "Mengulang"){
             status_pendaftaran = "MENGULANG";
+        }else{
+            status_pendaftaran = "";
         }
-        var kode = kode_soal+kode_gelombang+status_pendaftaran;
-        $("#kode").val(kode);
+
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var total = result.total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    $("#kode").val(kode);
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
+
+        if(kode_jurusan != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek-peserta/"+kode_jurusan+"/"+kode_gelombang+"/"+status_pendaftaran,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var results = result.data;
+                    var totals = result.total;
+                    if(totals == 0){
+                        var div = "<code>Belum ada yang terdaftar</code>";
+                        $('#notifikasi').show();
+                        $('#notifikasi').empty();
+                        $('#notifikasi').append(div);
+                        $('#daftar-calon-peserta').hide();
+                        $('#daftar-calon-peserta').empty();
+                    }else{
+                        $('#daftar-calon-peserta').empty();
+                        $('#daftar-calon-peserta').show();
+                        $('#notifikasi').hide();
+                        var i = 0;
+                        $.each(results, function () {
+                            var div = $(
+                                        '<div class="checkbox">'+
+                                            '<label>'+
+                                                '<input type="checkbox" value="'+this.kode+'" name="kode_pendaftaran[]" id="calon-peserta">'+this.nama+' '+this.kode+
+                                            '</label>'+
+                                        '</div>'
+                                    );
+                            $('#daftar-calon-peserta').append(div);
+                        });
+                    }
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
+    });
+    $("#kode-jurusan").change(function(){
+        var kode_jurusan = $("#kode-jurusan").val();
+        var kode_soal = $("#kode-soal").val();
+        var kode_gelombang = $("#kode-gelombang").val();
+        var status_pendaftaran = $("#status-pendaftaran").val();
+
+        if($("#status-pendaftaran").val() == "Baru"){
+            status_pendaftaran = "BARU";
+        }else if($("#status-pendaftaran").val() == "Mengulang"){
+            status_pendaftaran = "MENGULANG";
+        }else{
+            status_pendaftaran = "";
+        }
+
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var total = result.total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    $("#kode").val(kode);
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
+
+        if(kode_jurusan != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek-peserta/"+kode_jurusan+"/"+kode_gelombang+"/"+status_pendaftaran,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var results = result.data;
+                    var totals = result.total;
+                    if(totals == 0){
+                        var div = "<code>Belum ada yang terdaftar</code>";
+                        $('#notifikasi').show();
+                        $('#notifikasi').empty();
+                        $('#notifikasi').append(div);
+                        $('#daftar-calon-peserta').hide();
+                        $('#daftar-calon-peserta').empty();
+                    }else{
+                        $('#daftar-calon-peserta').empty();
+                        $('#daftar-calon-peserta').show();
+                        $('#notifikasi').hide();
+                        var i = 0;
+                        $.each(results, function () {
+                            var div = $(
+                                        '<div class="checkbox">'+
+                                            '<label>'+
+                                                '<input type="checkbox" value="'+this.kode+'" name="kode_pendaftaran[]" id="calon-peserta">'+this.nama+' '+this.kode+
+                                            '</label>'+
+                                        '</div>'
+                                    );
+                            $('#daftar-calon-peserta').append(div);
+                        });
+                    }
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
     });
 });
 </script>
 @endpush
+

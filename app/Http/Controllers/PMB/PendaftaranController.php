@@ -7,6 +7,7 @@ use Request;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Repositories\PMB\BiayaRepository;
+use App\Repositories\PMB\PotonganRepository;
 use App\Http\Requests\PMB\PendaftaranRequest;
 use App\Repositories\PMB\GelombangRepository;
 use App\Repositories\PMB\PendaftaranRepository;
@@ -16,6 +17,7 @@ use App\Services\CalonMahasiswaKelengkapanService;
 class PendaftaranController extends Controller
 {
     private $biayaRepo;
+    private $potonganRepo;
     private $GelombangRepo;
     private $pendaftaranRepo;
     private $calonMahasiswaRepo;
@@ -23,12 +25,14 @@ class PendaftaranController extends Controller
 
     public function __construct(
         BiayaRepository $biayaRepository,
+        PotonganRepository $potonganRepository,
         GelombangRepository $gelombangRepository,
         PendaftaranRepository $pendaftaranRepository,
         CalonMahasiswaRepository $calonMahasiswaRepository,
         CalonMahasiswaKelengkapanService $calonMahasiswaKelengkapanService
     ) {
         $this->biayaRepo = $biayaRepository;
+        $this->potonganRepo = $potonganRepository;
         $this->gelombangRepo = $gelombangRepository;
         $this->pendaftaranRepo = $pendaftaranRepository;
         $this->calonMahasiswaRepo = $calonMahasiswaRepository;
@@ -63,6 +67,10 @@ class PendaftaranController extends Controller
             ->getAllData()
             ->toArray();
 
+        $potongan = $this
+            ->potonganRepo
+            ->getAllData();
+
         $gelombangTable = $this
             ->gelombangRepo
             ->getAllData();
@@ -83,23 +91,25 @@ class PendaftaranController extends Controller
             $info = "Formulir telah diisi";
 
             return view('pmb.pendaftaran.form_pendaftaran', compact(
-                'encryptID', 
-                'gelombang', 
-                'gelombangTable', 
-                'biaya', 
+                'encryptID',
+                'gelombang',
+                'gelombangTable',
+                'biaya',
                 'tanggalSekarang',
-                'info'
+                'info',
+                'potongan'
             ));
         }else{
             $info = NULL;
 
             return view('pmb.pendaftaran.form_pendaftaran', compact(
-                'encryptID', 
-                'gelombang', 
-                'gelombangTable', 
-                'biaya', 
+                'encryptID',
+                'gelombang',
+                'gelombangTable',
+                'biaya',
                 'tanggalSekarang',
-                'info'
+                'info',
+                'potongan'
             ));
         }
     }
@@ -130,6 +140,7 @@ class PendaftaranController extends Controller
         $jurusan = $pendaftaranReq->jurusan;
         $gelombang = $pendaftaranReq->gelombang;
         $kodeKelas = $pendaftaranReq->kelas;
+        $kodePotongan = $pendaftaranReq->kode_potongan;
 
         if($jurusan == "IF"){
             $calonMahasiswa = $this
@@ -273,7 +284,9 @@ class PendaftaranController extends Controller
             'kode_jurusan' => $jurusan,
             'kode_kelas' => $kodeKelas,
             'kode_gelombang' => $gelombang,
-            'status_pendaftaran' => $statusPendaftaran
+            'kode_potongan' => $kodePotongan,
+            'status_pendaftaran' => $statusPendaftaran,
+            'status_jadwal_ujian' => 0
         ];
 
         $dataCalonMahasiswaStatus = [
@@ -281,8 +294,7 @@ class PendaftaranController extends Controller
             'status' => $status,
             'asal_sekolah' => $asalSekolah,
             'asal_jurusan' => $asalJurusan,
-            'jurusan_pilihan' => $jurusan,
-            'semester' => 'GANJIL'
+            'jurusan_pilihan' => $jurusan
         ];
 
         $dataCalonMahasiswaBiodata = [
@@ -353,7 +365,7 @@ class PendaftaranController extends Controller
         $update = $this
             ->pendaftaranRepo
             ->updatePendaftaranData($dataPendaftaran, $id);
-            
+
         $idURL = Request::segment(3);
 
         return redirect('/pendaftaran/formulir/'.$idURL)

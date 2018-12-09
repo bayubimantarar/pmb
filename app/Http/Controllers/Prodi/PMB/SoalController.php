@@ -109,9 +109,9 @@ class SoalController extends Controller
      */
     public function store(SoalRequest $soalReq)
     {
-        $kodetahunajaran        = $soalReq->kode_tahun_ajaran;
         $kodesoal               = $soalReq->kode;
         $nidn                   = Auth::guard('prodi')->user()->nidn;
+        $kodetahunajaran        = $soalReq->kode_tahun_ajaran;
         $jumlahpertanyaan       = $soalReq->jumlah_pertanyaan;
         $token                  = Keygen::numeric(5)->generate();
 
