@@ -30,27 +30,37 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Gelombang
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="/keuangan/biaya/simpan" method="post">
+                        <form action="/keuangan/detail-potongan/{{$kodePotongan}}/simpan" method="post">
                             @csrf
-                            <div class="form-group {{ $errors->has('kelas') ? ' has-error' : ''}}">
+                            <input type="hidden" name="kode_biaya" value="{{$kodePotongan}}" />
+                            <div class="form-group {{ $errors->has('deskripsi') ? ' has-error' : ''}}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-xs-12">
-                                        <label class="control-label">Kelas</label>
-                                        <select name="kelas" class="form-control">
-                                            <option value="Kelas Pagi" {{ old('kelas') == "Gelombang 1" ? "selected" : "" }}>Kelas Pagi</option>
-                                            <option value="Kelas Sore" {{ old('kelas') == "Gelombang 2" ? "selected" : "" }}>Kelas Sore</option>
-                                            <option value="Kelas Eksekutif" {{ old('kelas') == "Gelombang 3" ? "selected" : "" }}>Kelas Eksekutif</option>
-                                        </select>
-                                        @if($errors->has('kelas'))
+                                        <label class="control-label">Deskripsi Biaya *</label>
+                                        <textarea name="deskripsi" class="form-control" rows="5"></textarea>
+                                        @if($errors->has('deskripsi'))
                                             <p class="text-danger">
-                                                <i>{{ $errors->first('kelas') }}</i>
+                                                <i>{{ $errors->first('deskripsi') }}</i>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group {{ $errors->has('jumlah') ? ' has-error' : ''}}">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-xs-12">
+                                        <label class="control-label">Jumlah *</label>
+                                        <input type="number" name="jumlah" class="form-control" />
+                                        @if($errors->has('jumlah'))
+                                            <p class="text-danger">
+                                                <i>{{ $errors->first('jumlah') }}</i>
                                             </p>
                                         @endif
                                     </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Simpan</button>
-                            <a href="/dosen/soal" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
+                            <a href="/keuangan/detail-potongan/{{$kodePotongan}}" class="btn btn-default"><i class="fa fa-times"></i> Batal</a>
                         </form>
                     </div>
                     <!-- /.col-lg-12 (nested) -->

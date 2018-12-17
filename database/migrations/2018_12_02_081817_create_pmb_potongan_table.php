@@ -15,8 +15,7 @@ class CreatePmbPotonganTable extends Migration
     {
         Schema::create('pmb_potongan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('deskripsi', 75);
-            $table->integer('jumlah_potongan');
+            $table->string('nama')->unique();
             $table->timestamps();
         });
     }

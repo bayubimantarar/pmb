@@ -29,26 +29,14 @@ class BiayaRequest extends FormRequest
                 return [
                     'kelas' => [
                         'unique:pmb_biaya'
-                    ],
-                    'biaya_pendaftaran' => 'required',
-                    'biaya_jaket_kemeja' => 'required',
-                    'biaya_pspt' => 'required',
-                    'biaya_pengembangan_institusi' => 'required',
-                    'biaya_kuliah' => 'required',
-                    'biaya_kemahasiswaan' => 'required'
+                    ]
                 ];
             }
             case 'PUT' : {
                 return [
                     'kelas' => [
                         Rule::unique('pmb_biaya')->ignore($this->id)
-                    ],
-                    'biaya_pendaftaran' => 'required',
-                    'biaya_jaket_kemeja' => 'required',
-                    'biaya_pspt' => 'required',
-                    'biaya_pengembangan_institusi' => 'required',
-                    'biaya_kuliah' => 'required',
-                    'biaya_kemahasiswaan' => 'required'
+                    ]
                 ];
             }
             default:break;
@@ -63,13 +51,7 @@ class BiayaRequest extends FormRequest
     public function messages()
     {
         return [
-            'kelas.unique' => 'Kelas sudah ada',
-            'biaya_pendaftaran.required' => 'Biaya pendaftaran perlu diisi',
-            'biaya_jaket_kemeja.required' => 'Biaya jaket dan kemeja perlu diisi',
-            'biaya_pspt.required' => 'Biaya PSPT perlu diisi',
-            'biaya_pengembangan_institusi.required' => 'Biaya pengembangan institusi perlu diisi',
-            'biaya_kuliah.required' => 'Biaya kuliah perlu diisi',
-            'biaya_kemahasiswaan.required' => 'Biaya kemahasiswaan perlu diisi'
+            'kelas.unique' => 'Kelas sudah ada'
         ];
     }
 }

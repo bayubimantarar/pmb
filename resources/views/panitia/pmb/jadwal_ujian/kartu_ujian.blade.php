@@ -63,7 +63,7 @@
     <p>TANGGAL MULAI UJIAN : {{$tanggalMulaiUjian}}</p>
     <p>TANGGAL SELESAI UJIAN : {{$tanggalSelesaiUjian}}</p>
     <p>RUANGAN : {{$ruangan}}</p>
-    <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate('http://bimantara.web.id')) }} " />
+    <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate($encryptKodePendafaran)) }} " />
     </div>
 </div>
     </body>

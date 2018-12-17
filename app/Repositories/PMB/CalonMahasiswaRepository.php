@@ -147,6 +147,14 @@ class CalonMahasiswaRepository
         return $updateCalonMahasiswaData;
     }
 
+    public function updateCalonMahasiswaDataBySendEmailJadwal($data, $kodePendaftaran)
+    {
+        $updateCalonMahasiswaData = CalonMahasiswa::where('kode', $kodePendaftaran)
+            ->update($data);
+
+        return $updateCalonMahasiswaData;
+    }
+
     public function updateCalonMahasiswaDataByJadwalUjian($dataCalonMahasiwa, $item)
     {
         $updateCalonMahasiswaData = CalonMahasiswa::where('kode', '=', $item)

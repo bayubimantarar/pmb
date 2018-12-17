@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Mail\PMB\KeteranganLulus;
 use App\Http\Controllers\Controller;
 use App\Repositories\PMB\BiayaRepository;
+use App\Repositories\PMB\DetailBiayaRepository;
 use App\Repositories\PMB\PotonganRepository;
 use App\Repositories\PMB\GelombangRepository;
 use App\Repositories\PMB\NilaiLulusRepository;
@@ -23,6 +24,7 @@ class HasilUpdateController extends Controller
     private $potonganRepo;
     private $gelombangRepo;
     private $nilaiLulusRepo;
+    private $detailBiayaRepo;
     private $hasilUpdateRepo;
 
     public function __construct(
@@ -31,13 +33,15 @@ class HasilUpdateController extends Controller
         PotonganRepository $potonganRepository,
         GelombangRepository $gelombangRepository,
         NilaiLulusRepository $nilaiLulusRepository,
-        HasilUpdateRepository $hasilUpdateRepository
+        HasilUpdateRepository $hasilUpdateRepository,
+        DetailBiayaRepository $detailBiayaRepository
     ) {
         $this->prodiRepo = $prodiRepository;
         $this->biayaRepo = $biayaRepository;
         $this->potonganRepo = $potonganRepository;
         $this->gelombangRepo = $gelombangRepository;
         $this->nilaiLulusRepo = $nilaiLulusRepository;
+        $this->detailBiayaRepo = $detailBiayaRepository;
         $this->hasilUpdateRepo = $hasilUpdateRepository;
     }
 
@@ -430,6 +434,10 @@ class HasilUpdateController extends Controller
                 ->biayaRepo
                 ->getSingleDataForBiaya($kodeKelas);
 
+            $detailBiaya = $this
+                ->detailBiayaRepo
+                ->getSingleDataForBiayaByDeskripsi($kodeKelas, $kodePotongan);
+
             $gelombang = $this
                 ->gelombangRepo
                 ->getSingleDataForBiaya($kodeGelombang);
@@ -460,6 +468,9 @@ class HasilUpdateController extends Controller
             $potonganPengembanganInstitusi = $gelombang->jumlah_potongan;
             $tanggalGelombang = $tempTanggalGelombang->formatLocalized('%d %B %Y');
             $tanggalSekarang = Carbon::now()->formatLocalized('%d %B %Y');
+            $i = 1;
+            $sumBiaya = 0;
+            $sumPotongan = 0;
 
             $keteranganLulus = "Lulus";
             $pdf = PDF::loadView('pmb.ujian.keterangan_lulus_pdf', compact(
@@ -472,21 +483,20 @@ class HasilUpdateController extends Controller
                 'tahun',
                 'sekolahAsal',
                 'jurusanPilihan',
-                'tanggalSekarang'
+                'tanggalSekarang',
+                'sumBiaya',
+                'sumPotongan'
             ));
 
             $biayaPdf = PDF::loadView('pmb.ujian.biaya_daftar_ulang_pdf', compact(
+                'i',
+                'sumBiaya',
+                'sumPotongan',
                 'nama',
                 'sekolahAsal',
                 'jurusanPilihan',
                 'kodeKelas',
-                'biayaPendaftaran',
-                'biayaJaketKemeja',
-                'biayaPSPT',
-                'biayaPengembanganInstitusi',
-                'biayaKuliah',
-                'biayaKemahasiswaan',
-                'potonganPengembanganInstitusi',
+                'detailBiaya',
                 'tanggalGelombang',
                 'tanggalSekarang',
                 'deskripsi',

@@ -33,6 +33,47 @@
                             <i class="fa fa-book"></i> Data Potongan
                         </a>
                     </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-book fa-fw"></i> Data Detail Biaya Kuliah <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level">
+                            @foreach($biaya as $item)
+                                <li>
+                                    <a href="/keuangan/detail-biaya/{{ $item->id }}"><i class="fa fa-file-text-o"></i> {{ $item->kelas }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <!-- /.nav-third-level -->
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-book fa-fw"></i> Data Detail Potongan <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level">
+                            @foreach($potongan as $item)
+                                <li>
+                                    <a href="/keuangan/detail-potongan/{{ $item->id }}"><i class="fa fa-file-text-o"></i> {{ $item->nama }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <!-- /.nav-third-level -->
+                    </li>
+                    <li>
+                        <a href="/keuangan/pendaftaran">
+                            <i class="fa fa-book fa-fw"></i> Data Pendaftaran
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/keuangan/konfirmasi-pembayaran">
+                            <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/keuangan/formulir">
+                            <i class="fa fa-book fa-fw"></i> Data Formulir
+                        </a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>

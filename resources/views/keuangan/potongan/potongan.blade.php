@@ -39,8 +39,7 @@ Panitia &raquo; PMB &raquo; Data Potongan
                     <table width="100%" class="table table-striped table-bordered table-hover" id="potongan-table">
                         <thead>
                             <tr>
-                                <th>Deksripsi</th>
-                                <th>Jumlah Potongan</th>
+                                <th>Nama</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -75,8 +74,7 @@ Panitia &raquo; PMB &raquo; Data Potongan
         processing: true,
         ajax: '/keuangan/potongan/data',
         columns: [
-            {data: 'deskripsi'},
-            {data: 'jumlah_potongan'},
+            {data: 'nama'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });

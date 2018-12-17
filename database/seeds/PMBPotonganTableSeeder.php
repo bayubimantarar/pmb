@@ -16,14 +16,12 @@ class PMBPotonganTableSeeder extends Seeder
 
         $seed = DB::table('pmb_potongan')->insert([
             [
-                'deskripsi' => 'Jalur Undangan',
-                'jumlah_potongan' => '150000',
+                'nama' => 'Jalur Undangan',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],
             [
-                'deskripsi' => 'Jalur Gaza',
-                'jumlah_potongan' => '100000',
+                'nama' => 'Jalur Gaza',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ],

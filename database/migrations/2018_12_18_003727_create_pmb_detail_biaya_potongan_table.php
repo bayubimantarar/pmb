@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePenggunaKeuanganTable extends Migration
+class CreatePmbDetailBiayaPotonganTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreatePenggunaKeuanganTable extends Migration
      */
     public function up()
     {
-        Schema::create('pengguna_keuangan', function (Blueprint $table) {
+        Schema::create('pmb_detail_biaya_potongan', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nidn')->unique();
-            $table->string('nama');
-            $table->string('email')->unique();
-            $table->string('nomor_telepon')->unique();
-            $table->text('alamat');
-            $table->text('password');
+            $table->string('kode_biaya')->nullable();
+            $table->string('kode_potongan')->nullable();
+            $table->string('deskripsi');
+            $table->string('jumlah');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreatePenggunaKeuanganTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengguna_keuangan');
+        Schema::dropIfExists('pmb_detail_biaya_potongan');
     }
 }

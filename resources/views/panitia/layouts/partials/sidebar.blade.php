@@ -36,22 +36,35 @@
                                         <i class="fa fa-book"></i> Data Potongan
                                     </a>
                                 </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-book fa-fw"></i> Data Detail Biaya <span class="fa arrow"></span>
+                                    </a>
+                                    <ul class="nav nav-third-level">
+                                        @foreach($biaya as $item)
+                                            <li>
+                                                <a href="/panitia/pmb/peserta-ujian/{{ $item->id }}"><i class="fa fa-file-text-o"></i> {{ $item->kelas }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <!-- /.nav-third-level -->
+                                </li>
                             </ul>
                             <li>
-                                    <a href="/panitia/pmb/pendaftaran">
-                                        <i class="fa fa-book fa-fw"></i> Data Pendaftaran
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/panitia/pmb/konfirmasi-pembayaran">
-                                        <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/panitia/pmb/formulir">
-                                        <i class="fa fa-book fa-fw"></i> Data Formulir
-                                    </a>
-                                </li>
+                                <a href="/panitia/pmb/pendaftaran">
+                                    <i class="fa fa-book fa-fw"></i> Data Pendaftaran
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/panitia/pmb/konfirmasi-pembayaran">
+                                    <i class="fa fa-book fa-fw"></i> Data Konfirmasi Pembayaran
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/panitia/pmb/formulir">
+                                    <i class="fa fa-book fa-fw"></i> Data Formulir
+                                </a>
+                            </li>
                     </li>
                     {{-- <li>
                         <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Pendaftaran<span class="fa arrow"></span></a>

@@ -1,13 +1,13 @@
 @extends('keuangan.layouts.main')
 
 @section('title')
-Keuangan &raquo; PMB &raquo; Data Biaya
+Panitia &raquo; PMB &raquo; Data Pendaftaran
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Data Biaya</h1>
+        <h1 class="page-header">Data Pendaftaran</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -15,9 +15,8 @@ Keuangan &raquo; PMB &raquo; Data Biaya
 <div class="row">
     <div class="col-lg-12">
         <ul class="breadcrumb">
-            <li><a href="/prodi">Keuangan</a></li>
-            <li class="active">PMB</li>
-            <li class="active">Data Biaya</li>
+            <li><a href="/prodi">Panitia</a></li>
+            <li class="active">Pendaftaran</li>
         </ul>
     </div>
 </div>
@@ -25,9 +24,9 @@ Keuangan &raquo; PMB &raquo; Data Biaya
 <div class="row">
     <div class="col-lg-12">
         <p>
-            <a href="/keuangan/biaya/form-tambah" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Tambah data biaya
-            </a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-search"></i> Cari konfirmasi pembayaran
+            </button>
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -36,10 +35,15 @@ Keuangan &raquo; PMB &raquo; Data Biaya
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="biaya-table">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="pendaftaran-table">
                         <thead>
                             <tr>
-                                <th>Kelas</th>
+                                <th>Nama Lengkap</th>
+                                <th>Nomor Telepon</th>
+                                <th>Email</th>
+                                <th>Alamat</th>
+                                <th>Pembayaran</th>
+                                <th>Pengisian Formulir</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -54,6 +58,40 @@ Keuangan &raquo; PMB &raquo; Data Biaya
     <!-- /.col-lg-12 -->
 </div>
 <!-- /.row -->
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Data Konfirmasi Pembayaran</h4>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+            <table width="100%" class="table table-striped table-bordered table-hover" id="konfirmasi-pembayaran-table">
+                <thead>
+                    <tr>
+                        <th>Nama Lengkap</th>
+                        <th>Nomor Telepon</th>
+                        <th>Email</th>
+                        <th>Alamat</th>
+                        <th>Tanggal Pembayaran</th>
+                        <th>Jumlah Pembayaran</th>
+                        <th>Bank Tujuan</th>
+                        <th>Nama Rekening Pengirim</th>
+                        <th>Bukti Transaksi</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('css')
@@ -69,13 +107,35 @@ Keuangan &raquo; PMB &raquo; Data Biaya
     <script src="/assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="/assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
     <script>
-      var biaya_table = $("#biaya-table").DataTable({
+      var pendaftaran_table = $('#pendaftaran-table').DataTable({
         serverSide: true,
         processing: true,
-        ajax: '/keuangan/biaya/data',
+        ajax: '/keuangan/pendaftaran/data',
         columns: [
-            {data: 'kelas'},
+            {data: 'nama'},
+            {data: 'nomor_telepon'},
+            {data: 'email'},
+            {data: 'alamat'},
+            {data: 'konfirmasi_pembayaran'},
+            {data: 'status'},
             {data: 'action', orderable: false, searchable: false}
+        ]
+      });
+
+      var konfirmasi_pembayaran_table = $('#konfirmasi-pembayaran-table').DataTable({
+        serverSide: true,
+        processing: true,
+        ajax: '/keuangan/konfirmasi-pembayaran/data',
+        columns: [
+            {data: 'nama'},
+            {data: 'nomor_telepon'},
+            {data: 'email'},
+            {data: 'alamat'},
+            {data: 'tanggal_pembayaran'},
+            {data: 'jumlah_pembayaran'},
+            {data: 'bank_tujuan'},
+            {data: 'nama_rekening_pengirim'},
+            {data: 'bukti_transaksi'}
         ]
       });
 
@@ -88,12 +148,12 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                 headers: {
                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/keuangan/biaya/hapus/'+id,
+                url: '/prodi/pmb/pendaftaran/hapus/'+id,
                 type: 'delete',
                 dataType: 'json',
                 success: function(result){
                     alert('Data berhasil dihapus!');
-                    biaya_table.ajax.reload();
+                    pendaftaran_table.ajax.reload();
                 }
             });
         }
@@ -116,7 +176,7 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                     dataType: 'json',
                     success: function(result){
                         alert('Soal berhasil diaktifkan');
-                        biaya_table.ajax.reload();
+                        pendaftaran_table.ajax.reload();
                     }
                 });
             }
@@ -132,7 +192,7 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                     dataType: 'json',
                     success: function(result){
                         alert('Data berhasil dinonaktifkan!');
-                        biaya_table.ajax.reload();
+                        pendaftaran_table.ajax.reload();
                     }
                 });
             }

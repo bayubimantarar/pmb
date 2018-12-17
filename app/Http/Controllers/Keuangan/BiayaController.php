@@ -65,23 +65,9 @@ class BiayaController extends Controller
     public function store(BiayaRequest $biayaReq)
     {
         $kelas = $biayaReq->kelas;
-        $biayaPendaftaran = $biayaReq->biaya_pendaftaran;
-        $biayaJaketKemeja = $biayaReq->biaya_jaket_kemeja;
-        $biayaPSPT = $biayaReq->biaya_pspt;
-        $biayaPengembanganInstitusi = $biayaReq->biaya_pengembangan_institusi;
-        $biayaKuliah = $biayaReq->biaya_kuliah;
-        $biayaKemahasiswaan = $biayaReq->biaya_kemahasiswaan;
-        $keterangan = $biayaReq->keterangan;
 
         $data = [
             'kelas' => $kelas,
-            'biaya_pendaftaran' => $biayaPendaftaran,
-            'biaya_jaket_kemeja' => $biayaJaketKemeja,
-            'biaya_pspt' => $biayaPSPT,
-            'biaya_pengembangan_institusi' => $biayaPengembanganInstitusi,
-            'biaya_kuliah' => $biayaKuliah,
-            'biaya_kemahasiswaan' => $biayaKemahasiswaan,
-            'keterangan' => $keterangan
         ];
 
         $store = $this

@@ -55,57 +55,45 @@
                         </center>
                     </td>
                 </tr>
+                @foreach($detailBiaya as $item)
                 <tr>
-                    <td>1</td>
-                    <td>Pendaftaran</td>
-                    <td align="right">{{$biayaPendaftaran}}</td>
-                    <td align="right">{{$biayaPendaftaran}}</td>
+                    <td>{{ $i++ }}</td>
+                    <td>{{$item->deskripsi}}</td>
+                    <td align="right">
+                        @if($item->biaya == NULL)
+                            Rp {{ number_format(round(0), 0, ',', '.') }}
+                        @else
+                            <div style="display: none;">{{ $sumBiaya += $item->biaya}}</div>
+                            Rp {{ number_format(round($item->biaya), 0, ',', '.') }}
+                        @endif
+                    </td>
+                    <td align="right">
+                        @if($item->potongan == NULL)
+                            Rp {{ number_format(round(0), 0, ',', '.') }}
+                        @else
+                            <div style="display: none;">{{ $sumPotongan += $item->potongan}}</div>
+                            Rp {{ number_format(round($item->potongan), 0, ',', '.') }}
+                        @endif
+                    </td>
                 </tr>
+                @endforeach
                 <tr>
-                    <td>2</td>
-                    <td>Jaket Alamamater & Kemeja</td>
-                    <td align="right">{{$biayaJaketKemeja}}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>PSPT</td>
-                    <td align="right">{{$biayaPSPT}}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Pengembangan Instisusi</td>
-                    <td align="right">{{$biayaPengembanganInstitusi}}</td>
-                    <td align="right">{{$potonganPengembanganInstitusi}}</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Biaya Kuliah Per Semester</td>
-                    <td align="right">{{$biayaKuliah}}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td>Biaya Kemahasiswaaan</td>
-                    <td align="right">{{$biayaKemahasiswaan}}</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td colspan="3"></td>
-                    <td align="right">{{$deskripsi}} {{$jumlahPotongan}}</td>
+                    <td colspan="3">
+                        <center>Jumlah potongan</center>
+                    </td>
+                    <td align="right">Rp {{ number_format(round($sumPotongan), 0, ',', '.') }}</td>
                 </tr>
                 <tr>
                     <td colspan="2">
                         <center>
-                            Jumlah
+                            Jumlah Biaya
                         </center>
                     </td>
                     <td align="right">
-                        {{$biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan }}
+                        Rp {{ number_format(round($sumBiaya), 0, ',', '.') }}
                     </td>
                     <td align="right">
-                        {{$biayaPendaftaran + $potonganPengembanganInstitusi + $jumlahPotongan }}
+                        Rp {{ number_format(round($sumPotongan), 0, ',', '.') }}
                     </td>
                 </tr>
                 <tr>
@@ -115,7 +103,7 @@
                         </center>
                     </td>
                     <td colspan="2" align="right">
-                        {{($biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan) -  ($biayaPendaftaran + $potonganPengembanganInstitusi + $jumlahPotongan) }}
+                        Rp {{ number_format(round($sumBiaya - $sumPotongan), 0, ',', '.') }}
                     </td>
                 </tr>
             </table>
@@ -125,16 +113,17 @@
         </p>
         <ol>
             <li>
-                Minimal pembayaran pada saat awal perkuliahan (Semester 1) adalah 40% dari total biaya yaitu sebesar Rp {{ number_format(((($biayaPendaftaran + $biayaJaketKemeja + $biayaPSPT + $biayaPengembanganInstitusi + $biayaKuliah + $biayaKemahasiswaan) -  ($biayaPendaftaran + $potonganPengembanganInstitusi)) * 40 / 100),0,',','.') }}
+                Minimal pembayaran pada saat awal perkuliahan (Semester 1) adalah 40% dari total biaya yaitu sebesar
+                        Rp {{ number_format(round(($sumBiaya - $sumPotongan) * 40 / 100), 0, ',', '.') }}
             </li>
             <li>
-                Daftar ulang (Heregistrasi) dilaksanankan 1 minggu setelah menerima surat kelulusan dengan pembayaran minimal Rp {{ number_format((1000000),0,',','.') }}
+                Daftar ulang (Heregistrasi) dilaksanakan 1 minggu setelah menerima surat kelulusan dengan pembayaran minimal Rp {{ number_format((1000000),0,',','.') }}
             </li>
             <li>
                 Pembayaran dapat diangsur sampai dengan tanggal {{$tanggalGelombang}}
             </li>
             <li>
-                Jika pembayaran dilakukan sekaligus / lunas mendapatkan potongan sebesar 5 %
+                Jika pembayaran dilakukan sekaligus / lunas mendapatkan potongan sebesar 5%
             </li>
             <li>
                 Pembayaran dapat dilakukan melalui rekening <b>Bank Mandiri</b> dengan no rek : <b>131.000.7899.415</b> atas nama <b>STMIK Bandung</b>

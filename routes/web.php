@@ -49,11 +49,16 @@ Route::group(['prefix' => 'konfirmasi-pembayaran'], function(){
     ]);
 });
 
-// Route::group(['prefix' => 'pmb'], function(){
-//     Route::group(['prefix' => 'pendaftaran'], function(){
-
-//     });
-// });
+Route::group(['prefix' => 'kehadiran'], function(){
+    Route::get('/{kode_pendaftaran}', [
+        'uses' => 'KehadiranController@index',
+        'as' => 'kehadiran'
+    ]);
+    Route::post('/{kode_pendaftaran}/simpan', [
+        'uses' => 'KehadiranController@store',
+        'as' => 'kehadiran.simpan'
+    ]);
+});
 
 Route::group(['prefix' => 'dasbor'], function() {
     Route::group(['prefix' => 'autentikasi'], function(){
@@ -836,6 +841,36 @@ Route::group(['prefix' => 'keuangan'], function(){
                 'as' => 'keuangan.pmb.biaya.data'
             ]);
         });
+        Route::group(['prefix' => 'detail-biaya'], function(){
+            Route::get('/{kode_biaya}', [
+                'uses' => 'Keuangan\DetailBiayaController@index',
+                'as' => 'keuangan.pmb.biaya'
+            ]);
+            Route::get('/{kode_biaya}/form-tambah', [
+                'uses' => 'Keuangan\DetailBiayaController@create',
+                'as' => 'keuangan.pmb.biaya.form_tambah'
+            ]);
+            Route::get('/{kode_biaya}/form-ubah/{id}', [
+                'uses' => 'Keuangan\DetailBiayaController@edit',
+                'as' => 'keuangan.pmb.biaya.form_edit'
+            ]);
+            Route::post('/{kode_biaya}/simpan', [
+                'uses' => 'Keuangan\DetailBiayaController@store',
+                'as' => 'keuangan.pmb.biaya.simpan'
+            ]);
+            Route::put('/{kode_biaya}/ubah/{id}', [
+                'uses' => 'Keuangan\DetailBiayaController@update',
+                'as' => 'keuangan.pmb.biaya.ubah'
+            ]);
+            Route::delete('/{kode_biaya}/hapus/{id}', [
+                'uses'  => 'Keuangan\DetailBiayaController@destroy',
+                'as' => 'keuangan.pmb.biaya.hapus'
+            ]);
+            Route::get('/{kode_biaya}/data', [
+                'uses' => 'Keuangan\DetailBiayaController@data',
+                'as' => 'keuangan.pmb.biaya.data'
+            ]);
+        });
         Route::group(['prefix' => 'potongan'], function(){
             Route::get('/', [
                 'uses' => 'Keuangan\PotonganController@index',
@@ -864,6 +899,106 @@ Route::group(['prefix' => 'keuangan'], function(){
             Route::get('/data', [
                 'uses' => 'Keuangan\PotonganController@data',
                 'as' => 'keuangan.potongan.data'
+            ]);
+        });
+        Route::group(['prefix' => 'detail-potongan'], function(){
+            Route::get('/{kode_potongan}', [
+                'uses' => 'Keuangan\DetailPotonganController@index',
+                'as' => 'keuangan.pmb.detail_potongan'
+            ]);
+            Route::get('/{kode_potongan}/form-tambah', [
+                'uses' => 'Keuangan\DetailPotonganController@create',
+                'as' => 'keuangan.pmb.detail_potongan.form_tambah'
+            ]);
+            Route::get('/{kode_potongan}/form-ubah/{id}', [
+                'uses' => 'Keuangan\DetailPotonganController@edit',
+                'as' => 'keuangan.pmb.detail_potongan.form_edit'
+            ]);
+            Route::post('/{kode_potongan}/simpan', [
+                'uses' => 'Keuangan\DetailPotonganController@store',
+                'as' => 'keuangan.pmb.detail_potongan.simpan'
+            ]);
+            Route::put('/{kode_potongan}/ubah/{id}', [
+                'uses' => 'Keuangan\DetailPotonganController@update',
+                'as' => 'keuangan.pmb.detail_potongan.ubah'
+            ]);
+            Route::delete('/{kode_potongan}/hapus/{id}', [
+                'uses'  => 'Keuangan\DetailPotonganController@destroy',
+                'as' => 'keuangan.pmb.detail_potongan.hapus'
+            ]);
+            Route::get('/{kode_potongan}/data', [
+                'uses' => 'Keuangan\DetailPotonganController@data',
+                'as' => 'keuangan.pmb.detail_potongan.data'
+            ]);
+        });
+        Route::group(['prefix' => 'pendaftaran'], function(){
+            Route::get('/', [
+                'uses' => 'Keuangan\PendaftaranController@index',
+                'as' => 'keuangan.pendaftaran'
+            ]);
+            Route::get('/data', [
+                'uses' => 'Keuangan\PendaftaranController@data',
+                'as' => 'keuangan.pendaftaran.data'
+            ]);
+            Route::get('/aktifkan/{id}', [
+                'uses' => 'Keuangan\PendaftaranController@active',
+                'as' => 'keuangan.pendaftaran.aktifkan'
+            ]);
+        });
+        Route::group(['prefix' => 'konfirmasi-pembayaran'], function(){
+            Route::get('/', [
+                'uses' => 'Keuangan\KonfirmasiPembayaranController@index',
+                'as' => 'keuangan.konfirmasi_pembayaran'
+            ]);
+            Route::get('/data', [
+                'uses' => 'Keuangan\KonfirmasiPembayaranController@data',
+                'as' => 'keuangan.konfirmasi_pembayaran.data'
+            ]);
+            Route::get('/unduh/{id}', [
+                'uses' => 'Keuangan\KonfirmasiPembayaranController@download',
+                'as' => 'keuangan.konfirmasi_pembayaran.unduh'
+            ]);
+        });
+        Route::group(['prefix' => 'formulir'], function(){
+            Route::get('/', [
+                'uses' => 'Keuangan\FormulirController@index',
+                'as' => 'keuangan.formulir'
+            ]);
+            Route::get('/form-tambah', [
+                'uses' => 'Keuangan\FormulirController@create',
+                'as' => 'keuangan.formulir.form_tambah'
+            ]);
+            Route::get('/form-ubah/{id}', [
+                'uses' => 'Keuangan\FormulirController@edit',
+                'as' => 'keuangan.formulir.form_edit'
+            ]);
+            Route::post('/simpan', [
+                'uses' => 'Keuangan\FormulirController@store',
+                'as' => 'keuangan.formulir.simpan'
+            ]);
+            Route::put('/ubah/{id}', [
+                'uses' => 'Keuangan\FormulirController@update',
+                'as' => 'keuangan.formulir.ubah'
+            ]);
+            Route::delete('/hapus/{id}', [
+                'uses'  => 'Keuangan\FormulirController@destroy',
+                'as' => 'keuangan.formulir.hapus'
+            ]);
+            Route::get('/data', [
+                'uses' => 'Keuangan\FormulirController@data',
+                'as' => 'keuangan.formulir.data'
+            ]);
+            Route::get('/detail/{id}', [
+                'uses' => 'Keuangan\FormulirController@show',
+                'as' => 'keuangan.formulir.detail'
+            ]);
+            Route::get('/unduh-formulir/{id}', [
+                'uses' => 'Keuangan\FormulirController@downloadFormulir',
+                'as' => 'keuangan.formulir.download'
+            ]);
+            Route::get('/unduh-kelengkapan/{id}', [
+                'uses' => 'Keuangan\FormulirController@downloadKelengkapan',
+                'as' => 'keuangan.formulir.download'
             ]);
         });
     });

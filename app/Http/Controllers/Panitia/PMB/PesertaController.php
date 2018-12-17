@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panitia\PMB;
 
 use PDF;
 use Mail;
+use Crypt;
 use QrCode;
 use DataTables;
 use Carbon\Carbon;
@@ -413,6 +414,7 @@ class PesertaController extends Controller
         $durasi = $sesi->tanggal_mulai_ujian->diffInMinutes($sesi->tanggal_selesai_ujian);
         $tahunAjaran = date('Y');
         $ruangan = $sesi->ruangan;
+        $encryptKodePendafaran = Crypt::encrypt($kodePendaftaran);
 
         if($tanggalBulan == '1'){
             $bulan = "Januari";
@@ -452,7 +454,8 @@ class PesertaController extends Controller
             'foto4x6',
             'tanggalMulaiUjian',
             'tanggalSelesaiUjian',
-            'ruangan'
+            'ruangan',
+            'encryptKodePendafaran'
         ));
 
         $fileKartuUjian = $pdfKartuUjian->save(public_path("/files/Kartu Ujian | ".$nama."-".$kodePendaftaran.".pdf"));
@@ -476,6 +479,14 @@ class PesertaController extends Controller
         $dataSesi = [
             'status' => 1
         ];
+
+        $dataCalonMahasiswa = [
+                'password' => bcrypt($password)
+            ];
+
+        $update = $this
+            ->calonMahasiswaRepo
+            ->updateCalonMahasiswaDataBySendEmailJadwal($dataCalonMahasiswa, $kodePendaftaran);
 
         $updateSesi = $this
             ->sesiRepo
@@ -514,6 +525,7 @@ class PesertaController extends Controller
             $tanggalMulaiUjian = $item->tanggal_mulai_ujian->formatLocalized('%c');
             $tanggalSelesaiUjian = $item->tanggal_selesai_ujian->formatLocalized('%c');
             $durasi = $item->tanggal_mulai_ujian->diffInMinutes($item->tanggal_selesai_ujian);
+            $encryptKodePendafaran = Crypt::encrypt($kodePendaftaran);
 
             if($tanggalBulan == '1'){
                 $bulan = "Januari";
@@ -550,7 +562,8 @@ class PesertaController extends Controller
                 'tahun',
                 'tanggal',
                 'tahunAjaran',
-                'foto4x6'
+                'foto4x6',
+                'encryptKodePendafaran'
             ));
 
             $fileKartuUjian = $pdfKartuUjian->save(public_path("/files/Kartu Ujian | ".$item->nama."-".$item->kode_pendaftaran.".pdf"));

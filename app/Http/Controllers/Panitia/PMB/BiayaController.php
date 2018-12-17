@@ -28,6 +28,7 @@ class BiayaController extends Controller
             ->biayaRepo
             ->getAllData();
 
+
         return DataTables::of($biaya)
             ->addColumn('action', function($biaya){
                 return '<center><a href="/panitia/pmb/biaya/form-ubah/'.$biaya->id.'" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> <a href="#hapus" onclick="destroy('.$biaya->id.')" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a></center>';

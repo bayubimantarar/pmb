@@ -1,46 +1,66 @@
 <?php
 
-namespace App\Http\Controllers\PMB;
+namespace App\Http\Controllers\Keuangan;
 
-use Crypt;
-use Request;
-use Carbon\Carbon;
+use PDF;
+use Zipper;
+use DataTables;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\PMB\BiayaRepository;
 use App\Repositories\PMB\PotonganRepository;
-use App\Http\Requests\PMB\PendaftaranRequest;
+use App\Repositories\PMB\FormulirRepository;
 use App\Repositories\PMB\GelombangRepository;
-use App\Repositories\PMB\PendaftaranRepository;
-use App\Repositories\PMB\DetailBiayaRepository;
+use App\Http\Requests\PMB\PendaftaranRequest;
 use App\Repositories\PMB\CalonMahasiswaRepository;
 use App\Services\CalonMahasiswaKelengkapanService;
+use App\Repositories\PMB\CalonMahasiswaKelengkapanRepository;
 
-class PendaftaranController extends Controller
+class FormulirController extends Controller
 {
     private $biayaRepo;
+    private $formulirRepo;
     private $potonganRepo;
-    private $GelombangRepo;
-    private $detailBiayaRepo;
-    private $pendaftaranRepo;
+    private $gelombangRepo;
     private $calonMahasiswaRepo;
+    private $calonMahasiswaKelengkapanRepo;
     private $calonMahasiswaKelengkapanServe;
 
     public function __construct(
         BiayaRepository $biayaRepository,
         PotonganRepository $potonganRepository,
+        FormulirRepository $formulirRepository,
         GelombangRepository $gelombangRepository,
-        PendaftaranRepository $pendaftaranRepository,
-        DetailBiayaRepository $detailBiayaRepository,
         CalonMahasiswaRepository $calonMahasiswaRepository,
-        CalonMahasiswaKelengkapanService $calonMahasiswaKelengkapanService
+        CalonMahasiswaKelengkapanService $calonMahasiswaKelengkapanService,
+        CalonMahasiswaKelengkapanRepository $calonMahasiswaKelengkapanRepository
     ) {
         $this->biayaRepo = $biayaRepository;
-        $this->potonganRepo = $potonganRepository;
+        $this->formulirRepo = $formulirRepository;
         $this->gelombangRepo = $gelombangRepository;
-        $this->pendaftaranRepo = $pendaftaranRepository;
-        $this->detailBiayaRepo = $detailBiayaRepository;
+        $this->potonganRepo = $potonganRepository;
         $this->calonMahasiswaRepo = $calonMahasiswaRepository;
         $this->calonMahasiswaKelengkapanServe = $calonMahasiswaKelengkapanService;
+        $this->calonMahasiswaKelengkapanRepo = $calonMahasiswaKelengkapanRepository;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function data()
+    {
+        $formulir = $this
+            ->formulirRepo
+            ->getAllData();
+
+        return DataTables::of($formulir)
+            ->addColumn('action', function($formulir){
+                return '<center><a href="/panitia/pmb/formulir/detail/'.$formulir->id.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle" title="Lihat formulir"></i></a> <a href="/panitia/pmb/formulir/unduh-formulir/'.$formulir->id.'" class="btn btn-success btn-xs" title="Unduh formulir"><i class="fa fa-file-text-o"></i></a> <a href="/panitia/pmb/formulir/unduh-kelengkapan/'.$formulir->id.'" class="btn btn-primary btn-xs" title="Unduh formulir"><i class="fa fa-download"></i></a></center>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     /**
@@ -50,84 +70,7 @@ class PendaftaranController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function formPendaftaran($encryptID)
-    {
-        $id = Crypt::decrypt($encryptID);
-
-        $pendaftaran = $this
-            ->pendaftaranRepo
-            ->getSingleData($id);
-
-        $gelombang = $this
-            ->gelombangRepo
-            ->getAllData()
-            ->toArray();
-
-        $potongan = $this
-            ->potonganRepo
-            ->getAllData();
-
-        $gelombangTable = $this
-            ->gelombangRepo
-            ->getAllData();
-
-        $calonMahasiswa = $this
-            ->calonMahasiswaRepo
-            ->getAllData();
-
-        $biaya = $this
-            ->biayaRepo
-            ->getAllData();
-
-        $detailBiayaDeskripsi = $this
-            ->detailBiayaRepo
-            ->getAllDataForFormulirByDeskripsi();
-
-        $detailBiayaJumlah = $this
-            ->detailBiayaRepo
-            ->getAllDataForFormulir();
-
-        $sum = 0;
-
-        $status = $pendaftaran->status;
-        $tanggalSekarang = Carbon::now();
-
-        if($status == 1){
-            $info = "Formulir telah diisi";
-
-            return view('pmb.pendaftaran.form_pendaftaran', compact(
-                'encryptID',
-                'gelombang',
-                'gelombangTable',
-                'biaya',
-                'tanggalSekarang',
-                'info',
-                'potongan'
-            ));
-        }else{
-            $info = NULL;
-
-            return view('pmb.pendaftaran.form_pendaftaran', compact(
-                'encryptID',
-                'gelombang',
-                'gelombangTable',
-                'biaya',
-                'tanggalSekarang',
-                'info',
-                'potongan',
-                'detailBiayaDeskripsi',
-                'detailBiayaJumlah',
-                'sum'
-            ));
-        }
+        return view('keuangan.formulir.formulir');
     }
 
     /**
@@ -137,7 +80,21 @@ class PendaftaranController extends Controller
      */
     public function create()
     {
-        //
+        $gelombang = $this
+            ->gelombangRepo
+            ->getAllData();
+
+        $potongan = $this
+            ->potonganRepo
+            ->getAllData();
+
+        $biaya = $this
+            ->biayaRepo
+            ->getAllData();
+
+        return view('keuangan.formulir.form_tambah', compact(
+            'gelombang', 'potongan', 'biaya'
+        ));
     }
 
     /**
@@ -148,15 +105,14 @@ class PendaftaranController extends Controller
      */
     public function store(PendaftaranRequest $pendaftaranReq)
     {
-        $id = Crypt::Decrypt(Request::segment(3));
         $statusPendaftaran = $pendaftaranReq->status_pendaftaran;
         $status = $pendaftaranReq->status;
+        $kodePotongan = $pendaftaranReq->kode_potongan;
         $asalSekolah = $pendaftaranReq->asal_sekolah;
         $asalJurusan = $pendaftaranReq->asal_jurusan;
         $jurusan = $pendaftaranReq->jurusan;
-        $gelombang = $pendaftaranReq->gelombang;
+        $gelombang = $pendaftaranReq->kode_gelombang;
         $kodeKelas = $pendaftaranReq->kelas;
-        $kodePotongan = $pendaftaranReq->kode_potongan;
 
         if($jurusan == "IF"){
             $calonMahasiswa = $this
@@ -301,8 +257,7 @@ class PendaftaranController extends Controller
             'kode_kelas' => $kodeKelas,
             'kode_gelombang' => $gelombang,
             'kode_potongan' => $kodePotongan,
-            'status_pendaftaran' => $statusPendaftaran,
-            'status_jadwal_ujian' => 0
+            'status_pendaftaran' => $statusPendaftaran
         ];
 
         $dataCalonMahasiswaStatus = [
@@ -310,7 +265,8 @@ class PendaftaranController extends Controller
             'status' => $status,
             'asal_sekolah' => $asalSekolah,
             'asal_jurusan' => $asalJurusan,
-            'jurusan_pilihan' => $jurusan
+            'jurusan_pilihan' => $jurusan,
+            'semester' => 'GANJIL'
         ];
 
         $dataCalonMahasiswaBiodata = [
@@ -374,17 +330,17 @@ class PendaftaranController extends Controller
                 $dataCalonMahasiswaBiodataOrangTuaWali
             );
 
-        $dataPendaftaran = [
-            'status' => 1
-        ];
+        // $dataPendaftaran = [
+        //     'status' => 1
+        // ];
 
-        $update = $this
-            ->pendaftaranRepo
-            ->updatePendaftaranData($dataPendaftaran, $id);
+        // $update = $this
+        //     ->pendaftaranRepo
+        //     ->updatePendaftaranData($dataPendaftaran, $id);
 
-        $idURL = Request::segment(3);
+        // $idURL = Request::segment(3);
 
-        return redirect('/pendaftaran/formulir/'.$idURL)
+        return redirect('panitia/pmb/formulir/')
             ->with([
                 'notification' => 'Formulir telah kami terima, pemberihatuan jadwal ujian saringan akan diberitahukan melalui email'
             ]);
@@ -398,7 +354,12 @@ class PendaftaranController extends Controller
      */
     public function show($id)
     {
-        //
+        $formulir = $this
+            ->formulirRepo
+            ->getSingleData($id)
+            ->first();
+
+        return view('keuangan.formulir.detail', compact('formulir'));
     }
 
     /**
@@ -435,8 +396,55 @@ class PendaftaranController extends Controller
         //
     }
 
-    public function success()
+    public function downloadFormulir($id)
     {
-        return view('pmb.pendaftaran.sukses');
+        $formulir = $this
+            ->formulirRepo
+            ->getSingleData($id)
+            ->first();
+
+        $kodePendaftaran = $formulir->kode;
+        $nama = $formulir->nama;
+
+        $pdf = PDF::loadView('keuangan.formulir.formulir_pdf', compact(
+            'formulir'
+        ));
+
+        $fileName = "Formulir - ".$kodePendaftaran.' - '.$nama.'.pdf';
+
+        return $pdf->download($fileName);
+    }
+
+    public function downloadKelengkapan($id)
+    {
+        $formulir = $this
+            ->formulirRepo
+            ->getSingleData($id)
+            ->first();
+
+        $kodePendaftaran = $formulir->kode;
+        $nama = $formulir->nama;
+
+        $lampiranFormulir = $this
+            ->calonMahasiswaKelengkapanRepo
+            ->getSingleDataForDownload($kodePendaftaran);
+
+        foreach ($lampiranFormulir as $item) {
+            $data = [
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$item->fotocopy_raport_kelas_xii),
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$item->fotocopy_ijazah_sma),
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$item->foto_3x4),
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$item->foto_4x6),
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$formulir->fotocopy_transkrip_nilai),
+                public_path('/uploads/pmb/pendaftaran/kelengkapan/'.$formulir->fotocopy_ijazah_perguruan_tinggi_asal)
+            ];
+        }
+
+        $fileName = "File Kelengkapan Calon Mahasiswa - ".$kodePendaftaran.' - '.$nama.'.zip';
+
+        $make = Zipper::make(public_path('/files/'.$fileName))->add($data)->close();
+
+        return response()
+            ->download(public_path('/files/'.$fileName));
     }
 }

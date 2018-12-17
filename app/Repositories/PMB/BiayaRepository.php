@@ -8,8 +8,8 @@ class BiayaRepository
 {
     public function getAllData()
     {
-        $getBiaya = Biaya::All();
-        
+        $getBiaya = Biaya::all();
+
         return $getBiaya;
     }
 
@@ -32,7 +32,7 @@ class BiayaRepository
     public function storeBiayaData($data)
     {
         $storeBiayaData = Biaya::create($data);
-        
+
         return $storeBiayaData;
     }
 

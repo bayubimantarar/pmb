@@ -1,13 +1,13 @@
 @extends('keuangan.layouts.main')
 
 @section('title')
-Keuangan &raquo; PMB &raquo; Data Biaya
+Panitia &raquo; PMB &raquo; Data Formulir
 @endsection
 
 @section('content')
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Data Biaya</h1>
+        <h1 class="page-header">Data Formulir</h1>
     </div>
     <!-- /.col-lg-12 -->
 </div>
@@ -15,31 +15,29 @@ Keuangan &raquo; PMB &raquo; Data Biaya
 <div class="row">
     <div class="col-lg-12">
         <ul class="breadcrumb">
-            <li><a href="/prodi">Keuangan</a></li>
-            <li class="active">PMB</li>
-            <li class="active">Data Biaya</li>
+            <li><a href="/prodi">Panitia</a></li>
+            <li class="active">Formulir</li>
         </ul>
     </div>
 </div>
 <!-- /.row -->
 <div class="row">
     <div class="col-lg-12">
-        <p>
-            <a href="/keuangan/biaya/form-tambah" class="btn btn-primary">
-                <i class="fa fa-plus"></i> Tambah data biaya
-            </a>
-        </p>
         <div class="panel panel-default">
             <div class="panel-heading">
-                Tabel Data Soal
+                Tabel Data Formulir
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="biaya-table">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="formulir-table">
                         <thead>
                             <tr>
-                                <th>Kelas</th>
+                                <th>Kode Pendaftaran</th>
+                                <th>Nama Lengkap</th>
+                                <th>Nomor Telepon</th>
+                                <th>Email</th>
+                                <th>Alamat</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -69,12 +67,16 @@ Keuangan &raquo; PMB &raquo; Data Biaya
     <script src="/assets/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="/assets/vendor/datatables-responsive/dataTables.responsive.js"></script>
     <script>
-      var biaya_table = $("#biaya-table").DataTable({
+      var formulir_table = $('#formulir-table').DataTable({
         serverSide: true,
         processing: true,
-        ajax: '/keuangan/biaya/data',
+        ajax: '/keuangan/formulir/data',
         columns: [
-            {data: 'kelas'},
+            {data: 'kode'},
+            {data: 'nama'},
+            {data: 'nomor_telepon'},
+            {data: 'email'},
+            {data: 'alamat'},
             {data: 'action', orderable: false, searchable: false}
         ]
       });
@@ -88,12 +90,12 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                 headers: {
                       'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/keuangan/biaya/hapus/'+id,
+                url: '/prodi/pmb/pendaftaran/hapus/'+id,
                 type: 'delete',
                 dataType: 'json',
                 success: function(result){
                     alert('Data berhasil dihapus!');
-                    biaya_table.ajax.reload();
+                    formulir_table.ajax.reload();
                 }
             });
         }
@@ -116,7 +118,7 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                     dataType: 'json',
                     success: function(result){
                         alert('Soal berhasil diaktifkan');
-                        biaya_table.ajax.reload();
+                        formulir_table.ajax.reload();
                     }
                 });
             }
@@ -132,7 +134,7 @@ Keuangan &raquo; PMB &raquo; Data Biaya
                     dataType: 'json',
                     success: function(result){
                         alert('Data berhasil dinonaktifkan!');
-                        biaya_table.ajax.reload();
+                        formulir_table.ajax.reload();
                     }
                 });
             }

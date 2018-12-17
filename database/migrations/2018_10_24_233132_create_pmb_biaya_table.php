@@ -16,13 +16,6 @@ class CreatePmbBiayaTable extends Migration
         Schema::create('pmb_biaya', function (Blueprint $table) {
             $table->increments('id');
             $table->string('kelas')->unique();
-            $table->integer('biaya_pendaftaran');
-            $table->integer('biaya_jaket_kemeja');
-            $table->integer('biaya_pspt');
-            $table->integer('biaya_pengembangan_institusi');
-            $table->integer('biaya_kuliah');
-            $table->integer('biaya_kemahasiswaan');
-            $table->text('keterangan')->nullable();
             $table->timestamps();
         });
     }
