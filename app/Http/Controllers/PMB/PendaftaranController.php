@@ -11,7 +11,7 @@ use App\Repositories\PMB\PotonganRepository;
 use App\Http\Requests\PMB\PendaftaranRequest;
 use App\Repositories\PMB\GelombangRepository;
 use App\Repositories\PMB\PendaftaranRepository;
-use App\Repositories\PMB\DetailBiayaRepository;
+use App\Repositories\PMB\DetailBiayaPotonganRepository;
 use App\Repositories\PMB\CalonMahasiswaRepository;
 use App\Services\CalonMahasiswaKelengkapanService;
 
@@ -20,7 +20,7 @@ class PendaftaranController extends Controller
     private $biayaRepo;
     private $potonganRepo;
     private $GelombangRepo;
-    private $detailBiayaRepo;
+    private $detailBiayaPotonganRepo;
     private $pendaftaranRepo;
     private $calonMahasiswaRepo;
     private $calonMahasiswaKelengkapanServe;
@@ -30,7 +30,7 @@ class PendaftaranController extends Controller
         PotonganRepository $potonganRepository,
         GelombangRepository $gelombangRepository,
         PendaftaranRepository $pendaftaranRepository,
-        DetailBiayaRepository $detailBiayaRepository,
+        DetailBiayaPotonganRepository $detailBiayaPotonganRepository,
         CalonMahasiswaRepository $calonMahasiswaRepository,
         CalonMahasiswaKelengkapanService $calonMahasiswaKelengkapanService
     ) {
@@ -38,7 +38,7 @@ class PendaftaranController extends Controller
         $this->potonganRepo = $potonganRepository;
         $this->gelombangRepo = $gelombangRepository;
         $this->pendaftaranRepo = $pendaftaranRepository;
-        $this->detailBiayaRepo = $detailBiayaRepository;
+        $this->detailBiayaPotonganRepo = $detailBiayaPotonganRepository;
         $this->calonMahasiswaRepo = $calonMahasiswaRepository;
         $this->calonMahasiswaKelengkapanServe = $calonMahasiswaKelengkapanService;
     }
@@ -88,11 +88,11 @@ class PendaftaranController extends Controller
             ->getAllData();
 
         $detailBiayaDeskripsi = $this
-            ->detailBiayaRepo
+            ->detailBiayaPotonganRepo
             ->getAllDataForFormulirByDeskripsi();
 
         $detailBiayaJumlah = $this
-            ->detailBiayaRepo
+            ->detailBiayaPotonganRepo
             ->getAllDataForFormulir();
 
         $sum = 0;

@@ -36,9 +36,29 @@
                     <li>
                         <a href="/dasbor/pengguna/prodi"><i class="fa fa-file-text-o"></i> Prodi</a>
                     </li>
+                    <li>
+                        <a href="/dasbor/pengguna/keuangan"><i class="fa fa-file-text-o"></i> Keuangan</a>
+                    </li>
                 </ul>
                 <!-- /.nav-second-level -->
             </li>
+            <li>
+                <a href="#"><i class="fa fa-calendar fa-fw"></i> Data Hasil Kelulusan<span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a href="#"><i class="fa fa-sitemap fa-fw"></i> Data Hasil Ujian<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                @foreach($jadwalUjian as $item)
+                                    <li>
+                                        <a href="/dasbor/hasil-ujian/{{ $item->kode }}"><i class="fa fa-file-text-o"></i> {{ $item->kode }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                    </li>
+                </ul>
+                <!-- /.nav-second-level -->
+            </li>
+
         </ul>
     </div>
     <!-- /.sidebar-collapse -->

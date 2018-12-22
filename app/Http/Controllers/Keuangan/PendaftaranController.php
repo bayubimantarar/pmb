@@ -32,7 +32,7 @@ class PendaftaranController extends Controller
 
         return DataTables::of($pendaftaran)
             ->addColumn('action', function($dosen){
-                return '<center><a href="/panitia/pmb/pendaftaran/aktifkan/'.$dosen->id.'" class="btn btn-info btn-xs"><i class="fa fa-check"></i></a></center>';
+                return '<center><a href="/keuangan/pendaftaran/aktifkan/'.$dosen->id.'" class="btn btn-info btn-xs"><i class="fa fa-check"></i></a></center>';
             })
             ->editCOlumn('konfirmasi_pembayaran', function($pendaftaran){
                 if($pendaftaran->konfirmasi_pembayaran == 1){
@@ -148,6 +148,6 @@ class PendaftaranController extends Controller
 
         $sendEmail = Mail::to($email)->send(new Pendaftaran($encryptID));
 
-        return redirect('/panitia/pmb/pendaftaran');
+        return redirect('/keuangan/pendaftaran');
     }
 }

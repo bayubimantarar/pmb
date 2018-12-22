@@ -2,6 +2,7 @@
 
 namespace App\Repositories\PMB;
 
+use DB;
 use App\Soal;
 use App\TahunAjaran;
 use App\JenisUjian;
@@ -21,7 +22,132 @@ class HasilRepository
     public function getAllHasilData()
     {
         $getHasil = Hasil::All();
-        
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporan()
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForChart()
+    {
+        $getHasil = Hasil::select(DB::raw("(SELECT COUNT(*) FROM pmb_hasil WHERE status='Lulus' AND kode_jurusan='IF') as if_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Tidak Lulus' AND kode_jurusan='IF') as if_tidak_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Lulus' AND kode_jurusan='SI') as si_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Tidak Lulus' AND kode_jurusan='SI') as si_tidak_lulus"))
+            ->get()
+            ->first();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForChartByTahun($tahun)
+    {
+        $getHasil = Hasil::select(DB::raw("(SELECT COUNT(*) FROM pmb_hasil WHERE status='Lulus' AND kode_jurusan='IF') as if_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Tidak Lulus' AND kode_jurusan='IF') as if_tidak_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Lulus' AND kode_jurusan='SI') as si_lulus, (SELECT COUNT(*) FROM pmb_hasil WHERE status='Tidak Lulus' AND kode_jurusan='SI') as si_tidak_lulus"))
+            ->whereYear('pmb_hasil.created_at', '=', $tahun)
+            ->get();
+
+        return $getHasil;
+    }
+
+    // public function getAllHasilDataForLaporanFilter($jurusan, $tahun,)
+    // {
+    //     $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+    //         ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+    //         ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+    //         ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+    //         ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+    //         ->get();
+
+    //     return $getHasil;
+    // }
+
+    public function getAllHasilDataForLaporanByJurusan($jurusan, $tahun)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->when($jurusan != "NULL", function ($query) use($jurusan){
+                return $query->where('pmb_hasil.kode_jurusan', '=', $jurusan);
+            })
+            ->when($tahun != "NULL", function ($query) use($tahun){
+                return $query->whereYear('pmb_hasil.created_at', '=', $tahun);
+            })
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporanByTahun($tahun)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->whereYear('pmb_hasil.created_at', '=', $tahun)
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporanBySesi($sesi)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->where('pmb_hasil.kode_jadwal_ujian', '=', $sesi)
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporanByPendaftaran($pendaftaran)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->where('pmb_calon_mahasiswa.status_pendaftaran', '=', $pendaftaran)
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporanByStatus($status)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->where('pmb_hasil.status', '=', $status)
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilDataForLaporanByTanggal($tanggal)
+    {
+        $getHasil = Hasil::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->whereDate('pmb_hasil.created_at', '=', $tanggal)
+            ->get();
+
         return $getHasil;
     }
 
@@ -50,13 +176,13 @@ class HasilRepository
         )
         ->select('pmb_hasil.*', 'pmb_calon_mahasiswa_biodata.nama')
         ->get();
-        
+
         return $getHasil;
     }
 
     public function getAllHasilDataByFilter(
-        $kodeJurusan, 
-        $kodeGelombang, 
+        $kodeJurusan,
+        $kodeGelombang,
         $kodeKelas,
         $tahun
     ) {
@@ -65,14 +191,14 @@ class HasilRepository
             ->where('kode_kelas', '=', $kodeKelas)
             ->whereYear('created_at', $tahun)
             ->get();
-        
+
         return $getHasil;
     }
 
     public function storeHasilData($data)
     {
         $storeHasil = Hasil::create($data);
-        
+
         return $storeHasil;
     }
 
@@ -80,9 +206,9 @@ class HasilRepository
     {
         $updateHasil = Hasil::where('id', '=', $id)
             ->update($data);
-        
+
         return $updateHasil;
-    }    
+    }
 
     public function destroyHasilData($kodeSoal)
     {

@@ -56,12 +56,12 @@
                 </li>
             </ul>
             <center>
-                <h6>
-                    Dinyatakan
-                </h6>
                 <h3>
-                   {{$keteranganLulus}}
+                    Dinyatakan
                 </h3>
+                <h2>
+                   {{$keteranganLulus}}
+                </h2>
             </center>
             @if($keteranganLulus == "LULUS")
                 <p>

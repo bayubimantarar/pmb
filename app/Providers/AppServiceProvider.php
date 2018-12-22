@@ -6,6 +6,7 @@ use Auth;
 use App\Models\PMB\Soal;
 use App\Models\PMB\Biaya;
 use App\Models\PMB\Potongan;
+use App\Models\PMB\Gelombang;
 use App\Models\PMB\JadwalUjian;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -41,13 +42,27 @@ class AppServiceProvider extends ServiceProvider
                 $view->with($data);
             }
 
+            if($view->getName() == 'dasbor.layouts.main') {
+                $jadwalUjian   = JadwalUjian::all();
+                $biaya = Biaya::all();
+
+                $data = [
+                    'jadwalUjian' => $jadwalUjian,
+                    'biaya' => $biaya
+                ];
+
+                $view->with($data);
+            }
+
             if($view->getName() == 'keuangan.layouts.main'){
                 $biaya      = Biaya::all();
                 $potongan   = Potongan::all();
+                $gelombang   = Gelombang::all();
 
                 $data = [
                     'biaya' => $biaya,
-                    'potongan' => $potongan
+                    'potongan' => $potongan,
+                    'gelombang' => $gelombang
                 ];
 
                 $view->with($data);

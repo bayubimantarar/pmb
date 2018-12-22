@@ -56,20 +56,22 @@
                 </li>
             </ul>
             <center>
-                <h6>
-                    Dinyatakan
-                </h6>
                 <h3>
-                   {{$keteranganLulus}}
+                    Dinyatakan
                 </h3>
+                <h2>
+                   {{$keteranganLulus}}
+                </h2>
             </center>
             @if($keteranganLulus == "LULUS")
                 <p>
-                    Kepada calon mahasiswa diwajibkan untuk segera melengkapi persyaratan dan administrasi serta mengikuti serangkaian kegiatan sebagaimana tercantum dalam Agenda akademik.
+                    Kepada calon mahasiswa diwajibkan untuk segera melengkapi persyaratan dan administrasi serta mengikuti serangkaian kegiatan sebagaimana tercantum dalam Agenda akademik.<br /><br />
+                    Surat ini adalah bukti surat kelulusan melalui surat elektronik yang tidak memelurkan stample
                 </p>
             @else
                 <p>
-                    Kepada calon mahasiswa silahkan mendaftarkan diri kembali, kemudian cantumkan surat keterangan lulus ini di konfirmasi pembayaran (Tidak perlu membayar biaya pendaftaran), kemudian pilih pada status pendaftaran (Daftar Untuk Mengulang Ujian), selanjutnya ujian akan diinformasikan kembali melalui email.
+                    Kepada calon mahasiswa silahkan mendaftarkan diri kembali, kemudian cantumkan surat keterangan lulus ini di konfirmasi pembayaran (Tidak perlu membayar biaya pendaftaran), kemudian pilih pada status pendaftaran (Daftar Untuk Mengulang Ujian), selanjutnya ujian akan diinformasikan kembali melalui email.<br /><br />
+                    Surat ini adalah bukti surat kelulusan melalui surat elektronik yang tidak memelurkan stample
                 </p>
             @endif
         </div>

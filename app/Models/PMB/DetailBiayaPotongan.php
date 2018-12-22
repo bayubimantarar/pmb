@@ -10,6 +10,7 @@ class DetailBiayaPotongan extends Model
     protected $fillable = [
         'kode_biaya',
         'kode_potongan',
+        'kode_gelombang',
         'deskripsi',
         'jumlah'
     ];

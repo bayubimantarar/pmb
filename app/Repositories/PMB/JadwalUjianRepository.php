@@ -17,11 +17,9 @@ class JadwalUjianRepository
         return $getJadwalUjian;
     }
 
-    public function getSingleDataForCount($kodeGelombang, $statusPendaftaran, $kodeSoal)
+    public function getSingleDataForCount($tanggalMulaiUjian)
     {
-        $getJadwalUjian = JadwalUjian::where('kode_gelombang', '=', $kodeGelombang)
-            ->where('status_pendaftaran', '=', $statusPendaftaran)
-            ->where('kode_soal', '=', $kodeSoal)
+        $getJadwalUjian = JadwalUjian::whereDate('created_at', '=', $tanggalMulaiUjian)
             ->count();
 
         return $getJadwalUjian;

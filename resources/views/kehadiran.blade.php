@@ -18,6 +18,7 @@
     <link href="/assets/vendor/morrisjs/morris.css" rel="stylesheet">
     <!-- Custom Fonts -->
     <link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/assets/vendor/jquery-confirm-master/dist/jquery-confirm.min.css" />
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNIN Respond.js doesn't work if you view the page via fil// -->
     <!--[if lt IE 9]>
@@ -45,24 +46,28 @@
                                 {{ session('notification') }}
                             </div>
                         @endif
-                        <form action="/pendaftaran/simpan" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-xs-12">
-                                    <p>KODE PENDAFTARAN : PMBIF201801</p>
-                                    <p>NAMA : Bayu Bimantara</p>
-                                    <p>TEMPAT LAHIR : Bandung</p>
-                                    <p>TANGGAL LAHIR : Juli, 25 1997</p>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-xs-12">
-                                    <center><img src="/uploads/pmb/pendaftaran/kelengkapan/Foto 3x4 PMBIF201801foto_4x6.png" alt="Foto 4x6" height="150" /></center>
-                                </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-xs-12">
+                                <p>KODE PENDAFTARAN : {{$kodePendaftaran}}</p>
+                                <p>NAMA : {{$nama}}</p>
+                                <p>TEMPAT LAHIR : {{$kotaLahir}}</p>
+                                <p>TANGGAL LAHIR : {{$bulan}}, {{$tanggal}} {{$tahun}}</p>
+                                <p>TANGGAL MULAI UJIAN : {{$tanggalMulaiUjian}}</p>
+                                <p>TANGGAL SELESAI UJIAN : {{$tanggalSelesaiUjian}}</p>
+                                <p>RUANGAN : {{$ruangan}}</p>
                             </div>
-                            <br />
-                            <button type="submit" class="btn btn-block btn-primary">
-                                <i class="fa fa-check"></i> Cek kehadiran
-                            </button>
-                        </form>
+                            <div class="col-lg-6 col-md-6 col-xs-12">
+                                @if(!empty($foto4x6))
+                                <center><img src="/uploads/pmb/pendaftaran/kelengkapan/{{$foto4x6}}" alt="Foto 4x6" height="150" /></center>
+                                @endif
+                            </div>
+                        </div>
+                        <br />
+                        @if($hasKehadiran == 1)
+                            <a href="#cek-kehadiran" class="btn btn-block btn-primary" onclick="startExam()"><i class="fa fa-check"></i> Cek kehadiran</a>
+                        @else
+                            <a href="#cek-kehadiran" class="btn btn-block btn-primary disabled" onclick="startExam()"><i class="fa fa-check"></i> Cek kehadiran</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -77,5 +82,87 @@
     <script src="/assets/vendor/metisMenu/metisMenu.min.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="/assets/dist/js/sb-admin-2.js"></script>
+    <script src="/assets/vendor/jquery-confirm-master/dist/jquery-confirm.min.js"></script>
+<script>
+function startExam(){
+    $.confirm({
+    title: 'Cek kehadiran',
+    content: '' +
+    '<form action="" class="formName">' +
+    '<div class="form-group">' +
+    '<input type="number" placeholder="NIDN" class="nidn form-control" required /> <br />' +
+    '<input type="hidden" class="kodePendaftaran" value="{{ $encryptKodePendaftaran }}" />' +
+    '<input type="hidden" class="token" value="{{ csrf_token() }}" />' +
+    '</div>' +
+    '</form>',
+    buttons: {
+        formSubmit: {
+            text: 'Cari',
+            btnClass: 'btn-blue',
+            action: function () {
+                var nidn = this.$content.find('.nidn').val();
+                var token = this.$content.find('.token').val();
+                var kodePendaftaran = this.$content.find('.kodePendaftaran').val();
+                if(!nidn){
+                    $.alert('NIDN perlu diisi');
+                    return false;
+                }
+                $.ajax({
+                    url : '/kehadiran/'+kodePendaftaran+'/cek-panitia/'+nidn,
+                    type: 'get',
+                    success: function(result){
+                        if(result.total == 1){
+                            $.confirm({
+                                title: 'Cek kehadiran',
+                                content: 'Peserta ditemukan, silahkan cek kehadiran.',
+                                buttons: {
+                                    cek: {
+                                        btnClass: 'btn-blue',
+                                        action: function(){
+                                            $.ajax({
+                                                url: "/kehadiran/"+kodePendaftaran+"/simpan",
+                                                type: "post",
+                                                data: {_token: token, kode_pendaftaran: kodePendaftaran},
+                                                dataType: "json",
+                                                success: function(result){
+                                                    if(result.created == 1){
+                                                        if($.alert('Cek kehadiran berhasil!')){
+                                                            window.location.replace('/kehadiran/'+kodePendaftaran);
+                                                        }
+                                                    }
+                                                }
+                                            })
+                                        },
+                                    },
+                                    batal: {
+                                        action: function(){
+
+                                        },
+                                    }
+                                }
+                            });
+                        }else{
+                            $.alert('Panitia tidak ditemukan!.');
+                        }
+                    }
+                })
+            }
+        },
+        batal: function () {
+            //close
+        },
+    },
+    onContentReady: function () {
+        // bind to events
+        var jc = this;
+        this.$content.find('form').on('submit', function (e) {
+            // if the user submits the form by pressing enter in the field.
+            e.preventDefault();
+            jc.$$formSubmit.trigger('click'); // reference the button and click it
+        });
+    }
+});
+}
+</script>
 </body>
 </html>

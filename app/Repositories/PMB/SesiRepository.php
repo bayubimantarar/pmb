@@ -55,6 +55,19 @@ class SesiRepository
         return $getSesiData;
     }
 
+    public function getSingleDataForKelulusan($kodePendaftaran)
+    {
+        $getSesiData = Sesi::join('pmb_calon_mahasiswa_biodata', 'pmb_sesi.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('pmb_jadwal_ujian', 'pmb_sesi.kode_jadwal_ujian', '=', 'pmb_jadwal_ujian.kode')
+            ->join('pmb_calon_mahasiswa_kelengkapan', 'pmb_sesi.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_kelengkapan.kode_pendaftaran')
+            ->join('pmb_hasil_update', 'pmb_sesi.kode_pendaftaran', '=', 'pmb_hasil_update.kode_pendaftaran')
+            ->select('pmb_sesi.*', 'pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.email', 'pmb_calon_mahasiswa_biodata.kota_lahir', 'pmb_calon_mahasiswa_biodata.tanggal', 'pmb_calon_mahasiswa_biodata.bulan', 'pmb_calon_mahasiswa_biodata.tahun', 'pmb_jadwal_ujian.tanggal_mulai_ujian', 'pmb_jadwal_ujian.tanggal_selesai_ujian', 'pmb_jadwal_ujian.kode_soal', 'pmb_jadwal_ujian.ruangan', 'pmb_calon_mahasiswa_kelengkapan.foto_4x6', 'pmb_hasil_update.nilai_angka')
+            ->where('pmb_sesi.kode_pendaftaran', '=', $kodePendaftaran)
+            ->first();
+
+        return $getSesiData;
+    }
+
     public function getAllDataForSesi($kodeJadwalUjian)
     {
         $getSesiData = Sesi::where('kode_jadwal_ujian', '=', $kodeJadwalUjian)

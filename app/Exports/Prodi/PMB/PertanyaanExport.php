@@ -2,25 +2,25 @@
 
 namespace App\Exports\Prodi\PMB;
 
+use App\Models\PMB\Hasil;
 use Illuminate\Contracts\View\View;
-use App\Models\PMB\Soal;
+use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\FromView;
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeExport;
-use Maatwebsite\Excel\Events\AfterSheet;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 class PertanyaanExport implements FromView, ShouldAutoSize, WithEvents
 {
-    protected $id;
+    protected $tahun;
     protected $temp;
     protected $borderForNomor;
     protected $borderForJumlahPertanyaan;
 
-    public function __construct($id)
+    public function __construct($tahun)
     {
-        $this->id = $id;
+        $this->tahun = $tahun;
     }
 
     /**
@@ -183,10 +183,10 @@ class PertanyaanExport implements FromView, ShouldAutoSize, WithEvents
 
     public function view(): View
     {
-        $soal = Soal::findOrFail($this->id);
+        $hasil = Hasil::whereYear('created_at', '=', $this->tahun)
+            ->get();
 
-        $jumlahPertanyaan = $soal->jumlah_pertanyaan;
-        $kodeSoal = $soal->kode;
+        $jumlahPertanyan   = $hasil->count();
 
         $this->borderForNomor = 7+$jumlahPertanyaan;
         $this->borderForJumlahPertanyaan = $jumlahPertanyaan;

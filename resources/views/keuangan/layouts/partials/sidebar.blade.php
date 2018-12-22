@@ -19,6 +19,11 @@
                 <a href="#"><i class="fa fa-book fa-fw"></i> PMB Pendaftaran<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
+                        <a href="/keuangan/biaya-heregistrasi">
+                            <i class="fa fa-book"></i> Data Biaya Heregistrasi
+                        </a>
+                    </li>
+                    <li>
                         <a href="/keuangan/gelombang">
                             <i class="fa fa-book"></i> Data Gelombang
                         </a>
@@ -41,6 +46,19 @@
                             @foreach($biaya as $item)
                                 <li>
                                     <a href="/keuangan/detail-biaya/{{ $item->id }}"><i class="fa fa-file-text-o"></i> {{ $item->kelas }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                        <!-- /.nav-third-level -->
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-book fa-fw"></i> Data Detail Gelombang <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-third-level">
+                            @foreach($gelombang as $item)
+                                <li>
+                                    <a href="/keuangan/detail-gelombang/{{ $item->id }}"><i class="fa fa-file-text-o"></i> {{ $item->nama }}</a>
                                 </li>
                             @endforeach
                         </ul>

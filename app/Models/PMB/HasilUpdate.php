@@ -14,6 +14,7 @@ class HasilUpdate extends Model
         'kode_jurusan',
         'kode_soal',
         'kode_kelas',
-        'nilai_angka'
+        'nilai_angka',
+        'status'
     ];
 }

@@ -27,11 +27,11 @@ class CalonMahasiswaRepository
     public function getSingleDataForKeteranganLulus($kodePendaftaran)
     {
         $getCalonMahasiswaData = CalonMahasiswa::join(
-            'pmb_calon_mahasiwa_biodata', 'pmb_calon_mahasiswa.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata'
+            'pmb_calon_mahasiswa_biodata', 'pmb_calon_mahasiswa.kode', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran'
         )
-        ->join('pmb_calon_mahasiswa.status', 'pmb_calon_mahasiswa.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_status.kode_pendaftaran')
+        ->join('pmb_calon_mahasiswa_status', 'pmb_calon_mahasiswa.kode', '=', 'pmb_calon_mahasiswa_status.kode_pendaftaran')
         ->select('pmb_calon_mahasiswa.*', 'pmb_calon_mahasiswa_biodata.nama', 'pmb_calon_mahasiswa_biodata.kota_lahir', 'pmb_calon_mahasiswa_biodata.tanggal', 'pmb_calon_mahasiswa_biodata.bulan', 'pmb_calon_mahasiswa_biodata.tahun', 'pmb_calon_mahasiswa_status.asal_sekolah', 'pmb_calon_mahasiswa_status.jurusan_pilihan')
-        ->where('pmb_calon_mahasiwa.kode_pendaftaran', '=', $kodePendaftaran)
+        ->where('pmb_calon_mahasiswa.kode', '=', $kodePendaftaran)
         ->get();
 
         return $getCalonMahasiswaData;

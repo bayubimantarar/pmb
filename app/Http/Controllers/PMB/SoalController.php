@@ -197,25 +197,53 @@ class SoalController extends Controller
         $kodeJurusan = Auth::guard('calon_mahasiswa')->User()->kode_jurusan;
         $kodeKelas = Auth::guard('calon_mahasiswa')->User()->kode_kelas;
 
-        $dataHasil = [
-            'kode_jadwal_ujian' => $kodeJadwalUjian,
-            'kode_pendaftaran' => $kodePendaftaran,
-            'kode_gelombang' => $kodeGelombang,
-            'kode_jurusan' => $kodeJurusan,
-            'kode_soal' => $kodesoal,
-            'kode_kelas' => $kodeKelas,
-            'nilai_angka' => $totalNilai
-        ];
+        if($totalNilai >= $nilaiAngka){
+            $status = "Lulus";
+            $dataHasil = [
+                'kode_jadwal_ujian' => $kodeJadwalUjian,
+                'kode_pendaftaran' => $kodePendaftaran,
+                'kode_gelombang' => $kodeGelombang,
+                'kode_jurusan' => $kodeJurusan,
+                'kode_soal' => $kodesoal,
+                'kode_kelas' => $kodeKelas,
+                'nilai_angka' => $totalNilai,
+                'status' => $status
+            ];
 
-        $store = $this
-            ->jawabanRepo
-            ->storeJawabanData($data);
+            $store = $this
+                ->jawabanRepo
+                ->storeJawabanData($data);
 
-        $storeHasil = $this
-            ->hasilRepo
-            ->storeHasilData($dataHasil);
+            $storeHasil = $this
+                ->hasilRepo
+                ->storeHasilData($dataHasil);
 
-        return redirect('/pmb');
+            return redirect('/pmb');
+        }else{
+            $status = "Tidak Lulus";
+
+            $dataHasil = [
+                'kode_jadwal_ujian' => $kodeJadwalUjian,
+                'kode_pendaftaran' => $kodePendaftaran,
+                'kode_gelombang' => $kodeGelombang,
+                'kode_jurusan' => $kodeJurusan,
+                'kode_soal' => $kodesoal,
+                'kode_kelas' => $kodeKelas,
+                'nilai_angka' => $totalNilai,
+                'status' => $status
+            ];
+
+            $store = $this
+                ->jawabanRepo
+                ->storeJawabanData($data);
+
+            $storeHasil = $this
+                ->hasilRepo
+                ->storeHasilData($dataHasil);
+
+            return redirect('/pmb');
+        }
+
     }
 
     /**

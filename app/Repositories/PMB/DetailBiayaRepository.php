@@ -16,10 +16,10 @@ class DetailBiayaRepository
 
     public function getAllDataForFormulir()
     {
-        $getDetailBiaya = DetailBiaya::join('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->select('pmb_biaya.*', 'pmb_detail_biaya.deskripsi', 'pmb_detail_biaya.kode_biaya', 'pmb_detail_biaya.jumlah')
-            ->groupBy('pmb_detail_biaya.deskripsi', 'pmb_detail_biaya.kode_biaya')
-            ->orderBy('pmb_detail_biaya.kode_biaya')
+        $getDetailBiaya = DetailBiaya::join('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->select('pmb_biaya.*', 'pmb_detail_biaya_potongan.deskripsi', 'pmb_detail_biaya_potongan.kode_biaya', 'pmb_detail_biaya_potongan.jumlah')
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi', 'pmb_detail_biaya_potongan.kode_biaya')
+            ->orderBy('pmb_detail_biaya_potongan.kode_biaya')
             ->get();
 
         return $getDetailBiaya;
@@ -27,9 +27,9 @@ class DetailBiayaRepository
 
     public function getAllDataForFormulirByDeskripsi()
     {
-        $getDetailBiaya = DetailBiaya::join('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->select('pmb_detail_biaya.deskripsi', DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Pagi" THEN pmb_detail_biaya.jumlah END) as pagi'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Sore" THEN pmb_detail_biaya.jumlah END) as sore'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Eksekutif" THEN pmb_detail_biaya.jumlah END) as eksekutif'))
-            ->groupBy('pmb_detail_biaya.deskripsi')
+        $getDetailBiaya = DetailBiaya::join('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->select('pmb_detail_biaya_potongan.deskripsi', DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Pagi" THEN pmb_detail_biaya_potongan.jumlah END) as pagi'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Sore" THEN pmb_detail_biaya_potongan.jumlah END) as sore'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Eksekutif" THEN pmb_detail_biaya_potongan.jumlah END) as eksekutif'))
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi')
             ->get();
 
         return $getDetailBiaya;
@@ -37,10 +37,10 @@ class DetailBiayaRepository
 
     public function getSingleDataForBiayaByDeskripsi($kodeKelas, $kodePotongan)
     {
-        $getDetailBiaya = DetailBiaya::leftJoin('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->leftJoin('pmb_potongan', 'pmb_detail_biaya.kode_potongan', '=', 'pmb_potongan.id')
-            ->select('pmb_detail_biaya.deskripsi', DB::RAW('MAX(CASE WHEN pmb_detail_biaya.kode_biaya='.$kodeKelas.' THEN pmb_detail_biaya.jumlah END) as biaya'), DB::RAW('MAX(CASE WHEN pmb_detail_biaya.kode_potongan='.$kodePotongan.' THEN pmb_detail_biaya.jumlah END) as potongan'))
-            ->groupBy('pmb_detail_biaya.deskripsi')
+        $getDetailBiaya = DetailBiaya::leftJoin('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->leftJoin('pmb_potongan', 'pmb_detail_biaya_potongan.kode_potongan', '=', 'pmb_potongan.id')
+            ->select('pmb_detail_biaya_potongan.deskripsi', DB::RAW('MAX(CASE WHEN pmb_detail_biaya_potongan.kode_biaya='.$kodeKelas.' THEN pmb_detail_biaya_potongan.jumlah END) as biaya'), DB::RAW('MAX(CASE WHEN pmb_detail_biaya_potongan.kode_potongan='.$kodePotongan.' THEN pmb_detail_biaya_potongan.jumlah END) as potongan'))
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi')
             ->get();
 
         return $getDetailBiaya;

@@ -17,6 +17,7 @@ class CreatePmbDetailBiayaPotonganTable extends Migration
             $table->increments('id');
             $table->string('kode_biaya')->nullable();
             $table->string('kode_potongan')->nullable();
+            $table->string('kode_gelombang')->nullable();
             $table->string('deskripsi');
             $table->string('jumlah');
             $table->timestamps();

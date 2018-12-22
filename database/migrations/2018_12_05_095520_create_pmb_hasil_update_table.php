@@ -22,6 +22,7 @@ class CreatePmbHasilUpdateTable extends Migration
             $table->string('kode_soal');
             $table->string('kode_kelas');
             $table->integer('nilai_angka');
+            $table->string('status');
             $table->timestamps();
         });
     }

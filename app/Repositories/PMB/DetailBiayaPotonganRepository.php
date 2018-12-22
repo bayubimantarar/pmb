@@ -16,10 +16,10 @@ class DetailBiayaPotonganRepository
 
     public function getAllDataForFormulir()
     {
-        $getDetailBiayaPotongan = DetailBiayaPotongan::join('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->select('pmb_biaya.*', 'pmb_detail_biaya.deskripsi', 'pmb_detail_biaya.kode_biaya', 'pmb_detail_biaya.jumlah')
-            ->groupBy('pmb_detail_biaya.deskripsi', 'pmb_detail_biaya.kode_biaya')
-            ->orderBy('pmb_detail_biaya.kode_biaya')
+        $getDetailBiayaPotongan = DetailBiayaPotongan::join('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->select('pmb_biaya.*', 'pmb_detail_biaya_potongan.deskripsi', 'pmb_detail_biaya_potongan.kode_biaya', 'pmb_detail_biaya_potongan.jumlah')
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi', 'pmb_detail_biaya_potongan.kode_biaya')
+            ->orderBy('pmb_detail_biaya_potongan.kode_biaya')
             ->get();
 
         return $getDetailBiayaPotongan;
@@ -27,20 +27,21 @@ class DetailBiayaPotonganRepository
 
     public function getAllDataForFormulirByDeskripsi()
     {
-        $getDetailBiayaPotongan = DetailBiayaPotongan::join('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->select('pmb_detail_biaya.deskripsi', DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Pagi" THEN pmb_detail_biaya.jumlah END) as pagi'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Sore" THEN pmb_detail_biaya.jumlah END) as sore'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Eksekutif" THEN pmb_detail_biaya.jumlah END) as eksekutif'))
-            ->groupBy('pmb_detail_biaya.deskripsi')
+        $getDetailBiayaPotongan = DetailBiayaPotongan::join('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->select('pmb_detail_biaya_potongan.deskripsi', DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Pagi" THEN pmb_detail_biaya_potongan.jumlah END) as pagi'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Sore" THEN pmb_detail_biaya_potongan.jumlah END) as sore'), DB::RAW('MAX(CASE WHEN pmb_biaya.kelas="Kelas Eksekutif" THEN pmb_detail_biaya_potongan.jumlah END) as eksekutif'))
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi')
             ->get();
 
         return $getDetailBiayaPotongan;
     }
 
-    public function getSingleDataForBiayaByDeskripsi($kodeKelas, $kodePotongan)
+    public function getSingleDataForBiayaByDeskripsi($kodeKelas, $kodePotongan, $tempKodeGelombang)
     {
-        $getDetailBiayaPotongan = DetailBiayaPotongan::leftJoin('pmb_biaya', 'pmb_detail_biaya.kode_biaya', '=', 'pmb_biaya.id')
-            ->leftJoin('pmb_potongan', 'pmb_detail_biaya.kode_potongan', '=', 'pmb_potongan.id')
-            ->select('pmb_detail_biaya.deskripsi', DB::RAW('MAX(CASE WHEN pmb_detail_biaya.kode_biaya='.$kodeKelas.' THEN pmb_detail_biaya.jumlah END) as biaya'), DB::RAW('MAX(CASE WHEN pmb_detail_biaya.kode_potongan='.$kodePotongan.' THEN pmb_detail_biaya.jumlah END) as potongan'))
-            ->groupBy('pmb_detail_biaya.deskripsi')
+        $getDetailBiayaPotongan = DetailBiayaPotongan::leftJoin('pmb_biaya', 'pmb_detail_biaya_potongan.kode_biaya', '=', 'pmb_biaya.id')
+            ->leftJoin('pmb_potongan', 'pmb_detail_biaya_potongan.kode_potongan', '=', 'pmb_potongan.id')
+            ->leftJoin('pmb_gelombang', 'pmb_detail_biaya_potongan.kode_gelombang', '=', 'pmb_gelombang.id')
+            ->select('pmb_detail_biaya_potongan.deskripsi', DB::RAW('MAX(CASE WHEN pmb_detail_biaya_potongan.kode_biaya='.$kodeKelas.' THEN pmb_detail_biaya_potongan.jumlah END) as biaya'), DB::RAW('MAX(CASE WHEN pmb_detail_biaya_potongan.kode_potongan='.$kodePotongan.' THEN pmb_detail_biaya_potongan.jumlah END) as potongan_jalur'), DB::RAW('MAX(CASE WHEN pmb_detail_biaya_potongan.kode_gelombang='.$tempKodeGelombang.' THEN pmb_detail_biaya_potongan.jumlah END) as potongan_gelombang'))
+            ->groupBy('pmb_detail_biaya_potongan.deskripsi')
             ->get();
 
         return $getDetailBiayaPotongan;
@@ -56,6 +57,14 @@ class DetailBiayaPotonganRepository
     public function getSingleDataForDetailBiayaPotongan($kodeBiaya)
     {
         $getDetailBiayaPotonganData = DetailBiayaPotongan::where('kode_biaya', '=', $kodeBiaya)
+            ->get();
+
+        return $getDetailBiayaPotonganData;
+    }
+
+    public function getSingleDataForDetailBiayaPotonganForGelombang($kodeGelombang)
+    {
+        $getDetailBiayaPotonganData = DetailBiayaPotongan::where('kode_gelombang', '=', $kodeGelombang)
             ->get();
 
         return $getDetailBiayaPotonganData;

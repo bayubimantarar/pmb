@@ -2,6 +2,7 @@
 
 namespace App\Repositories\PMB;
 
+use DB;
 use App\Soal;
 use App\TahunAjaran;
 use App\JenisUjian;
@@ -16,6 +17,27 @@ class HasilUpdateRepository
             ->get();
 
         return $getHasilUpdate;
+    }
+
+    public function getAllHasilUpdateDataForLaporan()
+    {
+        $getHasil = HasilUpdate::join('pmb_calon_mahasiswa_biodata', 'pmb_hasil_update.kode_pendaftaran', '=', 'pmb_calon_mahasiswa_biodata.kode_pendaftaran')
+            ->join('master_prodi', 'pmb_hasil_update.kode_jurusan', '=', 'master_prodi.kode')
+            ->join('pmb_sesi', 'pmb_hasil_update.kode_pendaftaran', '=', 'pmb_sesi.kode_pendaftaran')
+            ->join('pmb_calon_mahasiswa', 'pmb_hasil_update.kode_pendaftaran', '=', 'pmb_calon_mahasiswa.kode')
+            ->select('pmb_hasil_update.*', 'pmb_calon_mahasiswa_biodata.nama', 'master_prodi.nama AS jurusan', DB::RAW('YEAR(pmb_hasil_update.created_at) AS tahun', ''), 'pmb_sesi.kode_jadwal_ujian AS sesi', 'pmb_calon_mahasiswa.status_pendaftaran')
+            ->get();
+
+        return $getHasil;
+    }
+
+    public function getAllHasilUPdateDataForChart()
+    {
+        $getHasil = HasilUpdate::select(DB::raw("(SELECT COUNT(*) FROM pmb_hasil_update WHERE status='Lulus' AND kode_jurusan='IF') as if_lulus, (SELECT COUNT(*) FROM pmb_hasil_update WHERE status='Tidak Lulus' AND kode_jurusan='IF') as if_tidak_lulus, (SELECT COUNT(*) FROM pmb_hasil_update WHERE status='Lulus' AND kode_jurusan='SI') as si_lulus, (SELECT COUNT(*) FROM pmb_hasil_update WHERE status='Tidak Lulus' AND kode_jurusan='SI') as si_tidak_lulus"))
+            ->get()
+            ->first();
+
+        return $getHasil;
     }
 
     public function getAllHasilUpdateData()

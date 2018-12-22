@@ -298,6 +298,9 @@ class JadwalUjianController extends Controller
             ->tanggal_mulai_ujian
             ->format('d-m-Y H:i:s');
 
+        $tempTanggalMulaiUjian = $tanggalMulaiUjian = $jadwalUjian
+            ->tanggal_mulai_ujian->format('d-m-Y');
+
         $tanggalSelesaiUjian = $jadwalUjian
             ->tanggal_selesai_ujian
             ->format('d-m-Y H:i:s');
@@ -309,7 +312,8 @@ class JadwalUjianController extends Controller
             'prodi',
             'soal',
             'tanggalMulaiUjian',
-            'tanggalSelesaiUjian'
+            'tanggalSelesaiUjian',
+            'tempTanggalMulaiUjian'
         ));
     }
 
@@ -443,11 +447,15 @@ class JadwalUjianController extends Controller
             ]);
     }
 
-    public function checkData($kodeGelombang, $statusPendaftaran, $kodeSoal)
+    public function checkData($startExam)
     {
+        $tanggalSekarang = Carbon::today()->toDateString();
+
+        $tanggalMulaiUjian = date('Y-m-d', strtotime($startExam));
+
         $totalJadwalUjian = $this
             ->jadwalUjianRepo
-            ->getSingleDataForCount($kodeGelombang, $statusPendaftaran, $kodeSoal);
+            ->getSingleDataForCount($tanggalMulaiUjian);
 
         $total = $totalJadwalUjian + 1;
 

@@ -57,7 +57,7 @@ class FormulirController extends Controller
 
         return DataTables::of($formulir)
             ->addColumn('action', function($formulir){
-                return '<center><a href="/panitia/pmb/formulir/detail/'.$formulir->id.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle" title="Lihat formulir"></i></a> <a href="/panitia/pmb/formulir/unduh-formulir/'.$formulir->id.'" class="btn btn-success btn-xs" title="Unduh formulir"><i class="fa fa-file-text-o"></i></a> <a href="/panitia/pmb/formulir/unduh-kelengkapan/'.$formulir->id.'" class="btn btn-primary btn-xs" title="Unduh formulir"><i class="fa fa-download"></i></a></center>';
+                return '<center><a href="/keuangan/formulir/detail/'.$formulir->id.'" class="btn btn-info btn-xs"><i class="fa fa-info-circle" title="Lihat formulir"></i></a> <a href="/keuangan/formulir/unduh-formulir/'.$formulir->id.'" class="btn btn-success btn-xs" title="Unduh formulir"><i class="fa fa-file-text-o"></i></a> <a href="/keuangan/formulir/unduh-kelengkapan/'.$formulir->id.'" class="btn btn-primary btn-xs" title="Unduh formulir"><i class="fa fa-download"></i></a></center>';
             })
             ->rawColumns(['action'])
             ->make(true);

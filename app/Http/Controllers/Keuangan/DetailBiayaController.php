@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Keuangan;
 use DataTables;
 use App\Http\Controllers\Controller;
 use App\Repositories\PMB\BiayaRepository;
-use App\Repositories\PMB\DetailBiayaPotonganRepository;
 use App\Http\Requests\Keuangan\DetailBiayaRequest;
+use App\Repositories\PMB\DetailBiayaPotonganRepository;
 
 class DetailBiayaController extends Controller
 {

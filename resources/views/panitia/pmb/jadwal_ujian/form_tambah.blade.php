@@ -171,6 +171,7 @@ Panitia &raquo; PMB &raquo; Form Tambah Data Jadwal Ujian
                                         @endif
                                     </div>
                                 </div>
+                                <input type="hidden" id="temp-tanggal-mulai-ujian" />
                                 <div class="col-lg-3 col-md-3 col-xs-12">
                                     <div class="form-group {{$errors->has('tanggal_selesai_ujian') ? ' has-error' : ''}}">
                                         <label class="control-label">Tanggal Selesai Ujian</label>
@@ -222,14 +223,101 @@ $(document).ready(function(){
     var kode_jurusan = $("#kode-jurusan").val();
     var kode_gelombang = $("#kode-gelombang").val();
     var status_pendaftaran = $("#status-pendaftaran").val();
+
     $('#tanggal-mulai-ujian').datetimepicker({
         locale: 'id',
-        format:'DD-MM-YYYY HH:mm:ss',
+        format: 'DD-MM-YYYY HH:mm:ss',
+    }).on('dp.change', function(e){
+        var tempDay = e.date._d.getDate();
+        var tempMonth = e.date._d.getMonth();
+        var year = e.date._d.getFullYear();
+        var month;
+        var day;
+
+        if (tempMonth == 0) {
+            month = '01';
+        }else if(tempMonth == 1){
+            month = '02';
+        }else if(tempMonth == 2){
+            month = '03';
+        }else if(tempMonth == 3){
+            month = '04';
+        }else if(tempMonth == 4){
+            month = '05';
+        }else if(tempMonth == 5){
+            month = '06';
+        }else if(tempMonth == 6){
+            month = '07';
+        }else if(tempMonth == 7){
+            month = '08';
+        }else if(tempMonth == 8){
+            month = '09';
+        }else if(tempMonth == 9){
+            month = '10';
+        }else if(tempMonth == 10){
+            month = '11';
+        }else if(tempMonth == 11){
+            month = '12';
+        }
+
+        if(tempDay == 1){
+            day = '01';
+        }else if(tempDay == 2){
+            day = '02';
+        }else if(tempDay == 3){
+            day = '03';
+        }else if(tempDay == 4){
+            day = '04';
+        }else if(tempDay == 5){
+            day = '05';
+        }else if(tempDay == 6){
+            day = '06';
+        }else if(tempDay == 7){
+            day = '07';
+        }else if(tempDay == 8){
+            day = '08';
+        }else if(tempDay == 9){
+            day = '09';
+        }else{
+            day = e.date._d.getDate();
+        }
+
+        var startExam = day+'-'+month+'-'+year;
+        $("#temp-tanggal-mulai-ujian").val(startExam);
+        var kode_soal = $("#kode-soal").val();
+        var kode_gelombang = $("#kode-gelombang").val();
+        var status_pendaftaran = $("#status-pendaftaran").val();
+
+        if($("#status-pendaftaran").val() == "Baru"){
+            status_pendaftaran = "BARU";
+        }else if($("#status-pendaftaran").val() == "Mengulang"){
+            status_pendaftaran = "MENGULANG";
+        }else{
+            status_pendaftaran = "";
+        }
+
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+            $.ajax({
+                url: "/panitia/pmb/jadwal-ujian/cek/"+startExam,
+                type: "get",
+                dataType: "json",
+                success: function(result){
+                    var total = result.total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+day+month+"SESI"+total;
+                    $("#kode").val(kode);
+                },
+                error: function(errors, errorText){
+                    alert(errorText);
+                }
+            });
+        }
     });
+
     $('#tanggal-selesai-ujian').datetimepicker({
         locale: 'id',
         format:'DD-MM-YYYY HH:mm:ss',
     });
+
     if(kode_jurusan != '' && kode_gelombang != '' && status_pendaftaran != ''){
             $.ajax({
                 url: "/panitia/pmb/jadwal-ujian/cek-peserta/"+kode_jurusan+"/"+kode_gelombang+"/"+status_pendaftaran,
@@ -271,6 +359,9 @@ $(document).ready(function(){
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
         var status_pendaftaran = $("#status-pendaftaran").val();
+        var startExam = $("#temp-tanggal-mulai-ujian").val();
+        var day = startExam.substr(0, 2);
+        var month = startExam.substr(3, 2);
 
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
@@ -280,14 +371,14 @@ $(document).ready(function(){
             status_pendaftaran = "";
         }
 
-        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != '' && startExam != ''){
             $.ajax({
-                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                url: "/panitia/pmb/jadwal-ujian/cek/"+startExam,
                 type: "get",
                 dataType: "json",
                 success: function(result){
                     var total = result.total;
-                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+day+month+"SESI"+total;
                     $("#kode").val(kode);
                 },
                 error: function(errors, errorText){
@@ -296,11 +387,15 @@ $(document).ready(function(){
             });
         }
     });
+
     $("#status-pendaftaran").change(function(){
         var kode_jurusan = $("#kode-jurusan").val();
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
         var status_pendaftaran = $("#status-pendaftaran").val();
+        var startExam = $("#temp-tanggal-mulai-ujian").val();
+        var day = startExam.substr(0, 2);
+        var month = startExam.substr(3, 2);
 
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
@@ -310,14 +405,14 @@ $(document).ready(function(){
             status_pendaftaran = "";
         }
 
-        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != '' && startExam != ''){
             $.ajax({
-                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                url: "/panitia/pmb/jadwal-ujian/cek/"+startExam,
                 type: "get",
                 dataType: "json",
                 success: function(result){
                     var total = result.total;
-                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+day+month+"SESI"+total;
                     $("#kode").val(kode);
                 },
                 error: function(errors, errorText){
@@ -332,6 +427,7 @@ $(document).ready(function(){
                 type: "get",
                 dataType: "json",
                 success: function(result){
+                    console.log(result);
                     var results = result.data;
                     var totals = result.total;
                     if(totals == 0){
@@ -369,6 +465,9 @@ $(document).ready(function(){
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
         var status_pendaftaran = $("#status-pendaftaran").val();
+        var startExam = $("#temp-tanggal-mulai-ujian").val();
+        var day = startExam.substr(0, 2);
+        var month = startExam.substr(3, 2);
 
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
@@ -378,14 +477,14 @@ $(document).ready(function(){
             status_pendaftaran = "";
         }
 
-        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != '' && startExam != ''){
             $.ajax({
-                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                url: "/panitia/pmb/jadwal-ujian/cek/"+startExam,
                 type: "get",
                 dataType: "json",
                 success: function(result){
                     var total = result.total;
-                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+day+month+"SESI"+total;
                     $("#kode").val(kode);
                 },
                 error: function(errors, errorText){
@@ -400,6 +499,7 @@ $(document).ready(function(){
                 type: "get",
                 dataType: "json",
                 success: function(result){
+                    console.log(result);
                     var results = result.data;
                     var totals = result.total;
                     if(totals == 0){
@@ -437,6 +537,9 @@ $(document).ready(function(){
         var kode_soal = $("#kode-soal").val();
         var kode_gelombang = $("#kode-gelombang").val();
         var status_pendaftaran = $("#status-pendaftaran").val();
+        var startExam = $("#temp-tanggal-mulai-ujian").val();
+        var day = startExam.substr(0, 2);
+        var month = startExam.substr(3, 2);
 
         if($("#status-pendaftaran").val() == "Baru"){
             status_pendaftaran = "BARU";
@@ -446,14 +549,14 @@ $(document).ready(function(){
             status_pendaftaran = "";
         }
 
-        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != ''){
+        if(kode_soal != '' && kode_gelombang != '' && status_pendaftaran != '' && startExam != ''){
             $.ajax({
-                url: "/panitia/pmb/jadwal-ujian/cek/"+kode_gelombang+"/"+status_pendaftaran+"/"+kode_soal,
+                url: "/panitia/pmb/jadwal-ujian/cek/"+startExam,
                 type: "get",
                 dataType: "json",
                 success: function(result){
                     var total = result.total;
-                    var kode = kode_soal+kode_gelombang+status_pendaftaran+"SESI"+total;
+                    var kode = kode_soal+kode_gelombang+status_pendaftaran+day+month+"SESI"+total;
                     $("#kode").val(kode);
                 },
                 error: function(errors, errorText){

@@ -9,7 +9,7 @@ class PanitiaRepository
     public function getAllData()
     {
         $getPanitia = Panitia::All();
-        
+
         return $getPanitia;
     }
 
@@ -23,7 +23,7 @@ class PanitiaRepository
     public function storePanitiaData($data)
     {
         $storePanitia = Panitia::create($data);
-        
+
         return $storePanitia;
     }
 
@@ -42,4 +42,11 @@ class PanitiaRepository
         return $destroyPanitia;
     }
 
+    public function getSingleDataForKehadiran($nidn)
+    {
+        $getPanitia = Panitia::where('nidn', '=', $nidn)
+            ->count();
+
+        return $getPanitia;
+    }
 }

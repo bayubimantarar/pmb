@@ -44,7 +44,7 @@ class KonfirmasiPembayaranController extends Controller
                 if($konfirmasiPembayaran->bukti_transaksi == NULL){
                     return '<center><span class="label label-danger">Bukti pembayaran tidak disisipkan</span></center>';
                 }else{
-                    return '<center><a href="/panitia/pmb/konfirmasi-pembayaran/unduh/'.$konfirmasiPembayaran->id.'" class="btn btn-xs btn-primary" title="Unduh bukti pembayaran"><i class="fa fa-download"></i></a></center>';
+                    return '<center><a href="/keuangan/konfirmasi-pembayaran/unduh/'.$konfirmasiPembayaran->id.'" class="btn btn-xs btn-primary" title="Unduh bukti pembayaran"><i class="fa fa-download"></i></a></center>';
                 }
             })
             ->rawColumns(['action', 'status', 'bukti_transaksi'])

@@ -63,7 +63,7 @@
     <p>TANGGAL MULAI UJIAN : {{$tanggalMulaiUjian}}</p>
     <p>TANGGAL SELESAI UJIAN : {{$tanggalSelesaiUjian}}</p>
     <p>RUANGAN : {{$ruangan}}</p>
-    <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate($encryptKodePendafaran)) }} " />
+    <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(150)->generate("pmb.stmik-bandung.online/kehadiran/".$encryptKodePendafaran)) }} " />
     </div>
 </div>
     </body>

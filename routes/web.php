@@ -54,9 +54,20 @@ Route::group(['prefix' => 'kehadiran'], function(){
         'uses' => 'KehadiranController@index',
         'as' => 'kehadiran'
     ]);
+    Route::get('/{kode_pendaftaran}/cek-panitia/{nidn}', [
+        'uses' => 'KehadiranController@checkPanitia',
+        'as' => 'kehadiran.cek_panitia'
+    ]);
     Route::post('/{kode_pendaftaran}/simpan', [
         'uses' => 'KehadiranController@store',
         'as' => 'kehadiran.simpan'
+    ]);
+});
+
+Route::group(['prefix' => 'kelulusan'], function(){
+    Route::get('/{kode_pendaftaran}', [
+        'uses' => 'KelulusanController@index',
+        'as' => 'kelulusan'
     ]);
 });
 
@@ -80,6 +91,28 @@ Route::group(['prefix' => 'dasbor'], function() {
             'uses'  => 'Dasbor\DasborController@index',
             'as'    => 'dasbor'
         ]);
+        Route::group(['prefix' => 'hasil-ujian'], function(){
+                Route::get('{kode_jadwal_ujian}/', [
+                    'uses' => 'Dasbor\HasilUpdateController@index',
+                    'as' => 'panitia.pmb.hasil_ujian_update'
+                ]);
+                Route::get('{kode_jadwal_ujian}/data', [
+                    'uses' => 'Dasbor\HasilUpdateController@data',
+                    'as' => 'panitia.pmb.hasil_ujian_update.data'
+                ]);
+                Route::post('{kode_jadwal_ujian}/simpan', [
+                    'uses' => 'Dasbor\HasilUpdateController@store',
+                    'as' => 'panitia.pmb.hasil_ujian_update_table.simpan'
+                ]);
+                Route::get('{kode_jadwal_ujian}/kirim-email/{id}', [
+                    'uses' => 'Dasbor\HasilUpdateController@sendEmail',
+                    'as' => 'panitia.pmb.hasil_ujian_update.kirim_email'
+                ]);
+                Route::get('{kode_jadwal_ujian}/unduh/{id}', [
+                    'uses' => 'Dasbor\HasilUpdateController@downloadKelulusanBiaya',
+                    'as' => 'panitia.pmb.hasil_ujian_update.unduh'
+                ]);
+            });
         Route::group(['prefix' => 'master'], function(){
             Route::group(['prefix' => 'prodi'], function(){
                 Route::get('/', [
@@ -173,7 +206,36 @@ Route::group(['prefix' => 'dasbor'], function() {
                     'as'    => 'dasbor.pengguna.panitia.hapus'
                 ]);
             });
-
+         Route::group(['prefix' => 'keuangan'], function(){
+            Route::get('/', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@index',
+                'as'    => 'dasbor.pengguna.keuangan'
+            ]);
+            Route::get('/form-tambah', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@create',
+                'as'    => 'dasbor.pengguna.keuangan.form_tambah'
+            ]);
+            Route::get('/form-ubah/{id}', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@edit',
+                'as'    => 'dasbor.pengguna.keuangan.form_ubah'
+            ]);
+            Route::get('/data', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@data',
+                'as'    => 'dasbor.pengguna.data.keuangan'
+            ]);
+            Route::post('/simpan', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@store',
+                'as'    => 'dasbor.pengguna.keuangan.simpan'
+            ]);
+            Route::put('/ubah/{id}', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@update',
+                'as'    => 'dasbor.pengguna.keuangan.ubah'
+            ]);
+            Route::delete('/hapus/{id}', [
+                'uses'  => 'Dasbor\Pengguna\KeuanganController@destroy',
+                'as'    => 'dasbor.pengguna.keuangan.hapus'
+            ]);
+        });
         Route::group(['prefix' => 'prodi'], function(){
             Route::get('/', [
                 'uses'  => 'Dasbor\Pengguna\ProdiController@index',
@@ -536,7 +598,7 @@ Route::group(['prefix' => 'panitia'], function(){
                     'uses' => 'Panitia\PMB\JadwalUjianController@data',
                     'as' => 'panitia.pmb.jadwal.data'
                 ]);
-                Route::get('/cek/{kode_gelombang}/{status_pendaftaran}/{kode_soal}', [
+                Route::get('/cek/{start_exam}', [
                     'uses' => 'Panitia\PMB\JadwalUjianController@checkData',
                     'as' => 'panitia.pmb.jadwal.cek_data'
                 ]);
@@ -647,6 +709,62 @@ Route::group(['prefix' => 'panitia'], function(){
                 Route::get('{kode_jadwal_ujian}/kirim-email/{id}', [
                     'uses' => 'Panitia\PMB\HasilUpdateController@sendEmail',
                     'as' => 'panitia.pmb.hasil_ujian_update.kirim_email'
+                ]);
+                Route::get('{kode_jadwal_ujian}/unduh/{id}', [
+                    'uses' => 'Panitia\PMB\HasilUpdateController@downloadKelulusanBiaya',
+                    'as' => 'panitia.pmb.hasil_ujian_update.unduh'
+                ]);
+            });
+            Route::group(['prefix' => 'kehadiran'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\KehadiranController@index',
+                    'as' => 'panitia.pmb.kehadiran'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\KehadiranController@data',
+                    'as' => 'panitia.pmb.kehadiran.data'
+                ]);
+            });
+            Route::group(['prefix' => 'laporan'], function(){
+                Route::get('/', [
+                    'uses' => 'Panitia\PMB\LaporanController@index',
+                    'as' => 'panitia.pmb.laporan'
+                ]);
+                Route::get('/data', [
+                    'uses' => 'Panitia\PMB\LaporanController@data',
+                    'as' => 'panitia.pmb.laporan.data'
+                ]);
+                Route::get('/filter/jurusan/{jurusan}/{tahun}', [
+                    'uses' => 'Panitia\PMB\LaporanController@filterJurusan',
+                    'as' => 'panitia.pmb.laporan.filter_jurusan'
+                ]);
+                Route::get('/filter/tahun/{tahun}', [
+                    'uses' => 'Panitia\PMB\LaporanController@filterTahun',
+                    'as' => 'panitia.pmb.laporan.filter_tahun'
+                ]);
+                Route::get('/filter/sesi/{sesi}', [
+                    'uses' => 'Panitia\PMB\LaporanController@filterSesi',
+                    'as' => 'panitia.pmb.laporan.filter_sesi'
+                ]);
+                Route::get('/filter/pendaftaran/{pendaftaran}', [
+                    'uses' => 'Panitia\PMB\LaporanController@filterPendaftaran',
+                    'as' => 'panitia.pmb.laporan.filter_pendaftaran'
+                ]);
+                Route::get('/filter/status/{status}', [
+                    'uses' => 'Panitia\PMB\LaporanController@filterStatus',
+                    'as' => 'panitia.pmb.laporan.filter_status'
+                ]);
+                Route::get('/unduh/{tahun}', [
+                    'uses' => 'Panitia\PMB\LaporanController@downloadExcel',
+                    'as' => 'panitia.pmb.laporan.unduh'
+                ]);
+                Route::get('/grafik', [
+                    'uses' => 'Panitia\PMB\LaporanController@chart',
+                    'as' => 'panitia.pmb.grafik'
+                ]);
+                Route::get('/grafik/filter/{tahun}', [
+                    'uses' => 'Panitia\PMB\LaporanController@chartFilterTahun',
+                    'as' => 'panitia.pmb.grafik_filter_tahun'
                 ]);
             });
             Route::group(['prefix' => 'formulir'], function(){
@@ -841,6 +959,36 @@ Route::group(['prefix' => 'keuangan'], function(){
                 'as' => 'keuangan.pmb.biaya.data'
             ]);
         });
+        Route::group(['prefix' => 'biaya-heregistrasi'], function(){
+            Route::get('/', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@index',
+                'as' => 'keuangan.pmb.biaya'
+            ]);
+            Route::get('/form-tambah', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@create',
+                'as' => 'keuangan.pmb.biaya.form_tambah'
+            ]);
+            Route::get('/form-ubah/{id}', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@edit',
+                'as' => 'keuangan.pmb.biaya.form_edit'
+            ]);
+            Route::post('/simpan', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@store',
+                'as' => 'keuangan.pmb.biaya.simpan'
+            ]);
+            Route::put('/ubah/{id}', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@update',
+                'as' => 'keuangan.pmb.biaya.ubah'
+            ]);
+            Route::delete('/hapus/{id}', [
+                'uses'  => 'Keuangan\BiayaHeregistrasiController@destroy',
+                'as' => 'keuangan.pmb.biaya.hapus'
+            ]);
+            Route::get('/data', [
+                'uses' => 'Keuangan\BiayaHeregistrasiController@data',
+                'as' => 'keuangan.pmb.biaya.data'
+            ]);
+        });
         Route::group(['prefix' => 'detail-biaya'], function(){
             Route::get('/{kode_biaya}', [
                 'uses' => 'Keuangan\DetailBiayaController@index',
@@ -929,6 +1077,36 @@ Route::group(['prefix' => 'keuangan'], function(){
             Route::get('/{kode_potongan}/data', [
                 'uses' => 'Keuangan\DetailPotonganController@data',
                 'as' => 'keuangan.pmb.detail_potongan.data'
+            ]);
+        });
+        Route::group(['prefix' => 'detail-gelombang'], function(){
+            Route::get('/{kode_gelombang}', [
+                'uses' => 'Keuangan\DetailGelombangController@index',
+                'as' => 'keuangan.pmb.biaya'
+            ]);
+            Route::get('/{kode_gelombang}/form-tambah', [
+                'uses' => 'Keuangan\DetailGelombangController@create',
+                'as' => 'keuangan.pmb.detail_gelombang.form_tambah'
+            ]);
+            Route::get('/{kode_gelombang}/form-ubah/{id}', [
+                'uses' => 'Keuangan\DetailGelombangController@edit',
+                'as' => 'keuangan.pmb.detail_gelombang.form_edit'
+            ]);
+            Route::post('/{kode_gelombang}/simpan', [
+                'uses' => 'Keuangan\DetailGelombangController@store',
+                'as' => 'keuangan.pmb.detail_gelombang.simpan'
+            ]);
+            Route::put('/{kode_gelombang}/ubah/{id}', [
+                'uses' => 'Keuangan\DetailGelombangController@update',
+                'as' => 'keuangan.pmb.detail_gelombang.ubah'
+            ]);
+            Route::delete('/{kode_gelombang}/hapus/{id}', [
+                'uses'  => 'Keuangan\DetailGelombangController@destroy',
+                'as' => 'keuangan.pmb.detail_gelombang.hapus'
+            ]);
+            Route::get('/{kode_gelombang}/data', [
+                'uses' => 'Keuangan\DetailGelombangController@data',
+                'as' => 'keuangan.pmb.detail_gelombang.data'
             ]);
         });
         Route::group(['prefix' => 'pendaftaran'], function(){
