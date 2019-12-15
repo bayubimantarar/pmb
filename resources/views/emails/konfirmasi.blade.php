@@ -16,7 +16,7 @@ Terima kasih telah mendaftar sebagai calon mahasiswa di STMIK Bandung.
         </tr>
         <tr>
             <td>
-                <img src="http://pmb.stmik-bandung.online/assets/img/mandiri.png" alt="Logo STMIK Bandung" height="45" />
+                <img src="/assets/img/mandiri.png" alt="Logo STMIK Bandung" height="45" />
             </td>
             <td>
                 1310007899415 a/n STMIK Bandung
@@ -24,7 +24,7 @@ Terima kasih telah mendaftar sebagai calon mahasiswa di STMIK Bandung.
         </tr>
     </table>
 </center>
-@component('mail::button', ['url' => 'http://pmb.stmik-bandung.online/konfirmasi-pembayaran'])
+@component('mail::button', ['url' => '/konfirmasi-pembayaran'])
 Konfirmasi Pembayaran
 @endcomponent
 

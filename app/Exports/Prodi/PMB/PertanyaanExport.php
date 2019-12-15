@@ -186,7 +186,8 @@ class PertanyaanExport implements FromView, ShouldAutoSize, WithEvents
         $hasil = Hasil::whereYear('created_at', '=', $this->tahun)
             ->get();
 
-        $jumlahPertanyan   = $hasil->count();
+        $jumlahPertanyaan   = $hasil->count();
+        $kodeSoal = $hasil['kode_soal'];
 
         $this->borderForNomor = 7+$jumlahPertanyaan;
         $this->borderForJumlahPertanyaan = $jumlahPertanyaan;
